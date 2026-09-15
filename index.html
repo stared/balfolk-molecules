@@ -8,23 +8,30 @@
   </head>
   <body>
     <main>
-      <header><h1>Bourrée bancale <span>/ six dancers</span></h1><p>Lines with changes → four sides</p></header>
+      <header><h1>Bourrée bancale <span>/ six dancers</span></h1></header>
       <svg viewBox="-210 -200 420 400" role="img" aria-label="Six dancers approach in lines and change chains during each approach. Then edge dancers pass each other around a square while the two middle dancers advance, turn right and retreat.">
         <g id="guides"></g>
         <path class="center" d="M -5 0 H 5 M 0 -5 V 5" />
         <g id="hands"></g>
         <g id="dancers"></g>
       </svg>
-      <nav id="sections" aria-label="Dance sections"></nav>
-      <p id="detail"></p>
-      <div class="readout"><strong id="phase"></strong><span id="stage"></span></div>
+      <div id="timeline">
+        <nav id="sections" aria-label="Dance sections"></nav>
+        <div id="track">
+          <div id="elapsed"></div>
+          <div id="ticks" aria-hidden="true"></div>
+          <div id="playhead" aria-hidden="true"></div>
+          <input id="scrub" aria-label="Dance timeline: two sections, four phrases per section, four steps per phrase" type="range" min="0" max="8" step="0.001" value="0" />
+        </div>
+        <div id="phrases" aria-label="Seek to phrase"></div>
+      </div>
       <div class="controls">
         <button id="play" type="button">Pause</button>
         <button id="reset" type="button">Reset</button>
-        <input id="scrub" aria-label="Position within the dance" type="range" min="0" max="8" step="0.001" value="0" />
         <select id="speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
       </div>
-      <p class="note"><span class="key edge-key"></span> Edges <span class="key middle-key"></span> Middles · Arrow = facing<br><a href="https://www.folkabourk.fr/apprendre" target="_blank" rel="noreferrer">Source: FolK à BourK · simple version</a>. Paths and turns are schematic.</p>
+      <p class="note"><span class="key edge-key"></span> Edges <span class="key middle-key"></span> Middles <span class="timeline-key">Each phrase has four steps.</span></p>
+      <details><summary>Notation &amp; sources</summary><p>The small tick shows facing; two marks inside each dancer suggest weight support. Paths and weight are schematic. 96 beats/min at 1×.<br><a href="https://www.folkabourk.fr/apprendre" target="_blank" rel="noreferrer">Choreography</a> · <a href="https://dansetrad.fr/fiches/fiches_pdf/Bourree_du_Berry.pdf" target="_blank" rel="noreferrer">Step reference</a></p></details>
     </main>
     <script type="module" src="/main.js"></script>
   </body>
