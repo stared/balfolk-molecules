@@ -11,11 +11,12 @@ export interface Dancer extends Position {
   id: string;
 }
 export interface DanceSection { name: string; start: number; duration: number; detail: string }
+export interface HandReach { dancers: [number, number]; reach: number }
 export interface DanceFrame {
   section: 0 | 1;
   label: string;
   dancers: Dancer[];
-  hands: [number, number][];
+  hands: HandReach[];
   rhythm: Rhythm;
 }
 export const slots: Point[] = [[-120, -120], [0, -120], [120, -120], [120, 120], [0, 120], [-120, 120]];
@@ -99,11 +100,23 @@ export function frame(time: number, cycle = 0): DanceFrame {
   }).map((d, i) => {
     return { ...d, id: itemAt(['A', 'B', 'C', 'F', 'E', 'D'], i) };
   });
-  let hands: [number, number][] = [];
+  const hands: HandReach[] = [];
   if (section === 0) {
-    const occupant = (slot: number) => dancers.findIndex(d => d.slot === slot);
-    const pairs: [number, number][] = transfer > 0 && transfer < 1 ? [[1, 2], [4, 5]] : [[0, 1], [1, 2], [3, 4], [4, 5]];
-    hands = pairs.map(([a, b]) => [occupant(a), occupant(b)]);
+    const pairs: [number, number][] = [[0, 1], [1, 2], [3, 4], [4, 5]];
+    const before = pairs.map(([a, b]): [number, number] => [mod(a + cycle * 4 + step), mod(b + cycle * 4 + step)]);
+    const after = pairs.map(([a, b]): [number, number] => [mod(a + cycle * 4 + step + 1), mod(b + cycle * 4 + step + 1)]);
+    const key = ([a, b]: [number, number]) => `${Math.min(a, b)}-${Math.max(a, b)}`;
+    const oldKeys = new Set(before.map(key));
+    const newKeys = new Set(after.map(key));
+    const envelope = (step === 0 ? blend(t / 0.12) : 1) * (step === 3 ? 1 - blend((t - 0.88) / 0.12) : 1);
+    // Keep the other two dancers connected; release before the end dancer
+    // leaves, then reach toward the new neighbor as the new chain forms.
+    for (const pair of before) {
+      hands.push({ dancers: pair, reach: envelope * (newKeys.has(key(pair)) ? 1 : 1 - blend((t - 0.14) / 0.11)) });
+    }
+    for (const pair of after) {
+      if (!oldKeys.has(key(pair))) hands.push({ dancers: pair, reach: envelope * blend((t - 0.38) / 0.2) });
+    }
   }
   return { section, label, dancers, hands, rhythm };
 }

@@ -11,9 +11,10 @@ svg { display: block; width: 100%; max-height: 58vh; margin: 8px 0; overflow: vi
 .dancer { color: #237c80; }
 .dancer circle { fill: currentColor; stroke: #fafaf8; stroke-width: 1.5; }
 .dancer .facing { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
-.dancer .support { fill: none; stroke: white; stroke-width: 1.5; stroke-linecap: round; }
+.dancer .support { fill: white; stroke: none; }
 .dancer text { fill: white; font-size: 10px; font-weight: 500; }
-#hands polyline { fill: none; stroke: #98adaa; stroke-width: 1.2; }
+#dancers.hide-letters text { display: none; }
+#hands path { fill: none; stroke: #98adaa; stroke-width: 1.2; stroke-linecap: round; }
 button, select { font: inherit; font-size: 12px; background: transparent; color: inherit; border: 1px solid #c9cecd; border-radius: 3px; padding: 7px 10px; cursor: pointer; }
 #sections { display: flex; margin-bottom: 9px; }
 #sections button { flex: 1; border: 0; padding: 4px 0; color: #6b7575; font-size: 12px; text-align: left; }
@@ -35,6 +36,8 @@ button, select { font: inherit; font-size: 12px; background: transparent; color:
 #phrases button:hover, #sections button:hover { color: #237c80; }
 .controls { display: flex; align-items: center; gap: 10px; }
 #play { min-width: 60px; }
+.letters-toggle { display: flex; align-items: center; gap: 5px; margin-left: 5px; color: #777d83; font-size: 12px; cursor: pointer; }
+#letters { margin: 0; accent-color: #237c80; cursor: pointer; }
 #speed { margin-left: auto; }
 :focus-visible { outline: 2px solid #237c80; outline-offset: 4px; }
 .note { color: #838b87; font-size: 11px; margin-top: 19px; }

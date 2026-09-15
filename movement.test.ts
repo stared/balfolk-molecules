@@ -60,6 +60,27 @@ test('every dancer occupies the middle once across three cycles', () => {
   }
 });
 
+test('hands release and reach continuously, including phrase and cycle boundaries', () => {
+  const reaches = (time: number, cycle = 0) => new Map(frame(time, cycle).hands.map(hand => [
+    [...hand.dancers].sort().join('-'), hand.reach,
+  ]));
+  assert.ok((reaches(0.2).get('0-1') ?? 0) > 0);
+  assert.ok((reaches(0.2).get('0-1') ?? 0) < 1);
+  assert.equal(reaches(0.25).get('0-1'), 0);
+  assert.ok((reaches(0.48).get('0-5') ?? 0) > 0);
+  assert.ok((reaches(0.48).get('0-5') ?? 0) < 1);
+  assert.equal(reaches(0.6).get('0-5'), 1);
+  for (let time = 0.001; time <= 8; time += 0.001) {
+    const before = reaches(time - 0.001);
+    const after = reaches(time);
+    for (const key of new Set([...before.keys(), ...after.keys()])) {
+      assert.ok(Math.abs((before.get(key) ?? 0) - (after.get(key) ?? 0)) < 0.015);
+    }
+  }
+  assert.ok([...reaches(0, 1).values()].every(reach => reach === 0));
+  assert.equal(reaches(8).size, 0);
+});
+
 test('passing paths keep bodies apart and handholds reference existing dancers', () => {
   for (let time = 0; time <= 8; time += 0.002) {
     const state = frame(time);
@@ -67,6 +88,6 @@ test('passing paths keep bodies apart and handholds reference existing dancers',
       assert.ok([itemAt(state.dancers, i).x, itemAt(state.dancers, i).y, itemAt(state.dancers, i).angle].every(Number.isFinite));
       for (let j = i + 1; j < 6; j++) assert.ok(distance(itemAt(state.dancers, i), itemAt(state.dancers, j)) > 28);
     }
-    for (const pair of state.hands) assert.ok(pair.every(i => i >= 0 && i < 6));
+    for (const hand of state.hands) assert.ok(hand.dancers.every(i => i >= 0 && i < 6));
   }
 });
