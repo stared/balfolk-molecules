@@ -1,0 +1,25 @@
+:root { font-family: system-ui, sans-serif; color: #292d32; background: #fafaf8; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { width: min(640px, 100%); margin: 40px auto; padding: 0 24px; }
+h1 { font-size: 20px; font-weight: 600; margin: 0 0 8px; }
+h1 span { color: #777d83; font-weight: 400; }
+p { font-size: 14px; line-height: 1.6; margin: 0; }
+svg { display: block; width: 100%; max-height: 60vh; margin: 14px 0; overflow: visible; }
+.guide { stroke: #d9dcd9; stroke-width: 1; stroke-dasharray: 3 6; }
+.position { fill: none; stroke: #d9dcd9; }
+.position-label { fill: #959b9c; font-size: 12px; text-anchor: middle; }
+#route { fill: none; stroke: #c6d9d9; stroke-width: 3; }
+.center { fill: none; stroke: #888e90; stroke-width: 1; }
+.center-label { font-size: 11px; fill: #888e90; }
+#dancer circle { fill: #237c80; stroke: #fafaf8; stroke-width: 2; }
+#dancer path { fill: none; stroke: #174e51; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.readout { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 16px; }
+.readout span { color: #777d83; font-variant-numeric: tabular-nums; }
+.controls { display: flex; align-items: center; gap: 12px; }
+button, select { font: inherit; font-size: 13px; background: transparent; color: inherit; border: 1px solid #c9cecd; border-radius: 3px; padding: 7px 10px; cursor: pointer; }
+#play { min-width: 64px; }
+input { flex: 1; min-width: 30px; accent-color: #237c80; cursor: pointer; }
+:focus-visible { outline: 2px solid #237c80; outline-offset: 4px; }
+.note { color: #777d83; font-size: 12px; margin-top: 22px; }
+@media (max-width: 480px) { main { margin-top: 24px; padding: 0 18px; } .controls { gap: 8px; } h1 { font-size: 18px; } }
