@@ -1,51 +1,42 @@
-const $ = (selector) => document.querySelector(selector);
-const radius = 160;
-const points = [[0, radius], [radius, 0], [0, -radius], [-radius, 0]];
-$('#guides').innerHTML = points.map(([x, y], i) => `
-  <path class="guide" d="M 0 0 L ${x} ${y}" />
-  <circle class="position" cx="${x}" cy="${y}" r="13" />
-  <text class="position-label" x="${x * 1.2}" y="${y * 1.2 + 4}">${i + 1}</text>
-`).join('');
-
+import { sections, duration, frame } from './movement.js';
+const $ = selector => document.querySelector(selector);
+$('#guides').innerHTML = `<path class="guide" d="M -120 -120 H 120 V 120 H -120 Z M 0 -120 V 120 M -120 0 H 120"/>`;
+$('#dancers').innerHTML = frame(0).dancers.map((d, i) => `<g class="dancer ${d.middle ? 'middle' : ''}" id="dancer-${i}"><g class="body"><circle r="14"/><path d="M 0 -11 V -26 m -4 5 4 -5 4 5"/></g><text text-anchor="middle" dy="4">${d.id}</text></g>`).join('');
+$('#sections').innerHTML = sections.map((section, i) => `<button type="button" data-section="${i}" style="flex:${section.duration}">${section.name}</button>`).join('');
 let progress = 0;
+let cycle = 0;
 let playing = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let previousTime;
-
 function render() {
-  const index = Math.min(3, Math.floor(progress));
-  const fraction = progress - index;
-  const start = points[index];
-  const end = points[(index + 1) % 4];
-  let x, y, angle = -index * 90, phase;
-  if (fraction < 0.4) {
-    const amount = 1 - fraction / 0.4;
-    [x, y] = start.map(value => value * amount);
-    phase = 'Forward';
-  } else if (fraction < 0.6) {
-    x = y = 0;
-    angle -= (fraction - 0.4) / 0.2 * 90;
-    phase = 'Quarter-turn';
-  } else {
-    const amount = (fraction - 0.6) / 0.4;
-    [x, y] = end.map(value => value * amount);
-    angle -= 90;
-    phase = 'Backward';
-  }
-  $('#route').setAttribute('d', `M ${start[0]} ${start[1]} L 0 0 L ${end[0]} ${end[1]}`);
-  $('#dancer').setAttribute('transform', `translate(${x} ${y}) rotate(${angle})`);
-  $('#phase').textContent = phase;
-  $('#stage').textContent = `Stage ${index + 1} / 4`;
+  const state = frame(progress, cycle);
+  state.dancers.forEach((d, i) => {
+    $(`#dancer-${i}`).setAttribute('transform', `translate(${d.x} ${d.y})`);
+    $(`#dancer-${i} .body`).setAttribute('transform', `rotate(${d.angle})`);
+    $(`#dancer-${i}`).classList.toggle('middle', d.middle);
+  });
+  $('#hands').innerHTML = state.hands.map(pair => `<polyline points="${pair.map(i => `${state.dancers[i].x},${state.dancers[i].y}`).join(' ')}"/>`).join('');
+  $('#phase').textContent = state.label;
+  $('#stage').textContent = sections[state.section].name;
+  $('#detail').textContent = sections[state.section].detail;
+  document.querySelectorAll('[data-section]').forEach((button, i) => {
+    button.setAttribute('aria-pressed', String(i === state.section));
+    const section = sections[i];
+    button.style.setProperty('--fill', `${Math.max(0, Math.min(1, (progress - section.start) / section.duration)) * 100}%`);
+  });
   $('#scrub').value = progress;
   $('#play').textContent = playing ? 'Pause' : 'Play';
 }
-
+$('#sections').addEventListener('click', event => {
+  const button = event.target.closest('[data-section]');
+  if (button) { progress = sections[Number(button.dataset.section)].start; render(); }
+});
 $('#play').addEventListener('click', () => { playing = !playing; render(); });
-$('#reset').addEventListener('click', () => { progress = 0; render(); });
+$('#reset').addEventListener('click', () => { progress = 0; cycle = 0; render(); });
 $('#scrub').addEventListener('input', event => { playing = false; progress = Number(event.target.value); render(); });
-
 function animate(time) {
   if (previousTime !== undefined && playing) {
-    progress = (progress + Math.min(time - previousTime, 100) / 5000 * Number($('#speed').value)) % 4;
+    progress += Math.min(time - previousTime, 100) / 5000 * Number($('#speed').value);
+    if (progress >= duration) { progress %= duration; cycle += 1; }
     render();
   }
   previousTime = time;

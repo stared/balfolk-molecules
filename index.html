@@ -3,27 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bourrée · movement sketch</title>
+    <title>Bourrée bancale à six</title>
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
     <main>
-      <header><h1>Bourrée <span>/ movement sketch</span></h1><p>One middle dancer. Forward → turn → backward, repeated four times.</p></header>
-      <svg viewBox="-240 -225 480 450" role="img" aria-label="A dancer moves toward the center, turns a quarter turn, and backs away along the next arm.">
+      <header><h1>Bourrée bancale <span>/ six dancers</span></h1><p>Lines with changes → four sides</p></header>
+      <svg viewBox="-210 -200 420 400" role="img" aria-label="Six dancers approach in lines and change chains during each approach. Then edge dancers pass each other around a square while the two middle dancers advance, turn right and retreat.">
         <g id="guides"></g>
-        <path id="route" />
         <path class="center" d="M -5 0 H 5 M 0 -5 V 5" />
-        <text class="center-label" x="12" y="-12">center</text>
-        <g id="dancer"><circle r="13"/><path d="M 0 -10 V -25"/><path d="m -4 -20 4 -5 4 5"/></g>
+        <g id="hands"></g>
+        <g id="dancers"></g>
       </svg>
+      <nav id="sections" aria-label="Dance sections"></nav>
+      <p id="detail"></p>
       <div class="readout"><strong id="phase"></strong><span id="stage"></span></div>
       <div class="controls">
         <button id="play" type="button">Pause</button>
         <button id="reset" type="button">Reset</button>
-        <input id="scrub" aria-label="Position within the four-stage sequence" type="range" min="0" max="4" step="0.001" value="0" />
+        <input id="scrub" aria-label="Position within the dance" type="range" min="0" max="8" step="0.001" value="0" />
         <select id="speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
       </div>
-      <p class="note">The arrow shows facing. The circle travels backward after the turn.<br>Illustrative paths and timing; this isolates the movement, not the full six-person dance.</p>
+      <p class="note"><span class="key edge-key"></span> Edges <span class="key middle-key"></span> Middles · Arrow = facing<br><a href="https://www.folkabourk.fr/apprendre" target="_blank" rel="noreferrer">Source: FolK à BourK · simple version</a>. Paths and turns are schematic.</p>
     </main>
     <script type="module" src="/main.js"></script>
   </body>

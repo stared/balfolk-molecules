@@ -6,14 +6,25 @@ h1 { font-size: 20px; font-weight: 600; margin: 0 0 8px; }
 h1 span { color: #777d83; font-weight: 400; }
 p { font-size: 14px; line-height: 1.6; margin: 0; }
 svg { display: block; width: 100%; max-height: 60vh; margin: 14px 0; overflow: visible; }
-.guide { stroke: #d9dcd9; stroke-width: 1; stroke-dasharray: 3 6; }
+.guide { fill: none; stroke: #d9dcd9; stroke-width: 1; stroke-dasharray: 3 6; }
 .position { fill: none; stroke: #d9dcd9; }
 .position-label { fill: #959b9c; font-size: 12px; text-anchor: middle; }
 #route { fill: none; stroke: #c6d9d9; stroke-width: 3; }
 .center { fill: none; stroke: #888e90; stroke-width: 1; }
 .center-label { font-size: 11px; fill: #888e90; }
-#dancer circle { fill: #237c80; stroke: #fafaf8; stroke-width: 2; }
-#dancer path { fill: none; stroke: #174e51; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.dancer circle { fill: #237c80; stroke: #fafaf8; stroke-width: 2; }
+.dancer.middle circle { fill: #b36735; }
+.dancer path { fill: none; stroke: #174e51; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.dancer.middle path { stroke: #79431f; }
+.dancer text { fill: white; font-size: 11px; font-weight: 600; }
+#hands polyline { fill: none; stroke: #809b99; stroke-width: 2; }
+#sections { display: flex; gap: 3px; }
+#sections button { border: 0; border-radius: 0; border-bottom: 2px solid #d9dcd9; padding: 9px 3px; background: linear-gradient(to right, #e1ebea var(--fill), transparent var(--fill)); }
+#sections button[aria-pressed="true"] { border-bottom-color: #237c80; color: #175b5e; }
+#detail { font-size: 12px; color: #777d83; margin: 10px 0 20px; min-height: 20px; }
+.key { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin: 0 3px; }
+.edge-key { background: #237c80; }
+.middle-key { background: #b36735; margin-left: 10px; }
 .readout { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 16px; }
 .readout span { color: #777d83; font-variant-numeric: tabular-nums; }
 .controls { display: flex; align-items: center; gap: 12px; }
@@ -22,4 +33,5 @@ button, select { font: inherit; font-size: 13px; background: transparent; color:
 input { flex: 1; min-width: 30px; accent-color: #237c80; cursor: pointer; }
 :focus-visible { outline: 2px solid #237c80; outline-offset: 4px; }
 .note { color: #777d83; font-size: 12px; margin-top: 22px; }
+.note a { color: inherit; text-underline-offset: 3px; }
 @media (max-width: 480px) { main { margin-top: 24px; padding: 0 18px; } .controls { gap: 8px; } h1 { font-size: 18px; } }
