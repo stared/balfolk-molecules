@@ -9,7 +9,6 @@ svg { display: block; width: 100%; max-height: 58vh; margin: 8px 0; overflow: vi
 .guide { fill: none; stroke: #dfe2de; stroke-width: 0.8; stroke-dasharray: 3 6; }
 .center { fill: none; stroke: #aaaead; stroke-width: 0.8; }
 .dancer { color: #237c80; }
-.dancer.middle { color: #b36735; }
 .dancer circle { fill: currentColor; stroke: #fafaf8; stroke-width: 1.5; }
 .dancer .facing { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
 .dancer .support { fill: none; stroke: white; stroke-width: 1.5; stroke-linecap: round; }
@@ -39,12 +38,8 @@ button, select { font: inherit; font-size: 12px; background: transparent; color:
 #speed { margin-left: auto; }
 :focus-visible { outline: 2px solid #237c80; outline-offset: 4px; }
 .note { color: #838b87; font-size: 11px; margin-top: 19px; }
-.key { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin: 0 3px; }
-.edge-key { background: #237c80; }
-.middle-key { background: #b36735; margin-left: 10px; }
-.timeline-key { float: right; }
 details { margin-top: 9px; font-size: 11px; color: #838b87; }
 summary { cursor: pointer; width: fit-content; }
 details p { font-size: 11px; margin-top: 8px; }
 a { color: inherit; text-underline-offset: 3px; }
-@media (max-width: 480px) { main { margin-top: 24px; padding: 0 18px; } h1 { font-size: 18px; } .timeline-key { float: none; display: block; margin-top: 6px; } }
+@media (max-width: 480px) { main { margin-top: 24px; padding: 0 18px; } h1 { font-size: 18px; } }

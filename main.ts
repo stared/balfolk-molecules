@@ -8,7 +8,7 @@ function $<T extends Element = HTMLElement>(selector: string): T {
 const scrub = $<HTMLInputElement>('#scrub');
 const speed = $<HTMLSelectElement>('#speed');
 $('#guides').innerHTML = `<path class="guide" d="M -120 -120 H 120 V 120 H -120 Z M 0 -120 V 120 M -120 0 H 120"/>`;
-$('#dancers').innerHTML = frame(0).dancers.map((d, i) => `<g class="dancer ${d.middle ? 'middle' : ''}" id="dancer-${i}"><g class="body"><circle r="14"/><path class="facing" d="M 0 -11 V -16"/><path class="support left" d="M -4 7 v 3"/><path class="support right" d="M 4 7 v 3"/></g><text text-anchor="middle" dy="2">${d.id}</text></g>`).join('');
+$('#dancers').innerHTML = frame(0).dancers.map((d, i) => `<g class="dancer" id="dancer-${i}"><g class="body"><circle r="14"/><path class="facing" d="M 0 -11 V -16"/><path class="support left" d="M -4 7 v 3"/><path class="support right" d="M 4 7 v 3"/></g><text text-anchor="middle" dy="2">${d.id}</text></g>`).join('');
 $('#sections').innerHTML = sections.map((section, i) => `<button type="button" data-section="${i}" title="${section.detail}">${section.name}</button>`).join('');
 $('#ticks').innerHTML = Array.from({ length: 31 }, (_, i) => `<i class="${(i + 1) % 16 === 0 ? 'section' : (i + 1) % 4 === 0 ? 'phrase' : 'step'}" style="left:${(i + 1) / 32 * 100}%"></i>`).join('');
 $('#phrases').innerHTML = Array.from({ length: 8 }, (_, i) => `<button type="button" data-phrase="${i}" aria-label="${itemAt(sections, i < 4 ? 0 : 1).name}, phrase ${i % 4 + 1}" title="${i < 4 ? 'Approach, change, retreat' : 'Approach, meet, pass, turn'} · four steps">${i % 4 + 1}</button>`).join('');
@@ -23,7 +23,6 @@ function render() {
     const element = itemAt(dancers, i);
     element.group.setAttribute('transform', `translate(${d.x} ${d.y})`);
     element.body.setAttribute('transform', `rotate(${d.angle})`);
-    element.group.classList.toggle('middle', d.middle);
     element.left.style.opacity = String(0.35 + 0.25 * (1 - state.rhythm.weight) / 2);
     element.right.style.opacity = String(0.35 + 0.25 * (1 + state.rhythm.weight) / 2);
   });

@@ -9,7 +9,6 @@ export interface Dancer extends Position {
   angle: number;
   slot: number;
   id: string;
-  middle: boolean;
 }
 export interface DanceSection { name: string; start: number; duration: number; detail: string }
 export interface DanceFrame {
@@ -98,7 +97,7 @@ export function frame(time: number, cycle = 0): DanceFrame {
     }
     return { x: p[0], y: p[1], angle, slot };
   }).map((d, i) => {
-    return { ...d, id: itemAt(['A', 'B', 'C', 'F', 'E', 'D'], i), middle: d.slot === 1 || d.slot === 4 };
+    return { ...d, id: itemAt(['A', 'B', 'C', 'F', 'E', 'D'], i) };
   });
   let hands: [number, number][] = [];
   if (section === 0) {

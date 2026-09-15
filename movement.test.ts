@@ -28,7 +28,7 @@ test('large and small steps join with continuous velocity', () => {
 });
 
 test('edge dancers meet with a small second step and face each other', () => {
-  const edges = frame(4).dancers.map((d, i) => !d.middle ? i : -1).filter(i => i >= 0);
+  const edges = frame(4).dancers.map((d, i) => d.slot !== 1 && d.slot !== 4 ? i : -1).filter(i => i >= 0);
   for (const i of edges) {
     const a = itemAt(frame(4).dancers, i);
     const b = itemAt(frame(4.25).dancers, i);
@@ -49,6 +49,14 @@ test('steps and repeated cycles preserve dancer positions without teleporting', 
     for (let time = 0.25; time < 8; time += 0.25) {
       frame(time - 1e-7, cycle).dancers.forEach((d, i) => assert.ok(distance(d, itemAt(frame(time, cycle).dancers, i)) < 0.001));
     }
+  }
+});
+
+test('every dancer occupies the middle once across three cycles', () => {
+  for (let id = 0; id < 6; id++) {
+    const positions = [0, 1, 2].map(cycle => itemAt(frame(4, cycle).dancers, id).slot);
+    assert.equal(positions.filter(slot => slot === 1 || slot === 4).length, 1);
+    assert.equal(new Set(positions).size, 3);
   }
 });
 
