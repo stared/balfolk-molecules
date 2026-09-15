@@ -2,6 +2,20 @@
   "name": "balfolk-movement",
   "private": true,
   "type": "module",
-  "scripts": { "dev": "vite --host 0.0.0.0", "build": "vite build", "preview": "vite preview --host 0.0.0.0", "test": "node --test movement.test.js" },
-  "devDependencies": { "vite": "^7.1.0" }
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "pnpm typecheck && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "node --test movement.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.1",
+    "typescript": "^7.0.2",
+    "vite": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=24.12.0"
+  },
+  "packageManager": "pnpm@12.3.4"
 }
