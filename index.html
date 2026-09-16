@@ -8,7 +8,7 @@
   </head>
   <body>
     <main>
-      <header><h1><select id="dance" aria-label="Dance"><option value="bourree">Bourrée bancale</option><option value="chapelloise">Chapelloise</option><option value="cercle">Cercle circassien</option></select></h1><div id="pairs-control" hidden><button id="remove-pair" aria-label="Remove pair">−</button><span><output id="pair-count">5</output> pairs</span><button id="add-pair" aria-label="Add pair">+</button></div></header>
+      <header><h1><select id="dance" aria-label="Dance"><option value="bourree">Bourrée bancale</option><option value="chapelloise">Chapelloise</option><option value="cercle">Cercle circassien</option><option value="hanter-dro">Hanter-dro</option><option value="an-dro">An dro</option></select></h1><div id="pairs-control" hidden><button id="remove-pair" aria-label="Remove pair">−</button><span><output id="pair-count">5</output> pairs</span><button id="add-pair" aria-label="Add pair">+</button></div></header>
       <svg viewBox="-210 -200 420 400" role="img" aria-label="Six dancers approach in lines and change chains during each approach. Then edge dancers pass each other around a square while the two middle dancers advance, turn right and retreat.">
         <g id="guides"></g>
         <path class="center" d="M -5 0 H 5 M 0 -5 V 5" />
@@ -34,7 +34,7 @@
       <p class="note" id="dance-note"></p>
       <div id="chaos-control" hidden><label for="chaos">Chaos <output id="chaos-value" for="chaos">0%</output></label><input id="chaos" type="range" min="0" max="100" step="5" value="0" aria-describedby="chaos-hint" /><span id="chaos-hint">Chance a crossing pair bounces back. Changes apply to new encounters.</span></div>
       <p id="roles" class="note" hidden><span class="role-key leader"></span> Leader <span class="role-key follower"></span> Follower</p>
-      <details><summary>Notation &amp; sources</summary><p>The small tick shows facing; two circles inside each dancer suggest weight support. Paths and weight are schematic. 96 beats/min at 1×.<br><span id="sources"></span></p></details>
+      <details><summary>Notation &amp; sources</summary><p>The small tick shows facing; two circles inside each dancer suggest weight support. Paths and weight are schematic. <span id="tempo-note">96 beats/min at 1×.</span><br><span id="sources"></span></p></details>
     </main>
     <script type="module" src="/main.ts"></script>
   </body>

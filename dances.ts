@@ -2,6 +2,7 @@ import { frame, sections, duration } from './movement.ts';
 import type { Dancer, HandReach, DanceSection } from './movement.ts';
 import { chapelloiseFrame } from './chapelloise.ts';
 import { cercleFrame } from './cercle.ts';
+import { anDroFrame, hanterDroFrame, chainContacts } from './chains.ts';
 
 interface ViewFrame { dancers: Dancer[]; hands: HandReach[]; weight: number; section: number }
 export interface Dance {
@@ -10,6 +11,9 @@ export interface Dance {
   description: string;
   duration: number;
   millisecondsPerPhrase: number;
+  countsPerPhrase?: number;
+  contacts?: readonly number[];
+  tempoNote?: string;
   sections: DanceSection[];
   phrases: string[];
   guides: string;
@@ -53,5 +57,25 @@ export const dances: Dance[] = [
     note: '64 counts · Four counts per phrase · New partner each cycle.',
     sources: '<a href="https://dansetrad.fr/fiches/fiches_pdf/Cercle_circassien.pdf" target="_blank" rel="noreferrer">Steps: Olivier Pécheux</a> · Four-step walking variant. Swing with the neighbour on the left; promenade anticlockwise, follower outside. Travel distance and number of swing turns are schematic. Hand lines show connection, not the full swing hold; claps and optional final underarm turns are omitted.',
     frame: cercleFrame,
+  },
+  {
+    id:'hanter-dro',title:'Hanter-dro',description:'An open chain moves to its left with a close, steady armhold and a three-beat repeating step.',duration:4,
+    millisecondsPerPhrase:2000,countsPerPhrase:3,contacts:chainContacts('hanter-dro'),tempoNote:'90 beats/min at 1×.',
+    sections:[{name:'Left · close',start:0,duration:4,detail:'Repeat: left–right–left on 1 & 2; right closes slightly behind on 3.'}],
+    phrases:Array.from({length:4},()=> '1 & 2: left–right–left travelling left · 3: right closes'),
+    guides:'<circle class="guide" r="145"/>',
+    note:'1 & 2 · 3 — L R L · R. Four repeats · Open chain.',
+    sources:'<a href="https://dansetrad.fr/fiches/fiches_pdf/Hanter_dro.pdf" target="_blank" rel="noreferrer">Steps and hold: Olivier Pécheux</a> · Close spacing and steady links suggest the bent armhold. Body centres and support dots cannot show the right foot closing slightly behind, elbow overlap, or vertical suspension. The chain follows a circular track; a live leader may choose another path.',
+    frame:hanterDroFrame,
+  },
+  {
+    id:'an-dro',title:'An dro',description:'An open chain steps left, then on the spot, with hands rolling forward and back.',duration:4,
+    millisecondsPerPhrase:2500,countsPerPhrase:4,contacts:chainContacts('an-dro'),
+    sections:[{name:'Left · on the spot',start:0,duration:4,detail:'Repeat: left–right–left on 1 & 2; right–left–right on 3 & 4.'}],
+    phrases:Array.from({length:4},()=> '1 & 2: left–right–left travelling left · 3 & 4: right–left–right in place'),
+    guides:'<circle class="guide" r="145"/>',
+    note:'1 & 2 · 3 & 4 — L R L · R L R. Four repeats · Open chain.',
+    sources:'<a href="https://www.dansetrad.fr/fiches/fiches_pdf/Kei_jaj.pdf" target="_blank" rel="noreferrer">Step rhythm: Olivier Pécheux</a> · <a href="https://www.accrofolk.net/danses-folks/an-dro" target="_blank" rel="noreferrer">Hold and movement: AccroFolk</a> · Lateral version: travel left, then step in place. Hand curves suggest forward/back motion; little-finger grip, arm height and the full rolling gesture cannot be shown from above. The four-beat motif is also taught using eight half-beat counts.',
+    frame:anDroFrame,
   },
 ];

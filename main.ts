@@ -50,15 +50,18 @@ function setup() {
   document.title = dance.title;
   $('svg').setAttribute('aria-label', dance.description);
   $('#dance-note').textContent = dance.note;
+  $('#tempo-note').textContent = dance.tempoNote ?? '96 beats/min at 1×.';
   $('#sources').innerHTML = dance.sources;
   $('#roles').hidden = !dance.roles;
   scrub.max = String(dance.duration);
   $('#guides').innerHTML = dance.guides;
   $('#sections').innerHTML = dance.sections.map((section, i) => `<button type="button" style="flex:${section.duration}" data-section="${i}" title="${section.detail}">${section.name}</button>`).join('');
-  const totalSteps=dance.duration*4;
-  $('#ticks').innerHTML = Array.from({ length: totalSteps-1 }, (_, i) => {
-    const tick=i+1,time=tick/4;
-    const kind=dance.sections.some(section=>section.start===time)?'section':tick%4===0?'phrase':'step';
+  const counts=dance.countsPerPhrase??4,totalSteps=dance.duration*counts;
+  const ticks=new Set(Array.from({length:totalSteps-1},(_,i)=>i+1));
+  for(let phrase=0;phrase<dance.duration;phrase++)for(const contact of dance.contacts??[])if(phrase*counts+contact>0)ticks.add(phrase*counts+contact);
+  $('#ticks').innerHTML = [...ticks].sort((a,b)=>a-b).map(tick=>{
+    const time=tick/counts;
+    const kind=dance.sections.some(section=>section.start===time)?'section':tick%counts===0?'phrase':Number.isInteger(tick)?'step':'contact';
     return `<i class="${kind}" style="left:${tick/totalSteps*100}%"></i>`;
   }).join('');
   $('#phrases').innerHTML = dance.phrases.map((phrase,i)=>{
@@ -74,7 +77,7 @@ let playing = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let previousTime: number | undefined;
 function render() {
   const improvised = dance.id === 'bourree' ? chaos.frame(progress, cycle) : undefined;
-  const state = improvised ? {...improvised,weight:improvised.rhythm.weight} : live.frame(progress, cycle);
+  const state = improvised ? {...improvised,weight:improvised.rhythm.weight} : dance.roles ? live.frame(progress, cycle) : dance.frame(progress, cycle);
   syncDancers(state.dancers);
   state.dancers.forEach(d => {
     const element = dancers.get(d.id);
@@ -101,7 +104,7 @@ function render() {
   $('#timeline').style.setProperty('--progress', `${progress / dance.duration * 100}%`);
   scrub.value = String(progress);
   const position=Math.min(progress,dance.duration-1e-9),section=sectionAt(position);
-  scrub.setAttribute('aria-valuetext', `${section.name}, phrase ${Math.floor(position-section.start)+1}, step ${Math.floor((position%1)*4)+1}`);
+  scrub.setAttribute('aria-valuetext', `${section.name}, phrase ${Math.floor(position-section.start)+1}, step ${Math.floor((position%1)*(dance.countsPerPhrase??4))+1}`);
   $('#play').textContent = playing ? 'Pause' : 'Play';
   $('#pair-count').textContent = String(live.count);
   $<HTMLButtonElement>('#add-pair').disabled = live.count >= maxPairCount;

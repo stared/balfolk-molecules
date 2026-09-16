@@ -33,6 +33,7 @@ button, select { font: inherit; font-size: 12px; background: transparent; color:
 #track { position: relative; height: 24px; background: #ebeeea; }
 #elapsed { position: absolute; inset: 0 auto 0 0; width: var(--progress); background: #d1e0dc; }
 #ticks i { position: absolute; bottom: 0; width: 1px; background: #aebbb6; pointer-events: none; }
+#ticks .contact { height: 3px; opacity: 0.55; }
 #ticks .step { height: 5px; opacity: 0.65; }
 #ticks .phrase { height: 13px; }
 #ticks .section { height: 24px; width: 2px; background: #fafaf8; }
