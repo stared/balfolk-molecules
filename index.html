@@ -8,7 +8,7 @@
   </head>
   <body>
     <main>
-      <header><h1>Bourrée bancale <span>/ six dancers</span></h1></header>
+      <header><h1><select id="dance" aria-label="Dance"><option value="bourree">Bourrée bancale</option><option value="chapelloise">Chapelloise</option></select></h1></header>
       <svg viewBox="-210 -200 420 400" role="img" aria-label="Six dancers approach in lines and change chains during each approach. Then edge dancers pass each other around a square while the two middle dancers advance, turn right and retreat.">
         <g id="guides"></g>
         <path class="center" d="M -5 0 H 5 M 0 -5 V 5" />
@@ -31,8 +31,8 @@
         <label class="letters-toggle"><input id="letters" type="checkbox" checked /> Letters</label>
         <select id="speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
       </div>
-      <p class="note">Each phrase has four steps.</p>
-      <details><summary>Notation &amp; sources</summary><p>The small tick shows facing; two circles inside each dancer suggest weight support. Paths and weight are schematic. 96 beats/min at 1×.<br><a href="https://www.folkabourk.fr/apprendre" target="_blank" rel="noreferrer">Choreography</a> · <a href="https://dansetrad.fr/fiches/fiches_pdf/Bourree_du_Berry.pdf" target="_blank" rel="noreferrer">Step reference</a></p></details>
+      <p class="note" id="dance-note"></p>
+      <details><summary>Notation &amp; sources</summary><p>The small tick shows facing; two circles inside each dancer suggest weight support. Paths and weight are schematic. 96 beats/min at 1×.<br><span id="sources"></span></p></details>
     </main>
     <script type="module" src="/main.ts"></script>
   </body>

@@ -4,6 +4,7 @@ body { margin: 0; }
 main { width: min(640px, 100%); margin: 32px auto; padding: 0 24px; }
 h1 { font-size: 19px; font-weight: 600; margin: 0; }
 h1 span { color: #777d83; font-weight: 400; }
+#dance { font: inherit; border: 0; padding: 0 20px 0 0; border-radius: 0; }
 p { font-size: 13px; line-height: 1.6; margin: 0; }
 svg { display: block; width: 100%; max-height: 58vh; margin: 8px 0; overflow: visible; }
 .guide { fill: none; stroke: #dfe2de; stroke-width: 0.8; stroke-dasharray: 3 6; }

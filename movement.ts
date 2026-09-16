@@ -9,9 +9,10 @@ export interface Dancer extends Position {
   angle: number;
   slot: number;
   id: string;
+  weight?: number;
 }
 export interface DanceSection { name: string; start: number; duration: number; detail: string }
-export interface HandReach { dancers: [number, number]; reach: number }
+export interface HandReach { dancers: [number, number]; reach: number; arch?: number }
 export interface DanceFrame {
   section: 0 | 1;
   label: string;
