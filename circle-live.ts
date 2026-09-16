@@ -16,11 +16,15 @@ const label = (index: number): string => {
 };
 
 /** The roster owns identity; the choreography only supplies moving places. */
-export class ChapelloiseLive {
+export class CircleLive {
   private formation: Formation;
   private transition: Transition | undefined;
   private nextIdentity = 0;
-  constructor(count: number) {
+  private readonly choreography: (time: number, cycle: number, pairs: number) => LiveFrame;
+  private readonly progression: 1 | -1;
+  constructor(count: number, choreography: (time: number, cycle: number, pairs: number) => LiveFrame = chapelloiseFrame, progression: 1 | -1 = 1) {
+    this.choreography=choreography;
+    this.progression=progression;
     if(!Number.isInteger(count)||count<0||count>maxPairCount)throw new RangeError('Invalid pair count');
     this.formation={leaders:[],followers:[],rotation:0,origin:0};
     for(let i=0;i<count;i++)this.append(this.formation);
@@ -37,7 +41,7 @@ export class ChapelloiseLive {
     if(action==='add' && count>=maxPairCount || action!=='add' && count===0)return false;
     const offset=count>1?cycle-old.origin:0;
     // Preserve the pairs at the start of this cycle when rebasing the ring.
-    const to: Formation={leaders:[...old.leaders],followers:old.leaders.map((_,i)=>itemAt(old.followers,mod(i-offset,count))),rotation:old.rotation-(count>1?offset*Math.PI/count:0),origin:cycle};
+    const to: Formation={leaders:[...old.leaders],followers:old.leaders.map((_,i)=>itemAt(old.followers,mod(i-this.progression*offset,count))),rotation:old.rotation-(count>1?offset*Math.PI/count:0),origin:cycle};
     const from=this.frame(time,cycle);
     if(action==='add')this.append(to);
     else {to.leaders.pop();to.followers.pop();}
@@ -70,9 +74,9 @@ export class ChapelloiseLive {
   }
   private evaluate(formation: Formation,time: number,cycle: number): LiveFrame {
     const count=formation.leaders.length;
-    if(count===0)return {dancers:[],hands:[],weight:0,section:time<4?0:1};
+    if(count===0)return {dancers:[],hands:[],weight:0,section:this.choreography(time,cycle,2).section};
     // One pair waits for another pair before starting the mixer.
-    const state=chapelloiseFrame(count===1?0:time,count===1?0:cycle-formation.origin,count);
+    const state=this.choreography(count===1?0:time,count===1?0:cycle-formation.origin,count);
     const cos=Math.cos(formation.rotation),sin=Math.sin(formation.rotation);
     return {...state,dancers:state.dancers.map((d,i)=>({...d,id:itemAt(i%2?formation.followers:formation.leaders,Math.floor(i/2)),x:d.x*cos-d.y*sin,y:d.x*sin+d.y*cos,angle:d.angle+formation.rotation*180/Math.PI}))};
   }
@@ -116,6 +120,6 @@ export class ChapelloiseLive {
       if(pair.some(id=>{const d=old.get(id);return d && Math.hypot(d.x,d.y)>280;}))hand.reach*=blend((u-0.75)/0.25);
       if(pair.some(id=>!next.has(id)))hand.reach*=1-blend(u/0.2);
     }
-    return {dancers,hands:[...joined.values()],weight:0,section:time<4?0:1};
+    return {dancers,hands:[...joined.values()],weight:0,section:this.choreography(time,cycle,2).section};
   }
 }

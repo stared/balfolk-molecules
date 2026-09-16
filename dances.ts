@@ -1,6 +1,7 @@
 import { frame, sections, duration } from './movement.ts';
 import type { Dancer, HandReach, DanceSection } from './movement.ts';
 import { chapelloiseFrame } from './chapelloise.ts';
+import { cercleFrame } from './cercle.ts';
 
 interface ViewFrame { dancers: Dancer[]; hands: HandReach[]; weight: number; section: number }
 export interface Dance {
@@ -15,6 +16,7 @@ export interface Dance {
   note: string;
   sources: string;
   roles?: boolean;
+  progression?: 1 | -1;
   frame(time: number, cycle: number, pairCount?: number): ViewFrame;
 }
 export const dances: Dance[] = [
@@ -36,5 +38,20 @@ export const dances: Dance[] = [
     note: '32 counts · Four counts per phrase · New partner each cycle.',
     sources: '<a href="https://www.dansetrad.fr/fiches/fiches_pdf/Chapelloise.pdf" target="_blank" rel="noreferrer">Steps: Olivier Pécheux</a> · Walking on counts; lateral polka on 1 &amp; 2, 3 &amp; 4; exchanges on three steps, then settle. Distance and the split of partner progression are schematic. Raised curve = underarm passage.',
     frame: chapelloiseFrame,
+  },
+  {
+    id: 'cercle', title: 'Cercle circassien', description: 'A circle advances and retreats, followers then leaders approach, new partners swing and promenade.', duration: 16,
+    millisecondsPerPhrase: 2500, roles: true, progression: -1,
+    sections: [
+      {name:'All in / out',start:0,duration:4,detail:'Four steps in, four out, twice.'},
+      {name:'Take turns',start:4,duration:4,detail:'Followers in and out; leaders in, turn left, return to the partner on their left.'},
+      {name:'Swing',start:8,duration:4,detail:'Sixteen counts rotating as couples, right foot supporting, left foot pushing.'},
+      {name:'Promenade',start:12,duration:4,detail:'Sixteen walking counts anticlockwise; open into a circle on the last two.'},
+    ],
+    phrases: ['All in','All out','All in','All out','Followers in','Followers out','Leaders in + turn','Meet next partner','Swing','Swing','Swing','Swing','Promenade','Promenade','Promenade','Open the circle'],
+    guides: '<circle class="guide" r="170"/>',
+    note: '64 counts · Four counts per phrase · New partner each cycle.',
+    sources: '<a href="https://dansetrad.fr/fiches/fiches_pdf/Cercle_circassien.pdf" target="_blank" rel="noreferrer">Steps: Olivier Pécheux</a> · Four-step walking variant. Swing with the neighbour on the left; promenade anticlockwise, follower outside. Travel distance and number of swing turns are schematic. Hand lines show connection, not the full swing hold; claps and optional final underarm turns are omitted.',
+    frame: cercleFrame,
   },
 ];

@@ -2,7 +2,7 @@ import { itemAt } from './indexed.ts';
 import { dances } from './dances.ts';
 import { defaultPairCount, maxPairCount } from './chapelloise.ts';
 import { BourreeChaos } from './bourree-chaos.ts';
-import { ChapelloiseLive } from './chapelloise-live.ts';
+import { CircleLive } from './circle-live.ts';
 import type { Dancer } from './movement.ts';
 function $<T extends Element = HTMLElement>(selector: string): T {
   const element = document.querySelector<T>(selector);
@@ -18,8 +18,17 @@ const chaosControl = $<HTMLInputElement>('#chaos');
 const pairParameter = new URLSearchParams(location.search).get('pairs');
 const requestedPairs = pairParameter === null ? NaN : Number(pairParameter);
 const initialPairCount = Number.isInteger(requestedPairs) && requestedPairs > 0 && requestedPairs <= maxPairCount ? requestedPairs : defaultPairCount;
-const live = new ChapelloiseLive(initialPairCount);
 let dance = dances.find(d => d.id === new URLSearchParams(location.search).get('dance')) ?? itemAt(dances, 1);
+const circles = new Map(dances.filter(d=>d.roles).map(d=>[d.id,new CircleLive(initialPairCount,d.frame,d.progression)]));
+function activeCircle(): CircleLive {
+  const circle=circles.get(dance.id) ?? circles.get('chapelloise');
+  if(!circle)throw new Error('Missing circle');
+  return circle;
+}
+let live=activeCircle();
+function sectionAt(time:number) {
+  return dance.sections.find(section=>time<section.start+section.duration) ?? itemAt(dance.sections,dance.sections.length-1);
+}
 const dancers = new Map<string,{ group: SVGGElement; body: SVGGElement; left: SVGCircleElement; right: SVGCircleElement }>();
 function syncDancers(poses: Dancer[]): void {
   const ids = new Set(poses.map(d=>d.id));
@@ -36,7 +45,7 @@ function syncDancers(poses: Dancer[]): void {
 }
 function setup() {
   selector.value = dance.id;
-  $('#pairs-control').hidden = dance.id !== 'chapelloise';
+  $('#pairs-control').hidden = !dance.roles;
   $('#chaos-control').hidden = dance.id !== 'bourree';
   document.title = dance.title;
   $('svg').setAttribute('aria-label', dance.description);
@@ -45,9 +54,18 @@ function setup() {
   $('#roles').hidden = !dance.roles;
   scrub.max = String(dance.duration);
   $('#guides').innerHTML = dance.guides;
-  $('#sections').innerHTML = dance.sections.map((section, i) => `<button type="button" data-section="${i}" title="${section.detail}">${section.name}</button>`).join('');
-  $('#ticks').innerHTML = Array.from({ length: 31 }, (_, i) => `<i class="${(i + 1) % 16 === 0 ? 'section' : (i + 1) % 4 === 0 ? 'phrase' : 'step'}" style="left:${(i + 1) / 32 * 100}%"></i>`).join('');
-  $('#phrases').innerHTML = Array.from({ length: 8 }, (_, i) => `<button type="button" data-phrase="${i}" aria-label="${itemAt(dance.sections, i < 4 ? 0 : 1).name}, phrase ${i % 4 + 1}" title="${itemAt(dance.phrases, i)}">${i % 4 + 1}</button>`).join('');
+  $('#sections').innerHTML = dance.sections.map((section, i) => `<button type="button" style="flex:${section.duration}" data-section="${i}" title="${section.detail}">${section.name}</button>`).join('');
+  const totalSteps=dance.duration*4;
+  $('#ticks').innerHTML = Array.from({ length: totalSteps-1 }, (_, i) => {
+    const tick=i+1,time=tick/4;
+    const kind=dance.sections.some(section=>section.start===time)?'section':tick%4===0?'phrase':'step';
+    return `<i class="${kind}" style="left:${tick/totalSteps*100}%"></i>`;
+  }).join('');
+  $('#phrases').innerHTML = dance.phrases.map((phrase,i)=>{
+    const section=sectionAt(i),number=i-section.start+1;
+    return `<button type="button" data-phrase="${i}" aria-label="${section.name}, phrase ${number}: ${phrase}" title="${phrase}">${number}</button>`;
+  }).join('');
+  scrub.setAttribute('aria-label',`Dance timeline: ${dance.sections.length} sections, ${dance.phrases.length} phrases`);
   showLetters();
 }
 let progress = 0;
@@ -82,7 +100,8 @@ function render() {
   }).join('');
   $('#timeline').style.setProperty('--progress', `${progress / dance.duration * 100}%`);
   scrub.value = String(progress);
-  scrub.setAttribute('aria-valuetext', `${itemAt(dance.sections, state.section).name}, phrase ${Math.min(3, Math.floor(progress - state.section * 4)) + 1}, step ${Math.min(3, Math.floor((progress % 1) * 4)) + 1}`);
+  const position=Math.min(progress,dance.duration-1e-9),section=sectionAt(position);
+  scrub.setAttribute('aria-valuetext', `${section.name}, phrase ${Math.floor(position-section.start)+1}, step ${Math.floor((position%1)*4)+1}`);
   $('#play').textContent = playing ? 'Pause' : 'Play';
   $('#pair-count').textContent = String(live.count);
   $<HTMLButtonElement>('#add-pair').disabled = live.count >= maxPairCount;
@@ -107,7 +126,7 @@ letters.addEventListener('change', showLetters);
 scrub.addEventListener('input', () => { playing = false; progress = Number(scrub.value); render(); });
 function animate(time: number) {
   const elapsed=previousTime===undefined?0:Math.min(time-previousTime,100)*Number(speed.value);
-  const entering=dance.id==='chapelloise'&&live.moving;
+  const entering=dance.roles&&live.moving;
   if(entering)live.advance(elapsed);
   if (previousTime !== undefined && playing) {
     progress += elapsed / dance.millisecondsPerPhrase;
@@ -121,8 +140,10 @@ function animate(time: number) {
 selector.addEventListener('change', () => {
   dance = dances.find(d => d.id === selector.value) ?? itemAt(dances, 0);
   progress = 0; cycle = 0;
+  live=activeCircle();
   live.restart();
   const url = new URL(location.href); url.searchParams.set('dance', dance.id);
+  if(dance.roles)url.searchParams.set('pairs',String(live.count));
   history.replaceState(null, '', url);
   setup(); render();
 });

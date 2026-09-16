@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ChapelloiseLive } from './chapelloise-live.ts';
+import { CircleLive } from './circle-live.ts';
 
-const poses = (live: ChapelloiseLive, time = 5.5, cycle = 2) =>
+const poses = (live: CircleLive, time = 5.5, cycle = 2) =>
   new Map(live.frame(time, cycle).dancers.map(d => [d.id, d]));
 
 test('repeated additions take effect immediately without moving existing people abruptly', () => {
-  const live = new ChapelloiseLive(8);
+  const live = new CircleLive(8);
   for (let count = 9; count <= 12; count++) {
     const before = poses(live);
     assert.ok(live.change('add', 2, 5.5));
@@ -26,7 +26,7 @@ test('repeated additions take effect immediately without moving existing people 
 });
 
 test('remove and add can interrupt each other; departures retain their identities until offstage', () => {
-  const live = new ChapelloiseLive(8);
+  const live = new CircleLive(8);
   const original = poses(live);
   live.change('remove', 2, 5.5);
   live.advance(600);
@@ -48,7 +48,7 @@ test('remove and add can interrupt each other; departures retain their identitie
 });
 
 test('empty ring accepts arrivals and a single pair waits for company', () => {
-  const live = new ChapelloiseLive(0);
+  const live = new CircleLive(0);
   assert.equal(live.change('remove', 0), false);
   assert.ok(live.change('add', 0, 3));
   assert.ok(live.frame(3, 0).dancers.every(d => Math.hypot(d.x, d.y) > 280));
@@ -62,7 +62,7 @@ test('empty ring accepts arrivals and a single pair waits for company', () => {
 
 test('transitions end continuously at the active dance phase, including cycle boundaries', () => {
   for (const action of ['add', 'remove'] as const) for (const time of [0, 4.5, 5.5, 7.9]) {
-    const live = new ChapelloiseLive(8);
+    const live = new CircleLive(8);
     live.change(action, 2, time);
     live.advance(3199.99);
     const before = poses(live, 0.2, 3);
