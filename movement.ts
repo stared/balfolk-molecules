@@ -10,6 +10,7 @@ export interface Dancer extends Position {
   slot: number;
   id: string;
   weight?: number;
+  role?: 'leader' | 'follower';
 }
 export interface DanceSection { name: string; start: number; duration: number; detail: string }
 export interface HandReach { dancers: [number, number]; reach: number; arch?: number }

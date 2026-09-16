@@ -42,3 +42,35 @@ test('phrases join continuously and paths keep dancers apart', () => {
     for(const hand of state.hands)assert.ok(hand.reach>=0&&hand.reach<=1);
   }
 });
+
+test('walking strides stay even instead of easing across the whole passage', () => {
+  for (const dancer of [0, 1]) {
+    const strides = Array.from({length: 5}, (_, i) => distance(
+      itemAt(frame((i+1)/4).dancers,dancer), itemAt(frame((i+2)/4).dancers,dancer),
+    ));
+    assert.ok(Math.max(...strides)-Math.min(...strides)<1e-8);
+  }
+});
+
+test('polka uses half-count contacts and exchanges settle on the fourth count', () => {
+  const leaderWeight = (count:number) => itemAt(frame(count/4).dancers,0).weight;
+  assert.equal(leaderWeight(16.25),1);
+  assert.equal(leaderWeight(16.75),-1);
+  assert.equal(leaderWeight(17.25),1);
+  assert.equal(leaderWeight(17.9),1);
+  for(const start of [20,28]) {
+    const settled=frame((start+3)/4);
+    frame((start+3.8)/4).dancers.forEach((d,i)=> {
+      const previous=itemAt(settled.dancers,i);
+      assert.ok(distance(d,previous)<1e-8);
+      assert.equal(d.angle,previous.angle);
+    });
+  }
+});
+
+test('roles stay with identities across side exchanges and changing partners', () => {
+  for(let cycle=0;cycle<4;cycle++) for(const time of [0,5.5,6,7.5,8]) {
+    frame(time,cycle).dancers.forEach((d,i)=>assert.equal(d.role,i%2?'follower':'leader'));
+  }
+  assert.ok(distance(itemAt(frame(7).dancers,0),itemAt(frame(8).dancers,0))>50,'Leader also travels toward the next partner');
+});

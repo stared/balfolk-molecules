@@ -1,63 +1,110 @@
 import { blend } from './rhythm.ts';
+import { itemAt } from './indexed.ts';
 import type { Dancer, HandReach } from './movement.ts';
 
-// Olivier Pécheux, Chapelloise (2012): 32 counts, partner changes toward
-// the couple behind. Floor paths are schematic; an arch denotes raised hands.
+// Count structure: Olivier Pécheux, Chapelloise (2012), detailed sheet.
+// Positions are schematic body centers, not measured foot placements.
 export const coupleCount = 4;
-const tau = Math.PI * 2;
-const spacing = tau / coupleCount;
+const spacing = Math.PI * 2 / coupleCount;
 const inner = 108;
 const outer = 162;
 const mod = (n: number) => ((n % coupleCount) + coupleCount) % coupleCount;
 const polar = (radius: number, angle: number) => ({ x: radius * Math.cos(angle), y: radius * Math.sin(angle) });
+type Mark = readonly [count: number, value: number];
+
+// Interpolate counted positions with continuous velocity. A repeated value is
+// a settling interval; it is not filled with an arbitrary oscillation.
+function score(count: number, marks: readonly Mark[]): number {
+  const first = itemAt(marks, 0);
+  const last = itemAt(marks, marks.length - 1);
+  if (count <= first[0]) return first[1];
+  if (count >= last[0]) return last[1];
+  const index = marks.findIndex((mark, i) => i < marks.length - 1 && count >= mark[0] && count < itemAt(marks, i + 1)[0]);
+  const a = itemAt(marks, index), b = itemAt(marks, index + 1);
+  const slope = (i: number) => {
+    if (i === 0 || i === marks.length - 1) return 0;
+    const previous = itemAt(marks, i - 1), current = itemAt(marks, i), next = itemAt(marks, i + 1);
+    const left = (current[1] - previous[1]) / (current[0] - previous[0]);
+    const right = (next[1] - current[1]) / (next[0] - current[0]);
+    return left * right <= 0 ? 0 : 2 * left * right / (left + right);
+  };
+  const duration = b[0] - a[0], u = (count - a[0]) / duration;
+  return (2*u**3-3*u**2+1)*a[1] + (u**3-2*u**2+u)*duration*slope(index)
+    + (-2*u**3+3*u**2)*b[1] + (u**3-u**2)*duration*slope(index+1);
+}
+
+// Approximately equal strides through each eight-count passage. Only starting,
+// reversing direction, and finishing slow down; turning does not stop travel.
+function walk(count: number): number {
+  const c = Math.max(0, Math.min(8, count));
+  const ramp = 0.35;
+  const distance = c < ramp ? c*c/(2*ramp) : c > 8-ramp ? 8-ramp-(8-c)**2/(2*ramp) : c-ramp/2;
+  return distance * 8 / (8-ramp);
+}
+function support(count: number, contacts: readonly number[], first: number, previous: number): number {
+  let index = contacts.length - 1;
+  while (index > 0 && itemAt(contacts, index) > count) index--;
+  const target = first * (index % 2 === 0 ? 1 : -1);
+  const from = index === 0 ? previous : -target;
+  return from + (target-from) * blend((count-itemAt(contacts,index))/0.22);
+}
+const polkaContacts = [0, 0.5, 1, 2, 2.5, 3];
+const exchangeContacts = [0, 1, 2];
+const exchangeStops: readonly Mark[] = [[0,0],[1,0.34],[2,0.72],[3,1],[4,1]];
+const lateralStops: readonly Mark[] = [[0,0],[0.5,0.55],[1,0.7],[1.5,1],[2,1]];
 
 export function chapelloiseFrame(time: number, cycle = 0) {
-  const t = Math.max(0, Math.min(8, time));
+  const count = Math.max(0, Math.min(32, time * 4));
   const dancers: Dancer[] = [];
   const hands: HandReach[] = [];
-  // Progress anticlockwise for eight counts, then return clockwise for eight.
-  const promenade = t < 2 ? -0.8 * blend(t / 2) : t < 4 ? -0.8 * (1 - blend((t - 2) / 2)) : 0;
-  const halfTurn = blend((t - 0.75) / 0.25) - blend((t - 2.75) / 0.25);
-  const phrase = Math.min(7, Math.floor(t));
-  const local = t - phrase;
-  const close = (phrase === 4 || phrase === 6) ? 10 * Math.sin(Math.PI * local) ** 2 : 0;
-  const exchange = t < 5 ? 0 : t < 6 ? blend(t - 5) : 1;
-  const change = blend(t - 7);
-  for (let identity = 0; identity < coupleCount * 2; identity++) {
-    const traveler = identity % 2 === 1;
-    const pair = traveler ? mod(Math.floor(identity / 2) + cycle) : Math.floor(identity / 2);
-    let angle = pair * spacing + promenade;
-    let radius = traveler ? outer : inner;
-    let facing = angle * 180 / Math.PI + (traveler ? -180 : 180) * halfTurn;
-    if (t >= 4) {
-      radius = traveler ? outer - (outer - inner) * exchange : inner + (outer - inner) * exchange;
-      radius += (traveler ? -1 : 1) * (phrase === 6 ? -close : close);
-      if (phrase === 5) {
-        // The initially outer dancer passes in front; the other gives space.
-        angle += (traveler ? -0.22 : 0.12) * Math.sin(Math.PI * exchange);
-        facing = angle * 180 / Math.PI + (traveler ? -360 * exchange : 0);
-      } else if (t >= 7) {
-        radius = traveler ? inner + (outer - inner) * change : outer - (outer - inner) * change;
-        if (traveler) angle += spacing * change;
-        facing = angle * 180 / Math.PI + (traveler ? 360 * change : 0);
+  const promenade = count < 8 ? -0.2 * walk(count) : count < 16 ? -0.2 * (8-walk(count-8)) : 0;
+  const halfTurn = blend(count-3)-blend(count-11);
+  const phrase = Math.min(7, Math.floor(count/4));
+  const local = count - phrase*4;
+  const polka = phrase === 4 || phrase === 6;
+  const approach = polka ? 10 * (local < 2 ? score(local,lateralStops) : 1-score(local-2,lateralStops)) : 0;
+  const exchange = count < 20 ? 0 : count < 24 ? score(count-20,exchangeStops) : 1;
+  const change = count < 28 ? 0 : score(count-28,exchangeStops);
+
+  let leaderWeight: number;
+  if(count < 16) leaderWeight = support(count, Array.from({length:16},(_,i)=>i), -1, -1);
+  else if(phrase === 4) leaderWeight = support(local,polkaContacts,1,1);
+  else if(phrase === 5) leaderWeight = support(local,exchangeContacts,1,-1);
+  else if(phrase === 6) leaderWeight = support(local,polkaContacts,-1,1);
+  else leaderWeight = support(local,exchangeContacts,-1,1);
+
+  for(let identity=0;identity<coupleCount*2;identity++) {
+    const follower = identity%2 === 1;
+    const pair = follower ? mod(Math.floor(identity/2)+cycle) : Math.floor(identity/2);
+    // Both partners contribute to progression: leaders move toward the pair in
+    // front, followers toward the pair behind. The division of distance is schematic.
+    const base = pair*spacing-cycle*spacing/2;
+    let angle = base+promenade;
+    let radius = follower ? outer : inner;
+    let facing = angle*180/Math.PI+(follower ? -180 : 180)*halfTurn;
+    if(count >= 16) {
+      radius = follower ? outer-(outer-inner)*exchange : inner+(outer-inner)*exchange;
+      radius += (follower ? -1 : 1)*(phrase === 6 ? -approach : approach);
+      if(phrase === 5 && follower) {
+        // The follower crosses in front while the leader moves sideways.
+        angle += score(local,[[0,0],[1,-0.32],[2,-0.24],[3,0],[4,0]]);
+        facing = angle*180/Math.PI+score(local,[[0,0],[1,-90],[2,-270],[3,-360],[4,-360]]);
+      } else if(count >= 28) {
+        radius = follower ? inner+(outer-inner)*change : outer-(outer-inner)*change;
+        angle += (follower ? 1 : -1)*spacing/2*change;
+        facing = angle*180/Math.PI+(follower ? score(local,[[0,0],[1,90],[2,270],[3,360],[4,360]]) : 0);
       } else {
-        // Briefly look toward one another on the approach, then resume promenade.
-        facing = angle * 180 / Math.PI + (traveler ? -1 : 1) * (phrase === 6 ? -1 : 1) * 55 * Math.sin(Math.PI * local) ** 2;
+        // Lateral polka steps do not turn the body to face the partner.
+        facing = angle*180/Math.PI;
       }
     }
-    // Start on the foot outside the couple. Approach/apart uses three small
-    // transfers in each two-count half; walking uses one transfer per count.
-    const contacts = phrase === 4 || phrase === 6 ? local * 6 : t * 4;
-    const weight = Math.cos(Math.PI * contacts) * (traveler ? 1 : -1);
-    dancers.push({ ...polar(radius, angle), angle: facing, slot: pair, id: String.fromCharCode(65 + identity), weight });
+    dancers.push({ ...polar(radius,angle), angle:facing, slot:pair, id:String.fromCharCode(65+identity), role:follower?'follower':'leader', weight:follower?-leaderWeight:leaderWeight });
   }
-  for (let traveler = 0; traveler < coupleCount; traveler++) {
-    const current = mod(traveler + cycle);
-    const next = mod(current + 1);
-    const travelId = traveler * 2 + 1;
-    const release = t < 7 ? 1 : 1 - blend((t - 7 - 0.3) / 0.2);
-    hands.push({ dancers: [current * 2, travelId], reach: release, arch: t >= 7 ? 28 * Math.sin(Math.PI * Math.min(1, (t - 7) / 0.5)) : 0 });
-    if (t >= 7) hands.push({ dancers: [next * 2, travelId], reach: blend((t - 7 - 0.65) / 0.35) });
+  for(let follower=0;follower<coupleCount;follower++) {
+    const current=mod(follower+cycle), next=mod(current+1), id=follower*2+1;
+    const local=count-28;
+    hands.push({ dancers:[current*2,id], reach:count<28?1:1-blend((local-1.2)/0.6), arch:count<28?0:score(local,[[0,0],[0.5,28],[1.4,28],[2,0],[4,0]]) });
+    if(count>=28) hands.push({ dancers:[next*2,id], reach:blend(local-2) });
   }
-  return { dancers, hands, weight: 0, section: t < 4 ? 0 : 1 };
+  return { dancers,hands,weight:0,section:count<16?0:1 };
 }

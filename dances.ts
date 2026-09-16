@@ -14,6 +14,7 @@ export interface Dance {
   guides: string;
   note: string;
   sources: string;
+  roles?: boolean;
   frame(time: number, cycle: number): ViewFrame;
 }
 export const dances: Dance[] = [
@@ -28,12 +29,12 @@ export const dances: Dance[] = [
   },
   {
     id: 'chapelloise', title: 'Chapelloise', description: 'Four couples in a circle: walk, turn, exchange sides, then join the partner behind.', duration: 8,
-    millisecondsPerPhrase: 2500,
+    millisecondsPerPhrase: 2500, roles: true,
     sections: [{ name: 'Walk + turn', start: 0, duration: 4, detail: 'Four forward, turn, four backward; repeat back to the start.' }, { name: 'Exchange + change', start: 4, duration: 4, detail: 'Together/apart, exchange sides; together/apart, underarm turn to the partner behind.' }],
     phrases: ['Forward + turn', 'Backward', 'Forward + turn', 'Backward', 'Together / apart', 'Exchange sides', 'Together / apart', 'Change partner'],
     guides: '<circle class="guide" r="108"/><circle class="guide" r="162"/>',
     note: '32 counts · Four counts per phrase · New partner each cycle.',
-    sources: '<a href="https://dansetrad.fr/fiches/minifiches_d_pdf/Chapelloise_Droite.pdf" target="_blank" rel="noreferrer">Choreography: Olivier Pécheux</a> · Raised curve = underarm passage.',
+    sources: '<a href="https://www.dansetrad.fr/fiches/fiches_pdf/Chapelloise.pdf" target="_blank" rel="noreferrer">Steps: Olivier Pécheux</a> · Walking on counts; lateral polka on 1 &amp; 2, 3 &amp; 4; exchanges on three steps, then settle. Distance and the split of partner progression are schematic. Raised curve = underarm passage.',
     frame: chapelloiseFrame,
   },
 ];

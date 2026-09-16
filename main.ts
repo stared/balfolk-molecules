@@ -17,6 +17,7 @@ function setup() {
   $('svg').setAttribute('aria-label', dance.description);
   $('#dance-note').textContent = dance.note;
   $('#sources').innerHTML = dance.sources;
+  $('#roles').hidden = !dance.roles;
   scrub.max = String(dance.duration);
 $('#guides').innerHTML = dance.guides;
 $('#dancers').innerHTML = dance.frame(0, 0).dancers.map((d, i) => `<g class="dancer" id="dancer-${i}"><g class="body"><circle r="14"/><path class="facing" d="M 0 -11 V -16"/><circle class="support left" cx="-4" cy="8" r="1.8"/><circle class="support right" cx="4" cy="8" r="1.8"/></g><text text-anchor="middle" dy="2">${d.id}</text></g>`).join('');
@@ -34,6 +35,7 @@ function render() {
   const state = dance.frame(progress, cycle);
   state.dancers.forEach((d, i) => {
     const element = itemAt(dancers, i);
+    element.group.classList.toggle('follower', d.role === 'follower');
     element.group.setAttribute('transform', `translate(${d.x} ${d.y})`);
     element.body.setAttribute('transform', `rotate(${d.angle})`);
     element.left.style.opacity = String(0.35 + 0.25 * (1 - (d.weight ?? state.weight)) / 2);
