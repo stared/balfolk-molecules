@@ -1,8 +1,33 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { chapelloiseFrame as frame, coupleCount } from './chapelloise.ts';
+import { chapelloiseFrame, defaultPairCount, minPairCount, maxPairCount } from './chapelloise.ts';
+const coupleCount = 4;
+const frame = (time: number, cycle = 0) => chapelloiseFrame(time, cycle, coupleCount);
 import { itemAt } from './indexed.ts';
 const distance = (a: {x:number;y:number}, b: {x:number;y:number}) => Math.hypot(a.x-b.x,a.y-b.y);
+
+test('pair count controls formation, partner progression, and spacing', () => {
+  assert.equal(defaultPairCount, 8);
+  assert.equal(chapelloiseFrame(0).dancers.length, 16);
+  for (let pairs = minPairCount; pairs <= maxPairCount; pairs++) {
+    const seen = new Set<number>();
+    for (let cycle = 0; cycle < pairs; cycle++) {
+      const start = chapelloiseFrame(0, cycle, pairs);
+      assert.equal(start.dancers.length, pairs * 2);
+      seen.add(itemAt(start.hands, 0).dancers[0]);
+      const next = chapelloiseFrame(0, cycle + 1, pairs);
+      chapelloiseFrame(8, cycle, pairs).dancers.forEach((d, i) => assert.ok(distance(d, itemAt(next.dancers, i)) < 1e-8));
+    }
+    assert.equal(seen.size, pairs);
+    for (let time = 0; time <= 8; time += 0.01) {
+      const state = chapelloiseFrame(time, 0, pairs);
+      state.dancers.forEach((d, i) => {
+        for (let j = i + 1; j < state.dancers.length; j++) assert.ok(distance(d, itemAt(state.dancers, j)) > 28, `${pairs} pairs at ${time}`);
+      });
+    }
+  }
+  for (const invalid of [0, 3, 13, 8.5, NaN, Infinity]) assert.throws(() => chapelloiseFrame(0, 0, invalid), RangeError);
+});
 
 test('promenade alternates forward and backward travel, returning to its start', () => {
   for (const [time, sign] of [[0.5,1],[1.5,-1],[2.5,1],[3.5,-1]] as const) {

@@ -15,7 +15,7 @@ export interface Dance {
   note: string;
   sources: string;
   roles?: boolean;
-  frame(time: number, cycle: number): ViewFrame;
+  frame(time: number, cycle: number, pairCount?: number): ViewFrame;
 }
 export const dances: Dance[] = [
   {
@@ -28,7 +28,7 @@ export const dances: Dance[] = [
     frame(time, cycle) { const state = frame(time, cycle); return { ...state, weight: state.rhythm.weight }; },
   },
   {
-    id: 'chapelloise', title: 'Chapelloise', description: 'Four couples in a circle: walk, turn, exchange sides, then join the partner behind.', duration: 8,
+    id: 'chapelloise', title: 'Chapelloise', description: 'Couples in a circle: walk, turn, exchange sides, then join the partner behind.', duration: 8,
     millisecondsPerPhrase: 2500, roles: true,
     sections: [{ name: 'Walk + turn', start: 0, duration: 4, detail: 'Four forward, turn, four backward; repeat back to the start.' }, { name: 'Exchange + change', start: 4, duration: 4, detail: 'Together/apart, exchange sides; together/apart, underarm turn to the partner behind.' }],
     phrases: ['Forward + turn', 'Backward', 'Forward + turn', 'Backward', 'Together / apart', 'Exchange sides', 'Together / apart', 'Change partner'],

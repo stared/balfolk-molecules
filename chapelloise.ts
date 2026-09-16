@@ -4,11 +4,11 @@ import type { Dancer, HandReach } from './movement.ts';
 
 // Count structure: Olivier Pécheux, Chapelloise (2012), detailed sheet.
 // Positions are schematic body centers, not measured foot placements.
-export const coupleCount = 4;
-const spacing = Math.PI * 2 / coupleCount;
+export const defaultPairCount = 8;
+export const minPairCount = 4;
+export const maxPairCount = 12;
 const inner = 108;
 const outer = 162;
-const mod = (n: number) => ((n % coupleCount) + coupleCount) % coupleCount;
 const polar = (radius: number, angle: number) => ({ x: radius * Math.cos(angle), y: radius * Math.sin(angle) });
 type Mark = readonly [count: number, value: number];
 
@@ -53,7 +53,14 @@ const exchangeContacts = [0, 1, 2];
 const exchangeStops: readonly Mark[] = [[0,0],[1,0.34],[2,0.72],[3,1],[4,1]];
 const lateralStops: readonly Mark[] = [[0,0],[0.5,0.55],[1,0.7],[1.5,1],[2,1]];
 
-export function chapelloiseFrame(time: number, cycle = 0) {
+export function chapelloiseFrame(time: number, cycle = 0, pairCount = defaultPairCount) {
+  if (!Number.isInteger(pairCount) || pairCount < minPairCount || pairCount > maxPairCount) {
+    throw new RangeError(`Chapelloise requires ${minPairCount}–${maxPairCount} pairs`);
+  }
+  const coupleCount = pairCount;
+  const spacing = Math.PI * 2 / coupleCount;
+  const mod = (n: number) => ((n % coupleCount) + coupleCount) % coupleCount;
+  const crossingWidth = Math.min(1, spacing / 0.64);
   const count = Math.max(0, Math.min(32, time * 4));
   const dancers: Dancer[] = [];
   const hands: HandReach[] = [];
@@ -87,7 +94,7 @@ export function chapelloiseFrame(time: number, cycle = 0) {
       radius += (follower ? -1 : 1)*(phrase === 6 ? -approach : approach);
       if(phrase === 5 && follower) {
         // The follower crosses in front while the leader moves sideways.
-        angle += score(local,[[0,0],[1,-0.32],[2,-0.24],[3,0],[4,0]]);
+        angle += crossingWidth * score(local,[[0,0],[1,-0.32],[2,-0.24],[3,0],[4,0]]);
         facing = angle*180/Math.PI+score(local,[[0,0],[1,-90],[2,-270],[3,-360],[4,-360]]);
       } else if(count >= 28) {
         radius = follower ? inner+(outer-inner)*change : outer-(outer-inner)*change;
