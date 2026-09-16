@@ -1,6 +1,7 @@
 import { itemAt } from './indexed.ts';
 import { dances } from './dances.ts';
 import { defaultPairCount, minPairCount, maxPairCount } from './chapelloise.ts';
+import { BourreeChaos } from './bourree-chaos.ts';
 function $<T extends Element = HTMLElement>(selector: string): T {
   const element = document.querySelector<T>(selector);
   if (!element) throw new Error(`Missing element: ${selector}`);
@@ -10,6 +11,8 @@ const scrub = $<HTMLInputElement>('#scrub');
 const speed = $<HTMLSelectElement>('#speed');
 const letters = $<HTMLInputElement>('#letters');
 const selector = $<HTMLSelectElement>('#dance');
+const chaos = new BourreeChaos();
+const chaosControl = $<HTMLInputElement>('#chaos');
 const pairs = $<HTMLSelectElement>('#pairs');
 const requestedPairs = Number(new URLSearchParams(location.search).get('pairs'));
 let pairCount = Number.isInteger(requestedPairs) && requestedPairs >= minPairCount && requestedPairs <= maxPairCount ? requestedPairs : defaultPairCount;
@@ -20,6 +23,7 @@ function setup() {
   selector.value = dance.id;
   pairs.value = String(pairCount);
   $('#pairs-control').hidden = dance.id !== 'chapelloise';
+  $('#chaos-control').hidden = dance.id !== 'bourree';
   document.title = dance.title;
   $('svg').setAttribute('aria-label', dance.description);
   $('#dance-note').textContent = dance.note;
@@ -39,7 +43,8 @@ let cycle = 0;
 let playing = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let previousTime: number | undefined;
 function render() {
-  const state = dance.frame(progress, cycle, pairCount);
+  const improvised = dance.id === 'bourree' ? chaos.frame(progress, cycle) : undefined;
+  const state = improvised ? {...improvised,weight:improvised.rhythm.weight} : dance.frame(progress, cycle, pairCount);
   state.dancers.forEach((d, i) => {
     const element = itemAt(dancers, i);
     element.group.classList.toggle('follower', d.role === 'follower');
@@ -75,7 +80,11 @@ $('#phrases').addEventListener('click', event => {
   if (button) { progress = Number(button.dataset.phrase); playing = false; render(); }
 });
 $('#play').addEventListener('click', () => { playing = !playing; render(); });
-$('#reset').addEventListener('click', () => { progress = 0; cycle = 0; render(); });
+$('#reset').addEventListener('click', () => { progress = 0; cycle = 0; chaos.reset(); render(); });
+chaosControl.addEventListener('input', () => {
+  chaos.setProbability(Number(chaosControl.value)/100);
+  $('#chaos-value').textContent = `${chaosControl.value}%`;
+});
 function showLetters() { $('#dancers').classList.toggle('hide-letters', !letters.checked); }
 letters.addEventListener('change', showLetters);
 scrub.addEventListener('input', () => { playing = false; progress = Number(scrub.value); render(); });
