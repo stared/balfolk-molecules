@@ -91,3 +91,38 @@ test('passing paths keep bodies apart and handholds reference existing dancers',
     for (const hand of state.hands) assert.ok(hand.dancers.every(i => i >= 0 && i < 6));
   }
 });
+
+test('line changes travel diagonally on both halves, meeting halfway across the new place',()=>{
+  for(let cycle=0;cycle<3;cycle++)for(let phrase=0;phrase<4;phrase++) {
+    const start=frame(phrase,cycle),finish=frame(phrase+1,cycle);
+    for(let i=0;i<6;i++) {
+      const a=itemAt(start.dancers,i),b=itemAt(finish.dancers,i);
+      if(Math.abs(a.y-b.y)>1e-7)continue; // End dancers change lines around the outside.
+      const first=itemAt(frame(phrase+0.25,cycle).dancers,i);
+      const meeting=itemAt(frame(phrase+0.5,cycle).dancers,i);
+      const retreat=itemAt(frame(phrase+0.75,cycle).dancers,i);
+      assert.ok(Math.abs(first.x-a.x)>25,'First forward step already travels sideways');
+      assert.ok(Math.abs(first.y-a.y)>30,'First step also approaches the other line');
+      assert.ok(Math.abs(meeting.x-(a.x+b.x)/2)<1e-7,'Meet halfway between the old and new places');
+      assert.ok(Math.abs(retreat.x-meeting.x)>25,'Retreat completes the lateral travel');
+      assert.ok(Math.abs(retreat.y-meeting.y)>30,'Retreat simultaneously backs out');
+      assert.equal(first.angle,a.angle);
+      assert.equal(retreat.angle,a.angle);
+    }
+  }
+});
+
+test('line exchanges keep moving through every step instead of dwelling after large steps',()=>{
+  for(let cycle=0;cycle<3;cycle++)for(let phrase=0;phrase<4;phrase++) {
+    for(let t=0.005;t<1;t+=0.005) {
+      const before=frame(phrase+t-0.001,cycle),after=frame(phrase+t,cycle);
+      before.dancers.forEach((d,i)=>assert.ok(distance(d,itemAt(after.dancers,i))/0.001>90,'No near-stationary interval anywhere in the exchange'));
+    }
+    const before=frame(phrase,cycle),after=frame(phrase+1,cycle);
+    before.dancers.forEach((d,i)=>{
+      if(Math.abs(d.y-itemAt(after.dancers,i).y)>1e-7)return;
+      const first=itemAt(frame(phrase+0.25,cycle).dancers,i),second=itemAt(frame(phrase+0.5,cycle).dancers,i);
+      assert.ok(Math.abs(distance(d,first)-distance(first,second))<1e-7,'Both forward steps share the travel equally');
+    });
+  }
+});

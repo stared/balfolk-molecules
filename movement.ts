@@ -43,8 +43,9 @@ export function frame(time: number, cycle = 0): DanceFrame {
   const step = Math.min(3, Math.floor(time - section * 4));
   const t = time - section * 4 - step;
   const rhythm = rhythmAt(t);
-  // Chain exchange occurs on the second bourrée step, at the close of the approach.
-  const transfer = t < 0.25 ? 0 : t < 0.5 ? stepTravel((t - 0.25) * 4) : 1;
+  // The lines keep progressing through both forward and both backward steps.
+  // Their rhythm changes support, not the speed of a separate sideways leg.
+  const transfer = t;
   const label = section === 0
     ? `${['Approach', 'Change lines', 'Retreat', 'Settle'][rhythm.step]} · ${step + 1} / 4`
     : `${['Approach', 'Meet · small step', 'Pass / back away', 'Turn / settle'][rhythm.step]} · crossing ${step + 1} / 4`;
@@ -52,7 +53,7 @@ export function frame(time: number, cycle = 0): DanceFrame {
     if (section === 0) {
       const from = mod(id - cycle * 4 - step);
       const to = mod(from - 1);
-      const depth = phraseTravel(t, [120, 55, 50, 112, 120]);
+      const depth = phraseTravel(t, [120, 85, 50, 85, 120]);
       const a: Point = [itemAt(slots, from)[0], Math.sign(itemAt(slots, from)[1]) * depth];
       const b: Point = [itemAt(slots, to)[0], Math.sign(itemAt(slots, to)[1]) * depth];
       const p = mix(a, b, transfer);
