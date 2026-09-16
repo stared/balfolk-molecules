@@ -3,6 +3,8 @@ import { dances } from './dances.ts';
 import { defaultPairCount, maxPairCount } from './chapelloise.ts';
 import { BourreeChaos } from './bourree-chaos.ts';
 import { CircleLive } from './circle-live.ts';
+import type { LiveFrame } from './circle-live.ts';
+import { FormationChange } from './formation-change.ts';
 import type { Dancer } from './movement.ts';
 function $<T extends Element = HTMLElement>(selector: string): T {
   const element = document.querySelector<T>(selector);
@@ -75,9 +77,18 @@ let progress = 0;
 let cycle = 0;
 let playing = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let previousTime: number | undefined;
-function render() {
+let rearrangement: FormationChange | undefined;
+let displayed: LiveFrame | undefined;
+function danceFrame(): LiveFrame {
   const improvised = dance.id === 'bourree' ? chaos.frame(progress, cycle) : undefined;
-  const state = improvised ? {...improvised,weight:improvised.rhythm.weight} : dance.roles ? live.frame(progress, cycle) : dance.frame(progress, cycle);
+  return improvised ? {...improvised,weight:improvised.rhythm.weight} : dance.roles ? live.frame(progress, cycle) : dance.frame(progress, cycle);
+}
+function render() {
+  const state = rearrangement?.frame() ?? danceFrame();
+  displayed=state;
+  $('#dance-note').textContent = rearrangement ? 'Rearranging…' : dance.note;
+  scrub.disabled=!!rearrangement;
+  for(const button of document.querySelectorAll<HTMLButtonElement>('#sections button, #phrases button'))button.disabled=!!rearrangement;
   syncDancers(state.dancers);
   state.dancers.forEach(d => {
     const element = dancers.get(d.id);
@@ -119,7 +130,7 @@ $('#phrases').addEventListener('click', event => {
   if (button) { progress = Number(button.dataset.phrase); playing = false; render(); }
 });
 $('#play').addEventListener('click', () => { playing = !playing; render(); });
-$('#reset').addEventListener('click', () => { progress = 0; cycle = 0; chaos.reset(); live.restart(); render(); });
+$('#reset').addEventListener('click', () => { progress = 0; cycle = 0; chaos.reset(); live.restart(); if(rearrangement && displayed)rearrangement=new FormationChange(displayed,danceFrame()); render(); });
 chaosControl.addEventListener('input', () => {
   chaos.setProbability(Number(chaosControl.value)/100);
   $('#chaos-value').textContent = `${chaosControl.value}%`;
@@ -130,6 +141,14 @@ scrub.addEventListener('input', () => { playing = false; progress = Number(scrub
 function animate(time: number) {
   const elapsed=previousTime===undefined?0:Math.min(time-previousTime,100)*Number(speed.value);
   const entering=dance.roles&&live.moving;
+  if(rearrangement) {
+    rearrangement.advance(elapsed);
+    if(rearrangement.done)rearrangement=undefined;
+    render();
+    previousTime=time;
+    requestAnimationFrame(animate);
+    return;
+  }
   if(entering)live.advance(elapsed);
   if (previousTime !== undefined && playing) {
     progress += elapsed / dance.millisecondsPerPhrase;
@@ -141,17 +160,23 @@ function animate(time: number) {
   requestAnimationFrame(animate);
 }
 selector.addEventListener('change', () => {
+  const from=displayed ?? danceFrame();
   dance = dances.find(d => d.id === selector.value) ?? itemAt(dances, 0);
   progress = 0; cycle = 0;
   live=activeCircle();
   live.restart();
+  chaos.reset();
+  rearrangement=new FormationChange(from,danceFrame());
+  playing=true;
   const url = new URL(location.href); url.searchParams.set('dance', dance.id);
   if(dance.roles)url.searchParams.set('pairs',String(live.count));
   history.replaceState(null, '', url);
   setup(); render();
 });
 function changePairs(action:'add'|'remove'): void {
+  const from=displayed ?? danceFrame();
   if(!live.change(action,cycle,progress))return;
+  if(rearrangement){live.restart();rearrangement=new FormationChange(from,danceFrame());}
   const url = new URL(location.href);
   url.searchParams.set('dance', dance.id);
   url.searchParams.set('pairs', String(live.count));
