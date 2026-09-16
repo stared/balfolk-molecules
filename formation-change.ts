@@ -33,7 +33,7 @@ export class FormationChange {
       const start=this.starts.get(id),end=this.ends.get(id);
       if(start&&end)longest=Math.max(longest,Math.hypot(end.x-start.x,end.y-start.y));
     }
-    this.duration=Math.max(2800,longest/75*1000+1000);
+    this.duration=Math.max(1400,longest/75*1000+1000);
   }
   get done():boolean {return this.elapsed>=this.duration;}
   advance(milliseconds:number):void {this.elapsed=Math.min(this.duration,this.elapsed+Math.max(0,milliseconds));}
@@ -44,15 +44,12 @@ export class FormationChange {
       const start=this.starts.get(id),end=this.ends.get(id);
       if(!start||!end)throw new Error('Missing formation participant');
       const dx=end.x-start.x,dy=end.y-start.y,length=Math.hypot(dx,dy);
-      // A shallow sideward curve keeps the walk from looking like a rigid morph.
-      const bow=Math.min(24,length*0.1)*Math.sin(Math.PI*travel)**2;
-      const x=start.x+dx*travel-(length?dy/length:0)*bow;
-      const y=start.y+dy*travel+(length?dx/length:0)*bow;
+      const x=start.x+dx*travel,y=start.y+dy*travel;
       const walkAngle=length>1?Math.atan2(dx,-dy)*180/Math.PI:end.angle;
       const facing=turn(start.angle,walkAngle,blend(this.elapsed/450));
       const angle=turn(facing,end.angle,blend((this.elapsed-(this.duration-900))/900));
       const step=Math.max(0,this.elapsed-350)/500,target=Math.floor(step)%2?-1:1;
-      const walking=-target+2*target*blend((step%1)/0.25);
+      const walking=length>1?-target+2*target*blend((step%1)/0.25):(start.weight??this.from.weight);
       const begin=blend(this.elapsed/400),finish=blend((this.elapsed-(this.duration-650))/650);
       const weight=(start.weight??this.from.weight)+(walking-(start.weight??this.from.weight))*begin;
       return {...end,x,y,angle,weight:weight+((end.weight??this.to.weight)-weight)*finish};

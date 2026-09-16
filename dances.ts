@@ -20,6 +20,7 @@ export interface Dance {
   note: string;
   sources: string;
   roles?: boolean;
+  formation?: 'chain';
   progression?: 1 | -1;
   frame(time: number, cycle: number, pairCount?: number): ViewFrame;
 }
@@ -59,7 +60,7 @@ export const dances: Dance[] = [
     frame: cercleFrame,
   },
   {
-    id:'hanter-dro',title:'Hanter-dro',description:'An open chain moves to its left with a close, steady armhold and a three-beat repeating step.',duration:4,
+    id:'hanter-dro',formation:'chain',title:'Hanter-dro',description:'An open chain moves to its left with a close, steady armhold and a three-beat repeating step.',duration:4,
     millisecondsPerPhrase:2000,countsPerPhrase:3,contacts:chainContacts('hanter-dro'),tempoNote:'90 beats/min at 1×.',
     sections:[{name:'Left · close',start:0,duration:4,detail:'Repeat: left–right–left on 1 & 2; right closes slightly behind on 3.'}],
     phrases:Array.from({length:4},()=> '1 & 2: left–right–left travelling left · 3: right closes'),
@@ -69,7 +70,7 @@ export const dances: Dance[] = [
     frame:hanterDroFrame,
   },
   {
-    id:'an-dro',title:'An dro',description:'An open chain steps left, then on the spot, with hands rolling forward and back.',duration:4,
+    id:'an-dro',formation:'chain',title:'An dro',description:'An open chain steps left, then on the spot, with hands rolling forward and back.',duration:4,
     millisecondsPerPhrase:2500,countsPerPhrase:4,contacts:chainContacts('an-dro'),
     sections:[{name:'Left · on the spot',start:0,duration:4,detail:'Repeat: left–right–left on 1 & 2; right–left–right on 3 & 4.'}],
     phrases:Array.from({length:4},()=> '1 & 2: left–right–left travelling left · 3 & 4: right–left–right in place'),

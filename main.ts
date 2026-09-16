@@ -5,6 +5,7 @@ import { BourreeChaos } from './bourree-chaos.ts';
 import { CircleLive } from './circle-live.ts';
 import type { LiveFrame } from './circle-live.ts';
 import { FormationChange } from './formation-change.ts';
+import { DancerAssignment } from './dancer-assignment.ts';
 import type { Dancer } from './movement.ts';
 function $<T extends Element = HTMLElement>(selector: string): T {
   const element = document.querySelector<T>(selector);
@@ -79,10 +80,12 @@ let playing = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let previousTime: number | undefined;
 let rearrangement: FormationChange | undefined;
 let displayed: LiveFrame | undefined;
-function danceFrame(): LiveFrame {
+const identities=new DancerAssignment();
+function rawDanceFrame(): LiveFrame {
   const improvised = dance.id === 'bourree' ? chaos.frame(progress, cycle) : undefined;
   return improvised ? {...improvised,weight:improvised.rhythm.weight} : dance.roles ? live.frame(progress, cycle) : dance.frame(progress, cycle);
 }
+function danceFrame(): LiveFrame {return identities.apply(rawDanceFrame());}
 function render() {
   const state = rearrangement?.frame() ?? danceFrame();
   displayed=state;
@@ -161,12 +164,16 @@ function animate(time: number) {
 }
 selector.addEventListener('change', () => {
   const from=displayed ?? danceFrame();
+  const chainOrder=dance.formation==='chain'?danceFrame().dancers.map(d=>d.id):undefined;
   dance = dances.find(d => d.id === selector.value) ?? itemAt(dances, 0);
   progress = 0; cycle = 0;
   live=activeCircle();
   live.restart();
   chaos.reset();
-  rearrangement=new FormationChange(from,danceFrame());
+  const target=chainOrder && dance.formation==='chain'
+    ? identities.rearrangeChain(from,rawDanceFrame(),chainOrder)
+    : identities.rearrange(from,rawDanceFrame());
+  rearrangement=new FormationChange(from,target);
   playing=true;
   const url = new URL(location.href); url.searchParams.set('dance', dance.id);
   if(dance.roles)url.searchParams.set('pairs',String(live.count));
