@@ -6,10 +6,13 @@ h1 { font-size: 19px; font-weight: 600; margin: 0; }
 h1 span { color: #777d83; font-weight: 400; }
 header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 #pairs-control { color: #777d83; font-size: 12px; white-space: nowrap; }
-#pairs { margin-left: 5px; }
+#pairs-control button { padding: 5px 8px; }
+#pairs-control span { display: inline-block; margin: 0 5px; }
+#clear-pairs { margin-left: 8px; }
+button:disabled { opacity: 0.4; cursor: default; }
 #dance { font: inherit; border: 0; padding: 0 20px 0 0; border-radius: 0; }
 p { font-size: 13px; line-height: 1.6; margin: 0; }
-svg { display: block; width: 100%; max-height: 58vh; margin: 8px 0; overflow: visible; }
+svg { display: block; width: 100%; max-height: 58vh; margin: 8px 0; overflow: hidden; }
 .guide { fill: none; stroke: #dfe2de; stroke-width: 0.8; stroke-dasharray: 3 6; }
 .center { fill: none; stroke: #aaaead; stroke-width: 0.8; }
 .dancer, .arm { color: #237c80; }
@@ -58,4 +61,4 @@ details { margin-top: 9px; font-size: 11px; color: #838b87; }
 summary { cursor: pointer; width: fit-content; }
 details p { font-size: 11px; margin-top: 8px; }
 a { color: inherit; text-underline-offset: 3px; }
-@media (max-width: 480px) { main { margin-top: 24px; padding: 0 18px; } h1 { font-size: 18px; } }
+@media (max-width: 480px) { main { margin-top: 24px; padding: 0 18px; } h1 { font-size: 18px; } header { flex-wrap: wrap; } }

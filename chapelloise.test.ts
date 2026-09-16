@@ -7,8 +7,8 @@ import { itemAt } from './indexed.ts';
 const distance = (a: {x:number;y:number}, b: {x:number;y:number}) => Math.hypot(a.x-b.x,a.y-b.y);
 
 test('pair count controls formation, partner progression, and spacing', () => {
-  assert.equal(defaultPairCount, 8);
-  assert.equal(chapelloiseFrame(0).dancers.length, 16);
+  assert.equal(defaultPairCount, 5);
+  assert.equal(chapelloiseFrame(0).dancers.length, 10);
   for (let pairs = minPairCount; pairs <= maxPairCount; pairs++) {
     const seen = new Set<number>();
     for (let cycle = 0; cycle < pairs; cycle++) {
@@ -26,7 +26,7 @@ test('pair count controls formation, partner progression, and spacing', () => {
       });
     }
   }
-  for (const invalid of [0, 3, 13, 8.5, NaN, Infinity]) assert.throws(() => chapelloiseFrame(0, 0, invalid), RangeError);
+  for (const invalid of [0, -1, 13, 8.5, NaN, Infinity]) assert.throws(() => chapelloiseFrame(0, 0, invalid), RangeError);
 });
 
 test('promenade alternates forward and backward travel, returning to its start', () => {

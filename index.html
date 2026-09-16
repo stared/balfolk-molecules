@@ -8,7 +8,7 @@
   </head>
   <body>
     <main>
-      <header><h1><select id="dance" aria-label="Dance"><option value="bourree">Bourrée bancale</option><option value="chapelloise">Chapelloise</option></select></h1><label id="pairs-control" hidden>Pairs <select id="pairs" aria-label="Number of pairs"></select></label></header>
+      <header><h1><select id="dance" aria-label="Dance"><option value="bourree">Bourrée bancale</option><option value="chapelloise">Chapelloise</option></select></h1><div id="pairs-control" hidden><button id="remove-pair" aria-label="Remove pair">−</button><span><output id="pair-count">5</output> pairs</span><button id="add-pair" aria-label="Add pair">+</button></div></header>
       <svg viewBox="-210 -200 420 400" role="img" aria-label="Six dancers approach in lines and change chains during each approach. Then edge dancers pass each other around a square while the two middle dancers advance, turn right and retreat.">
         <g id="guides"></g>
         <path class="center" d="M -5 0 H 5 M 0 -5 V 5" />

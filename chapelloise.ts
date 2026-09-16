@@ -4,8 +4,8 @@ import type { Dancer, HandReach } from './movement.ts';
 
 // Count structure: Olivier Pécheux, Chapelloise (2012), detailed sheet.
 // Positions are schematic body centers, not measured foot placements.
-export const defaultPairCount = 8;
-export const minPairCount = 4;
+export const defaultPairCount = 5;
+export const minPairCount = 1;
 export const maxPairCount = 12;
 const inner = 108;
 const outer = 162;
