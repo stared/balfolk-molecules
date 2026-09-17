@@ -15,6 +15,8 @@ export interface Dance {
   duration: number;
   millisecondsPerPhrase: number;
   countsPerPhrase?: number;
+  /** Musical beats, when timeline counts represent multi-beat steps. */
+  beatsPerPhrase?: number;
   contacts?: readonly number[];
   phraseContacts?: readonly (readonly number[])[];
   tempoNote?: string;
@@ -31,7 +33,7 @@ export interface Dance {
 export const dances: Dance[] = [
   {
     id: 'bourree', category: 'set', title: 'Bourrée bancale', description: 'Six dancers, changing lines and crossing four sides.', duration,
-    millisecondsPerPhrase: 5000, sections,
+    millisecondsPerPhrase: 5000, beatsPerPhrase: 8, sections,
     phrases: ['Approach, change, retreat', 'Approach, change, retreat', 'Approach, change, retreat', 'Approach, change, retreat', 'Approach, meet, pass, turn', 'Approach, meet, pass, turn', 'Approach, meet, pass, turn', 'Approach, meet, pass, turn'],
     guides: '<path class="guide" d="M -120 -120 H 120 V 120 H -120 Z M 0 -120 V 120 M -120 0 H 120"/>',
     note: 'Each phrase has four bourrée steps.',
@@ -66,7 +68,7 @@ export const dances: Dance[] = [
   ...coupleDances,
   {
     id:'hanter-dro',category:'chain',formation:'chain',title:'Hanter-dro',description:'An open chain moves to its left with a close, steady armhold and a three-beat repeating step.',duration:4,
-    millisecondsPerPhrase:2000,countsPerPhrase:3,contacts:chainContacts('hanter-dro'),tempoNote:'90 beats/min at 1×.',
+    millisecondsPerPhrase:2000,countsPerPhrase:3,contacts:chainContacts('hanter-dro'),tempoNote:'Practice tempo.',
     sections:[{name:'Left · close',start:0,duration:4,detail:'Repeat: left–right–left on 1 & 2; right closes slightly behind on 3.'}],
     phrases:Array.from({length:4},()=> '1 & 2: left–right–left travelling left · 3: right closes'),
     guides:'<circle class="guide" r="145"/>',
@@ -86,7 +88,7 @@ export const dances: Dance[] = [
   },
   {
     id:'tzadik-katamar',category:'circle',title:'Tzadik Katamar',description:'A circle walks, sways, crosses and turns together, without partners.',duration:12,
-    millisecondsPerPhrase:2000,tempoNote:'120 counts/min at 1× · illustrative practice tempo.',
+    millisecondsPerPhrase:2000,tempoNote:'Illustrative practice tempo.',
     sections:[{name:'Walk + sway × 2',start:0,duration:4,detail:'Four walking counts anticlockwise, four sways; twice.'},{name:'Cross + turn + rock × 2',start:4,duration:8,detail:'Open mayim, right turn, crossing rocks, four sways; twice.'}],
     phrases:tzadikPhrases,guides:'<circle class="guide" r="145"/>',
     note:'48 counts · Walk/sway × 2 + crossing sequence × 2.',
@@ -95,7 +97,7 @@ export const dances: Dance[] = [
   },
   {
     id:'drumul-dracului',category:'circle',title:'Drumul Dracului',description:'A closed circle travels right and left, stamps, then crosses and opens with a hip twist.',duration:16,
-    millisecondsPerPhrase:1500,tempoNote:'160 counts/min at 1× · fixed practice tempo; recordings often accelerate.',
+    millisecondsPerPhrase:1500,tempoNote:'Fixed practice tempo; recordings often accelerate.',
     sections:[{name:'Right + left × 2',start:0,duration:8,detail:'Five side/close steps, two stamps, hold; mirror left. Repeat.'},{name:'Cross + twist × 2',start:8,duration:8,detail:'Cross right in front, recover; open right to the side/back, recover. Three times, then three stamps and hold. Repeat.'}],
     phrases:drumulPhrases,guides:'<circle class="guide" r="145"/>',
     note:'64 counts · Side sequence × 2 + crossing sequence × 2. Foot-dot pulses = stamps without weight transfer.',

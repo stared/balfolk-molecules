@@ -34,20 +34,23 @@
           <div id="playhead" aria-hidden="true"></div>
           <input id="scrub" aria-label="Dance timeline: two sections, four phrases per section, four steps per phrase" type="range" min="0" max="8" step="0.001" value="0" />
         </div>
-        <div id="phrases" aria-label="Seek to phrase"></div>
       </div>
       <div class="controls">
-        <button id="play" type="button">Pause</button>
-        <button id="reset" type="button">Reset</button>
-        <label class="letters-toggle"><input id="letters" type="checkbox" /> Letters</label>
-        <div id="pairs-control" hidden><button id="remove-pair" type="button" aria-label="Remove pair">−</button><span><output id="pair-count">5</output> pairs</span><button id="add-pair" type="button" aria-label="Add pair">+</button></div>
-        <select id="speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+        <div class="transport">
+          <button id="play" type="button">Pause</button>
+          <button id="reset" type="button">Restart</button>
+          <label class="tempo-control"><input id="tempo" type="range" min="0" max="1000" step="1" aria-label="Tempo" /><span><output id="tempo-value" for="tempo">90</output> BPM</span></label>
+        </div>
+        <div class="display-controls">
+          <div id="pairs-control" hidden><button id="remove-pair" type="button" aria-label="Remove pair">−</button><span><output id="pair-count">5</output> pairs</span><button id="add-pair" type="button" aria-label="Add pair">+</button></div>
+          <label class="letters-toggle"><input id="letters" type="checkbox" /> Labels</label>
+        </div>
       </div>
-      <p class="note" id="dance-note"></p>
+      <p id="dance-status" role="status" hidden>Rearranging…</p>
       <div id="chaos-control" hidden><label for="chaos">Chaos <output id="chaos-value" for="chaos">0%</output></label><input id="chaos" type="range" min="0" max="100" step="5" value="0" aria-describedby="chaos-hint" /><span id="chaos-hint">Chance a crossing pair bounces back. Changes apply to new encounters.</span></div>
       </section>
       </section>
-      <details class="notation"><summary>Notation &amp; sources</summary><p>The small tick shows facing; two circles inside each dancer suggest weight support. Paths and weight are schematic. <span id="tempo-note">96 beats/min at 1×.</span><br><span id="sources"></span></p></details>
+      <details class="notation"><summary>Dance notes</summary><p class="note" id="dance-note"></p><p>The small tick shows facing; two circles inside each dancer suggest weight support. Paths and weight are schematic. <span id="tempo-note"></span><br><span id="sources"></span></p></details>
     </main>
     <script type="module" src="/main.ts"></script>
   </body>

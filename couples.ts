@@ -100,7 +100,7 @@ export const coupleDances: Dance[] = [
     ...shared, id: 'waltz', title: 'Waltz',
     description: 'Several couples turn clockwise while travelling anticlockwise around the floor.',
     duration: 2, countsPerPhrase: 3, millisecondsPerPhrase: 1800,
-    tempoNote: '100 beats/min at 1× · practice tempo.',
+    tempoNote: 'Practice tempo.',
     sections: [{ name: 'Turning waltz', start: 0, duration: 2, detail: 'Drive on ONE, glide through two–three; three steps per half-turn.' }],
     phrases: ['Left · right · left — half-turn', 'Right · left · right — half-turn'],
     note: 'ONE–two–three · Push, glide, settle · Same partner.',
@@ -122,7 +122,7 @@ export const coupleDances: Dance[] = [
     ...shared, id: 'mazurka', title: 'Mazurka',
     description: 'Several couples soften into a small weight shift, transfer on three, then take three small steps in close embrace.',
     duration: 4, countsPerPhrase: 3, millisecondsPerPhrase: 2000,
-    tempoNote: '90 beats/min at 1× · practice tempo.',
+    tempoNote: 'Practice tempo.',
     sections: [
       { name: 'Sink + shift', start: 0, duration: 1, detail: 'Small weight shift onto the left; soften through ONE–TWO, transfer to the right on three.' },
       { name: 'Small steps', start: 1, duration: 1, detail: 'Left, right, left, gently changing direction in close embrace.' },

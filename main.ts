@@ -1,3 +1,4 @@
+import { bpmAtPosition, positionAtBpm, defaultBpm } from './tempo.ts';
 import { $ } from './ui-dom.ts';
 import { createDanceNavigation } from './dance-navigation.ts';
 import { renderFloor } from './dance-floor.ts';
@@ -10,7 +11,8 @@ import type { LiveFrame } from './circle-live.ts';
 import { FormationChange } from './formation-change.ts';
 import { DancerAssignment } from './dancer-assignment.ts';
 const scrub = $<HTMLInputElement>('#scrub');
-const speed = $<HTMLSelectElement>('#speed');
+const tempoSlider = $<HTMLInputElement>('#tempo');
+const tempos = new Map<string, number>();
 const letters = $<HTMLInputElement>('#letters');
 const navigation = createDanceNavigation(dances, selectDance);
 const chaos = new BourreeChaos();
@@ -37,7 +39,8 @@ function setup() {
   document.title = dance.title;
   $('#dance-floor').setAttribute('aria-label', dance.description);
   $('#dance-note').textContent = dance.note;
-  $('#tempo-note').textContent = dance.tempoNote ?? '96 beats/min at 1×.';
+  tempoSlider.value = String(positionAtBpm(tempos.get(dance.id) ?? defaultBpm(dance)));
+  showTempo();
   $('#sources').innerHTML = dance.sources;
   $('#roles').hidden = !dance.roles;
   scrub.max = String(dance.duration);
@@ -50,10 +53,6 @@ function setup() {
     const time=tick/counts;
     const kind=dance.sections.some(section=>section.start===time)?'section':tick%counts===0?'phrase':Number.isInteger(tick)?'step':'contact';
     return `<i class="${kind}" style="left:${tick/totalSteps*100}%"></i>`;
-  }).join('');
-  $('#phrases').innerHTML = dance.phrases.map((phrase,i)=>{
-    const section=sectionAt(i),number=i-section.start+1;
-    return `<button type="button" data-phrase="${i}" aria-label="${section.name}, phrase ${number}: ${phrase}" title="${phrase}">${number}</button>`;
   }).join('');
   scrub.setAttribute('aria-label',`Dance timeline: ${dance.sections.length} sections, ${dance.phrases.length} phrases`);
   showLetters();
@@ -73,9 +72,9 @@ function danceFrame(): LiveFrame {return identities.apply(rawDanceFrame());}
 function render() {
   const state = rearrangement?.frame() ?? danceFrame();
   displayed=state;
-  $('#dance-note').textContent = rearrangement ? 'Rearranging…' : dance.note;
+  $('#dance-status').hidden = !rearrangement;
   scrub.disabled=!!rearrangement;
-  for(const button of document.querySelectorAll<HTMLButtonElement>('#sections button, #phrases button'))button.disabled=!!rearrangement;
+  for(const button of document.querySelectorAll<HTMLButtonElement>('#sections button'))button.disabled=!!rearrangement;
   renderFloor(state);
   $('#timeline').style.setProperty('--progress', `${progress / dance.duration * 100}%`);
   scrub.value = String(progress);
@@ -90,10 +89,6 @@ $('#sections').addEventListener('click', event => {
   const button = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('[data-section]') : null;
   if (button) { progress = itemAt(dance.sections, Number(button.dataset.section)).start; render(); }
 });
-$('#phrases').addEventListener('click', event => {
-  const button = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('[data-phrase]') : null;
-  if (button) { progress = Number(button.dataset.phrase); playing = false; render(); }
-});
 $('#play').addEventListener('click', () => { playing = !playing; render(); });
 $('#reset').addEventListener('click', () => { progress = 0; cycle = 0; chaos.reset(); live.restart(); if(rearrangement && displayed)rearrangement=new FormationChange(displayed,danceFrame()); render(); });
 chaosControl.addEventListener('input', () => {
@@ -103,8 +98,18 @@ chaosControl.addEventListener('input', () => {
 function showLetters() { $('#dancers').classList.toggle('hide-letters', !letters.checked); }
 letters.addEventListener('change', showLetters);
 scrub.addEventListener('input', () => { playing = false; progress = Number(scrub.value); render(); });
+function showTempo(): void {
+  const bpm = tempos.get(dance.id) ?? defaultBpm(dance);
+  $('#tempo-value').textContent = String(bpm);
+  tempoSlider.setAttribute('aria-valuetext', `${bpm} BPM`);
+  $('#tempo-note').textContent = `Tempo: ${bpm} BPM. ${dance.tempoNote ?? 'Practice tempo.'}`;
+}
+tempoSlider.addEventListener('input', () => {
+  tempos.set(dance.id, bpmAtPosition(Number(tempoSlider.value)));
+  showTempo();
+});
 function animate(time: number) {
-  const elapsed=previousTime===undefined?0:Math.min(time-previousTime,100)*Number(speed.value);
+  const elapsed=previousTime===undefined?0:Math.min(time-previousTime,100)*(tempos.get(dance.id) ?? defaultBpm(dance))/defaultBpm(dance);
   const entering=dance.roles&&live.moving;
   if(rearrangement) {
     rearrangement.advance(elapsed);
