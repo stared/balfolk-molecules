@@ -126,5 +126,23 @@ test('Chapelloise distinguishes outward and return passages without a repeat bra
   const score=dances.find(d=>d.id==='chapelloise')!.structure!.phrase;
   assert.deepEqual(phraseSpans(score).filter(s=>s.depth===1).map(s=>s.name),['Outward','Return','Exchange','Progression']);
   assert.deepEqual(phraseRepeats(score),[]);
-  assert.deepEqual(movements('chapelloise').slice(0,4).map(s=>[s.name,s.beats]),[['Forward',4],['Back',4],['Forward',4],['Back',4]]);
+  assert.deepEqual(movements('chapelloise').slice(0,4).map(s=>[s.name,s.beats]),[['Forward',4],['Backward',4],['Forward',4],['Backward',4]]);
+});
+
+
+test('Chapelloise has three complete labelled tiers with four-count movement blocks',()=>{
+  const spans=phraseSpans(dances.find(d=>d.id==='chapelloise')!.structure!.phrase);
+  assert.deepEqual(spans.filter(s=>s.depth===2).map(s=>[s.name,s.start,s.beats]),[
+    ['Forward',0,4],['Backward',4,4],['Forward',8,4],['Backward',12,4],
+    ['Spring',16,4],['Swap sides',20,4],['Spring',24,4],['New partner',28,4],
+  ]);
+  for (const depth of [1,2,3]) {
+    let end=0;
+    for (const span of spans.filter(s=>s.depth===depth)) {
+      assert.ok(span.name.trim());
+      assert.equal(span.start,end,`Gap at depth ${depth}`);
+      end+=span.beats;
+    }
+    assert.equal(end,32);
+  }
 });

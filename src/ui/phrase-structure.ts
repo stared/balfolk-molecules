@@ -41,15 +41,18 @@ export function createPhraseStructure(seek: (time: number) => void) {
       document.body.classList.toggle('has-structure', !!dance.structure);
       $('#timeline').style.minWidth = '';
       if (!dance.structure) return;
-      // The two Bourrée figures each contain four eight-beat phrases.
-      const grouped = dance.id === 'bourree';
+      // Chapelloise exposes figure, movement and action; Bourrée groups repeats.
+      const nested = dance.id === 'chapelloise';
+      const grouped = dance.id === 'bourree' || nested;
       const offset = grouped ? 24 : 0;
       score.classList.toggle('phrase-grouped', grouped);
       document.body.classList.toggle('phrase-grouped', grouped);
       const total = phraseBeats(dance.structure.phrase);
       const beatsPerPhrase = musicalBeatsPerPhrase(dance);
       const spans = phraseSpans(dance.structure.phrase);
-      const motifs = spans.filter(span => span.depth === 1);
+      const groups = nested ? spans.filter(span => span.depth === 1) : dance.sections.map(section => ({name:section.name,start:section.start*beatsPerPhrase,beats:section.duration*beatsPerPhrase,detail:section.detail}));
+      const motifDepth = nested ? 2 : 1;
+      const motifs = spans.filter(span => span.depth === motifDepth);
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.classList.add('phrase-edges');
       svg.setAttribute('viewBox', `0 0 1000 ${64 + offset}`);
@@ -72,14 +75,15 @@ export function createPhraseStructure(seek: (time: number) => void) {
       edge(0, 64, 1000, 64, '#b6b8c1');
       const palette = ['#747aac', '#a17496', '#73899a', '#8b819e'];
       const motifColors = new Map<string, string>();
+      const sectionColors = new Map<number, string>();
       const bracket = (start: number, end: number, top: number, color: string) => {
         edge(start, top, end, top, color);
         edge(start, top, start, top + 6, color);
         edge(end, top, end, top + 6, color);
       };
-      if (grouped) for (const [index, group] of dance.sections.entries()) {
-        const start = group.start * beatsPerPhrase / total;
-        const width = group.duration * beatsPerPhrase / total;
+      if (grouped) for (const [index, group] of groups.entries()) {
+        const start = group.start / total;
+        const width = group.beats / total;
         const color = palette[index % palette.length]!;
         bracket(start * 1000, (start + width) * 1000, 8 - offset, color);
         const label = document.createElement('button');
@@ -87,12 +91,13 @@ export function createPhraseStructure(seek: (time: number) => void) {
         label.style.left = `${start * 100}%`; label.style.width = `${width * 100}%`;
         label.style.color = color; label.textContent = group.name;
         label.title = group.detail;
-        label.addEventListener('click', () => seek(group.start));
+        label.addEventListener('click', () => seek(group.start / beatsPerPhrase));
         score.append(label); buttons.push(label);
       }
       for (const section of motifs) {
         if (!motifColors.has(section.name)) motifColors.set(section.name, palette[motifColors.size % palette.length]!);
-        const color = motifColors.get(section.name)!;
+        const color = nested ? palette[groups.findIndex(group => section.start >= group.start && section.start < group.start+group.beats) % palette.length]! : motifColors.get(section.name)!;
+        sectionColors.set(section.start, color);
         const start = section.start / total, end = (section.start + section.beats) / total;
         bracket(start * 1000, end * 1000, 8, color);
         const label = document.createElement('button');
@@ -104,10 +109,10 @@ export function createPhraseStructure(seek: (time: number) => void) {
         label.addEventListener('click', () => seek(section.start / beatsPerPhrase));
         score.append(label); buttons.push(label);
       }
-      for (const span of spans.filter(span => span.depth === 2)) {
+      for (const span of spans.filter(span => span.depth === motifDepth + 1)) {
         const x = span.start / total;
         const parent = motifs.find(motif => span.start >= motif.start && span.start < motif.start + motif.beats)!;
-        bracket(x * 1000, (span.start + span.beats) / total * 1000, 32, motifColors.get(parent.name)!);
+        bracket(x * 1000, (span.start + span.beats) / total * 1000, 32, sectionColors.get(parent.start)!);
         edge(x * 1000, 59, x * 1000, 64, '#b6b8c1');
         const button = document.createElement('button');
         button.type = 'button'; button.className = 'phrase-action';

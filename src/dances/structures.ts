@@ -25,7 +25,7 @@ const bourreeCrossing = sequence('Crossing',
 const chapelloiseWalk = (name: string, direction: string) => sequence(name,
   sequence('Forward',action('Walk',3,`Walk ${direction}.`),
     action('Turn',1,'Keep travelling; turn toward your partner on the fourth step.')),
-  action('Back',4,`Continue ${direction}, now walking backwards.`));
+  sequence('Backward',action('Walk',4,`Continue ${direction}, now walking backwards.`)));
 const chapelloiseLateral = (name: string, first: string, second: string) =>
   sequence(name,...lateral(name,first,second));
 const circle = sequence('Circle',action('In',4),action('Out',4));
@@ -50,9 +50,9 @@ const drumulRock = sequence('Rock',action('Cross',1,'Right across left.'),action
 export const danceStructures: Record<string, Phrase> = {
   bourree: cycle(repeat(4,bourreeLines),repeat(4,bourreeCrossing)),
   chapelloise: cycle(chapelloiseWalk('Outward','anticlockwise'),chapelloiseWalk('Return','clockwise'),
-    sequence('Exchange',chapelloiseLateral('Together','Right','Left'),chapelloiseLateral('Apart','Left','Right'),
+    sequence('Exchange',sequence('Spring',chapelloiseLateral('Together','Right','Left'),chapelloiseLateral('Apart','Left','Right')),
       sequence('Swap sides',action('Cross',3,'Follower crosses in front on three steps.'),action('Settle',1))),
-    sequence('Progression',chapelloiseLateral('Together','Left','Right'),chapelloiseLateral('Apart','Right','Left'),
+    sequence('Progression',sequence('Spring',chapelloiseLateral('Together','Left','Right'),chapelloiseLateral('Apart','Right','Left')),
       sequence('New partner',action('Pass',3,'Follower passes under the arm to the partner behind on three steps.'),action('Settle',1)))),
   cercle: cycle(repeat(2,circle),
     sequence('Followers',action('In',4),action('Out',4)),
