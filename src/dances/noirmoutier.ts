@@ -11,7 +11,11 @@ function frontAt(beat: number) {
   const back = motif >= 4;
   const turning = local >= 16 && back;
   const phase = motif - (back ? 4 : 0);
-  const depth = 48 * (back ? 1 - blend(phase / 4) : blend(phase / 3));
+  // Two pivots bracket the travelling step. Most return travel happens while
+  // facing away, rather than sliding backwards through one continuous spin.
+  // These timing windows are an illustrative interpretation, not measured data.
+  const depth = 48 * (turning ? 1 - blend((phase - 1) / 2)
+    : back ? 1 - blend(phase / 4) : blend(phase / 3));
   const contacts = [0.12, 0.65, 1.1, 2, 4, 6];
   const supports = [-1, 1, -1, 1, -1, 1];
   let weight = 1;
@@ -20,7 +24,7 @@ function frontAt(beat: number) {
     weight += (target - weight) * blend((motif - onset) / 0.18);
   }
   const completedTurns = local >= 24 ? 1 : 0;
-  const angle = -360 * (cycle * 2 + completedTurns + (turning ? blend(phase / 4) : 0));
+  const angle = -360 * (cycle * 2 + completedTurns + (turning ? (blend(phase) + blend(phase - 3)) / 2 : 0));
   // Let go before turning; reconnect only after facing the opposite front.
   const reach = local < 16 ? 1 : motif < 4 ? 1 - blend((motif - 3.6) / 0.4)
     : blend((phase - 3.85) / 0.15);
@@ -37,26 +41,44 @@ export function noirmoutierFrame(time: number, cycle = 0) {
     const direction = front === 0 ? 1 : -1;
     for (let i = 0; i < 5; i++) {
       const slot = front * 5 + i;
-      dancers.push({ id: String.fromCharCode(65 + slot), slot,
+      dancers.push({ id: String.fromCharCode(65 + slot), slot, front: front as 0 | 1,
         x: (i - 2) * 58, y: direction * (88 - pose.depth),
         angle: front * 180 + pose.angle, weight: pose.weight, sink: pose.sink });
       if (i < 4) hands.push({ dancers: [slot, slot + 1], reach: pose.reach });
     }
   }
-  return { dancers, hands, weight: dancers[0]!.weight!, section: (beat % 32) < 16 ? 0 : 1 };
+  return { dancers, hands, weight: dancers[0]!.weight!, section: Math.floor((beat % 32) / 8) };
 }
 
 export const noirmoutierDance: Dance = {
   id: 'branle-de-noirmoutier', title: 'Branle de Noirmoutier', category: 'set',
+  aliases: ['Branle de l’Épine'],
+  origin: 'Vendée, France',
+  materials: [
+    { name: 'Ciac Boum recording', url: 'https://soundcloud.com/pierre-bordes-910807711/suite-a-manoue-bransles-de' },
+  ],
   description: 'Two facing lines advance and retreat in turn, then release hands for individual left turns.',
   duration: 8, millisecondsPerPhrase: 2500, tempoNote: 'Illustrative practice tempo.',
   sections: [
-    { name: 'Advance + retreat × 2', start: 0, duration: 4, detail: 'Four counts forward, four back; repeat. Opposite front is four counts ahead.' },
-    { name: 'Advance + turn × 2', start: 4, duration: 4, detail: 'Four counts forward, then a full left turn over four counts; repeat.' },
+    { name: 'Straight', start: 0, duration: 2, detail: 'Four counts forward, four back.' },
+    { name: 'Straight', start: 2, duration: 2, detail: 'Four counts forward, four back.' },
+    { name: 'Turning', start: 4, duration: 2, detail: 'Forward, pivot, travel, face back.' },
+    { name: 'Turning', start: 6, duration: 2, detail: 'Forward, pivot, travel, face back.' },
   ],
   phrases: ['Advance', 'Retreat', 'Advance', 'Retreat', 'Advance', 'Left turn', 'Advance', 'Left turn'],
+  structure: {
+    phrase: { kind: 'sequence', name: 'Cycle', parts: [
+      { kind: 'repeat', times: 2, phrase: { kind: 'sequence', name: 'Straight', parts: [
+        { kind: 'action', name: 'Forward', beats: 4 }, { kind: 'action', name: 'Back', beats: 4 },
+      ] } },
+      { kind: 'repeat', times: 2, phrase: { kind: 'sequence', name: 'Turning', parts: [
+        { kind: 'action', name: 'Forward', beats: 4 }, { kind: 'action', name: 'Turn', beats: 4 },
+      ] } },
+    ] },
+    note: 'Lower line shown; upper line is 4 beats ahead.',
+  },
   guides: '',
-  note: '32 counts · Contemporary double-front form, Mme Raymond step. Timeline follows the lower front; the upper front is four counts ahead.',
-  sources: '<a href="https://lannig.e-monsite.com/pages/pays-nantais/retz/branle-de-noirmoutiers.html" target="_blank" rel="noreferrer">Step variants and formation: Lannig</a> · Forward: L R L R on 1 &amp; 2 3, hold on 4. Back: L, hop, R, hop. Hands release for full anticlockwise turns. Travel and hop compression are schematic; crossed free legs and arm swing are omitted. Several collected variants exist; the contemporary offset between fronts is not established for the collected forms.',
+  note: 'Branle de Noirmoutier · Mme Raymond variant',
+  sources: '<a href="https://lannig.e-monsite.com/pages/pays-nantais/retz/branle-de-noirmoutiers.html" target="_blank" rel="noreferrer">Steps (Lannig)</a>',
   frame: noirmoutierFrame,
 };

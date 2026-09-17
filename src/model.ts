@@ -1,3 +1,4 @@
+import type { Phrase } from './engine/phrase-structure.ts';
 export interface Position { x: number; y: number }
 export interface Dancer extends Position {
   angle: number;
@@ -11,6 +12,7 @@ export interface Dancer extends Position {
   stampLeft?: number;
   stampRight?: number;
   role?: 'leader' | 'follower';
+  front?: 0 | 1;
 }
 export interface DanceSection { name: string; start: number; duration: number; detail: string }
 export interface HandReach { dancers: [number, number]; reach: number; arch?: number; shoulderHold?: number }
@@ -20,6 +22,9 @@ export interface Dance {
   id: string;
   title: string;
   category: 'chain' | 'circle' | 'couple' | 'set';
+  aliases?: readonly string[];
+  origin?: string;
+  materials?: readonly { name: string; url: string }[];
   description: string;
   duration: number;
   millisecondsPerPhrase: number;
@@ -31,6 +36,7 @@ export interface Dance {
   tempoNote?: string;
   sections: DanceSection[];
   phrases: string[];
+  structure?: { phrase: Phrase; note: string };
   guides: string;
   note: string;
   sources: string;

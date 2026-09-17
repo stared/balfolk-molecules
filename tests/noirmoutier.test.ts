@@ -38,3 +38,18 @@ test('Noirmoutier: positions, facing, support and connections are continuous acr
     assert.ok(Math.abs(d.angle-next.angle)<0.001);
   });
 });
+
+test('Noirmoutier: travel lies between the two half-pivots, fronts have distinct colors', () => {
+  for (const beat of [20,28]) {
+    const start=lower(beat),outward=lower(beat+1),arrived=lower(beat+3),end=lower(beat+4);
+    assert.equal(outward.angle-start.angle,-180);
+    assert.equal(outward.y,start.y);
+    assert.equal(arrived.angle,outward.angle);
+    assert.ok(arrived.y>outward.y);
+    assert.equal(end.y,arrived.y);
+    assert.equal(end.angle-arrived.angle,-180);
+  }
+  const state=frame(0);
+  assert.ok(state.dancers.slice(0,5).every(d=>d.front===0));
+  assert.ok(state.dancers.slice(5).every(d=>d.front===1));
+});

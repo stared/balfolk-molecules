@@ -103,3 +103,67 @@ a { color: inherit; text-underline-offset: 3px; }
   .player { min-height: 100dvh; }
   #dance-floor { height: 45dvh; }
 }
+/* Phrase cells and ruler share edges, widths and one moving playhead. */
+.playback { min-width: 0; }
+#phrase-structure { margin: 0; }
+.has-structure:not(.hide-structure) #sections { display: none; }
+.hide-structure #phrase-structure { display: none; }
+#phrase-score { position: relative; height: 64px; }
+.phrase-edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.phrase-edges line { stroke-width: 1px; }
+.phrase-section, .phrase-action { position: absolute; border: 0; border-radius: 0; background: transparent; color: #454752; display: flex; align-items: center; justify-content: center; }
+.phrase-section { top: 4px; height: 24px; padding: 0 8px; font-size: 12px; line-height: 1.1; text-align: center; }
+.phrase-action { top: 36px; height: 24px; padding: 0 2px; font-size: 12px; line-height: 1.1; }
+.phrase-section:hover:not(:disabled), .phrase-action:hover:not(:disabled) { background: #ededf2; }
+.phrase-repeat { position: absolute; top: 0; height: 8px; }
+.has-structure:not(.hide-structure) #track { background: transparent; }
+.has-structure:not(.hide-structure) #elapsed { background: #e2e3ea; }
+.has-structure:not(.hide-structure) #ticks i { top: 0; bottom: auto; background: #aaaeba; }
+.has-structure:not(.hide-structure) #playhead { top: -64px; background: #505568; }
+/* The thumb has explicit equal dimensions in both browser implementations. */
+.controls { display: grid; grid-template-columns: auto minmax(160px, 1fr) auto; align-items: center; gap: 24px; margin-top: 20px; }
+.transport { min-width: 0; flex-wrap: nowrap; gap: 8px; }
+.display-controls { width: auto; flex-shrink: 0; gap: 6px; }
+.controls #reset, .controls #settings-toggle { border: 1px solid #b8c3bb; background: transparent; }
+.controls #reset { width: auto; font-size: 12px; padding: 0 10px; }
+.controls #settings-toggle { width: 34px; padding: 0; font-size: 18px; }
+#play { min-width: 56px; }
+.tempo-control { display: flex; min-width: 0; width: 100%; max-width: 420px; gap: 14px; margin: 0; justify-self: center; font-size: 13px; }
+.tempo-control span { min-width: 66px; color: #292d32; font-variant-numeric: tabular-nums; }
+#tempo-value { font: inherit; }
+#tempo { appearance: none; -webkit-appearance: none; flex: 1; width: 100%; min-width: 0; height: 30px; margin: 0; background: transparent; cursor: pointer; }
+#tempo::-webkit-slider-runnable-track { height: 2px; background: #aeb8b1; border: 0; }
+#tempo::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; border: 0; background: #237c80; margin-top: -6px; }
+#tempo::-moz-range-track { height: 2px; background: #aeb8b1; border: 0; }
+#tempo::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; border: 0; background: #237c80; }
+.view-settings { position: relative; }
+#settings-panel { position: absolute; bottom: calc(100% + 8px); right: 0; z-index: 10; width: 180px; padding: 8px; background: #fafaf8; border: 1px solid #bcc9c2; border-radius: 5px; box-shadow: 0 4px 16px #293b321a; }
+#settings-panel label { display: flex; align-items: center; gap: 8px; padding: 9px 5px; font-size: 12px; cursor: pointer; }
+#settings-panel input { accent-color: #237c80; margin: 0; }
+#source-reference { display: block; padding: 9px 5px; font-size: 12px; }
+#dancers.hide-support .support { display: none; }
+.dance-reference { max-width: 1000px; margin: 24px auto 0; padding-bottom: 12px; }
+.reference-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
+#dance-names { margin: 0; font-size: 15px; font-weight: 500; color: #363c39; }
+#dance-aliases { margin: 0; font-size: 13px; color: #737975; }
+#dance-aliases::before { content: '('; }
+#dance-aliases::after { content: ')'; }
+#dance-origin { margin-top: 6px; font-size: 13px; color: #626b65; }
+#dance-materials { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 16px; font-size: 12px; color: #526057; }
+#dance-materials a { text-decoration-color: #b3bcb5; }
+@media (max-width: 680px) {
+  main { padding-left: 12px; padding-right: 12px; }
+  .controls { grid-template-columns: auto minmax(60px, 1fr) auto; gap: 8px; }
+  .transport { gap: 6px; }
+  #play { min-width: 44px; padding: 0 6px; }
+  .controls #reset { padding: 0 6px; }
+  .controls #settings-toggle { width: 28px; }
+  .tempo-control { display: grid; grid-template-columns: 1fr; gap: 0; max-width: none; }
+  .tempo-control span { grid-row: 1; text-align: center; min-width: 0; }
+  #tempo { grid-row: 2; height: 20px; }
+
+  #pairs-control { position: absolute; right: 12px; top: 76px; }
+  .phrase-section { font-size: 11px; padding: 0 3px; }
+  .phrase-action { font-size: 11px; padding: 0; white-space: nowrap; }
+  #dance-materials { gap: 8px 16px; margin-top: 12px; }
+}

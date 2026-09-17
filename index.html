@@ -28,6 +28,7 @@
       <section class="playback" aria-label="Playback controls">
       <div id="timeline">
         <nav id="sections" aria-label="Dance sections"></nav>
+        <div id="phrase-structure" hidden><div id="phrase-score"></div></div>
         <div id="track">
           <div id="elapsed"></div>
           <div id="ticks" aria-hidden="true"></div>
@@ -38,19 +39,34 @@
       <div class="controls">
         <div class="transport">
           <button id="play" type="button">Pause</button>
-          <button id="reset" type="button">Restart</button>
-          <label class="tempo-control"><input id="tempo" type="range" min="0" max="1000" step="1" aria-label="Tempo" /><span><output id="tempo-value" for="tempo">90</output> BPM</span></label>
+          <button id="reset" type="button" aria-label="Restart" title="Restart">Restart</button>
         </div>
+        <label class="tempo-control"><input id="tempo" type="range" min="0" max="1000" step="1" aria-label="Tempo" /><span><output id="tempo-value" for="tempo">90</output> BPM</span></label>
         <div class="display-controls">
           <div id="pairs-control" hidden><button id="remove-pair" type="button" aria-label="Remove pair">−</button><span><output id="pair-count">5</output> pairs</span><button id="add-pair" type="button" aria-label="Add pair">+</button></div>
-          <label class="letters-toggle"><input id="letters" type="checkbox" /> Labels</label>
+          <div class="view-settings">
+            <button id="settings-toggle" type="button" aria-expanded="false" aria-controls="settings-panel" aria-label="Settings" title="Settings">⚙</button>
+            <div id="settings-panel" hidden>
+              <label><input id="letters" type="checkbox" /> Dancer labels</label>
+              <label><input id="show-steps" type="checkbox" checked /> Weight dots</label>
+              <label><input id="show-structure" type="checkbox" checked /> Phrase detail</label>
+              <a id="source-reference" target="_blank" rel="noreferrer">Source ↗</a>
+            </div>
+          </div>
         </div>
       </div>
       <p id="dance-status" role="status" hidden>Rearranging…</p>
       <div id="chaos-control" hidden><label for="chaos">Chaos <output id="chaos-value" for="chaos">0%</output></label><input id="chaos" type="range" min="0" max="100" step="5" value="0" aria-describedby="chaos-hint" /><span id="chaos-hint">Chance a crossing pair bounces back. Changes apply to new encounters.</span></div>
       </section>
       </section>
-      <details class="notation"><summary>Dance notes</summary><p class="note" id="dance-note"></p><p>The small tick shows facing; two circles inside each dancer suggest weight support. Paths and weight are schematic. <span id="tempo-note"></span><br><span id="sources"></span></p></details>
+
+      <footer class="dance-reference">
+        <div class="reference-heading">
+          <h2 id="dance-names"></h2><p id="dance-aliases"></p>
+        </div>
+        <p id="dance-origin"></p>
+        <nav id="dance-materials" aria-label="Dance references"></nav>
+      </footer>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>

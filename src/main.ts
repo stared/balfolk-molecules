@@ -1,3 +1,4 @@
+import { createPhraseStructure } from './ui/phrase-structure.ts';
 import { bpmAtPosition, positionAtBpm, defaultBpm } from './engine/tempo.ts';
 import { $ } from './ui/dom.ts';
 import { createDanceNavigation } from './ui/dance-navigation.ts';
@@ -15,6 +16,7 @@ const tempoSlider = $<HTMLInputElement>('#tempo');
 const tempos = new Map<string, number>();
 const letters = $<HTMLInputElement>('#letters');
 const navigation = createDanceNavigation(dances, selectDance);
+const structure = createPhraseStructure(time => { progress = time; render(); });
 const chaos = new BourreeChaos();
 const chaosControl = $<HTMLInputElement>('#chaos');
 const pairParameter = new URLSearchParams(location.search).get('pairs');
@@ -33,15 +35,34 @@ function sectionAt(time:number) {
 }
 function setup() {
   navigation.setActive(dance.id);
+  structure.setup(dance);
   $('#dance-title').textContent = dance.title;
   $('#pairs-control').hidden = !dance.roles;
   $('#chaos-control').hidden = dance.id !== 'bourree';
   document.title = dance.title;
   $('#dance-floor').setAttribute('aria-label', dance.description);
-  $('#dance-note').textContent = dance.note;
   tempoSlider.value = String(positionAtBpm(tempos.get(dance.id) ?? defaultBpm(dance)));
   showTempo();
-  $('#sources').innerHTML = dance.sources;
+  $('#dance-names').textContent = dance.title;
+  $('#dance-aliases').textContent = (dance.aliases ?? []).join(', ');
+  $('#dance-aliases').hidden = !dance.aliases?.length;
+  $('#dance-origin').hidden = !dance.origin;
+  $('#dance-origin').textContent = dance.origin ?? '';
+  const sourceDocument = new DOMParser().parseFromString(dance.sources, 'text/html');
+  const materials = $('#dance-materials');
+  materials.replaceChildren();
+  for (const link of sourceDocument.querySelectorAll('a')) {
+    materials.append(link.cloneNode(true));
+  }
+  for (const material of dance.materials ?? []) {
+    const link = document.createElement('a');
+    link.href = material.url; link.textContent = material.name;
+    link.target = '_blank'; link.rel = 'noreferrer'; materials.append(link);
+  }
+  const source = sourceDocument.querySelector('a');
+  const reference = $<HTMLAnchorElement>('#source-reference');
+  reference.hidden = !source;
+  if (source) reference.href = source.href;
   $('#roles').hidden = !dance.roles;
   scrub.max = String(dance.duration);
   $('#guides').innerHTML = dance.guides;
@@ -76,6 +97,7 @@ function render() {
   scrub.disabled=!!rearrangement;
   for(const button of document.querySelectorAll<HTMLButtonElement>('#sections button'))button.disabled=!!rearrangement;
   renderFloor(state);
+  structure.render(progress, !!rearrangement);
   $('#timeline').style.setProperty('--progress', `${progress / dance.duration * 100}%`);
   scrub.value = String(progress);
   const position=Math.min(progress,dance.duration-1e-9),section=sectionAt(position);
@@ -97,18 +119,42 @@ chaosControl.addEventListener('input', () => {
 });
 function showLetters() { $('#dancers').classList.toggle('hide-letters', !letters.checked); }
 letters.addEventListener('change', showLetters);
+const settings = $('#settings-panel');
+const settingsToggle = $('#settings-toggle');
+function closeSettings() { settings.hidden = true; settingsToggle.setAttribute('aria-expanded', 'false'); }
+settingsToggle.addEventListener('click', () => {
+  settings.hidden = !settings.hidden;
+  settingsToggle.setAttribute('aria-expanded', String(!settings.hidden));
+});
+document.addEventListener('click', event => {
+  if (event.target instanceof Element && !event.target.closest('.view-settings')) closeSettings();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !settings.hidden) { closeSettings(); settingsToggle.focus(); }
+});
+$('#show-steps').addEventListener('change', event => {
+  $('#dancers').classList.toggle('hide-support', !(event.target as HTMLInputElement).checked);
+});
+$('#show-structure').addEventListener('change', event => {
+  document.body.classList.toggle('hide-structure', !(event.target as HTMLInputElement).checked);
+});
+
 scrub.addEventListener('input', () => { playing = false; progress = Number(scrub.value); render(); });
 function showTempo(): void {
   const bpm = tempos.get(dance.id) ?? defaultBpm(dance);
   $('#tempo-value').textContent = String(bpm);
   tempoSlider.setAttribute('aria-valuetext', `${bpm} BPM`);
-  $('#tempo-note').textContent = `Tempo: ${bpm} BPM. ${dance.tempoNote ?? 'Practice tempo.'}`;
 }
 tempoSlider.addEventListener('input', () => {
   tempos.set(dance.id, bpmAtPosition(Number(tempoSlider.value)));
   showTempo();
 });
 function animate(time: number) {
+  if (!playing) {
+    previousTime = time;
+    requestAnimationFrame(animate);
+    return;
+  }
   const elapsed=previousTime===undefined?0:Math.min(time-previousTime,100)*(tempos.get(dance.id) ?? defaultBpm(dance))/defaultBpm(dance);
   const entering=dance.roles&&live.moving;
   if(rearrangement) {

@@ -4,6 +4,7 @@ import { itemAt } from '../utils/indexed.ts';
 import type { Dancer } from '../model.ts';
 import type { LiveFrame } from '../model.ts';
 
+const arms: SVGPathElement[] = [];
 const dancers = new Map<string,{ group: SVGGElement; body: SVGGElement; left: SVGCircleElement; right: SVGCircleElement }>();
 function syncDancers(poses: Dancer[]): void {
   const ids = new Set(poses.map(d=>d.id));
@@ -23,7 +24,7 @@ export function renderFloor(state: LiveFrame): void {
   state.dancers.forEach(d => {
     const element = dancers.get(d.id);
     if(!element)throw new Error('Missing dancer');
-    element.group.classList.toggle('follower', d.role === 'follower');
+    element.group.classList.toggle('follower', d.role === 'follower' || d.front === 1);
     element.group.setAttribute('transform', `translate(${d.x} ${d.y})`);
     element.body.setAttribute('transform', `rotate(${d.angle}) scale(${1-0.075*(d.sink??0)})`);
     element.left.style.opacity = String(0.35 + 0.25 * (1 - (d.weight ?? state.weight)) / 2);
@@ -33,10 +34,20 @@ export function renderFloor(state: LiveFrame): void {
     element.left.setAttribute('r', String(1.8 + 1.2 * (d.stampLeft ?? 0)));
     element.right.setAttribute('r', String(1.8 + 1.2 * (d.stampRight ?? 0)));
   });
-  $('#hands').innerHTML = state.hands.map(hand => {
+  const armCount = state.hands.length * 2;
+  while (arms.length > armCount) arms.pop()!.remove();
+  while (arms.length < armCount) {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    $('#hands').append(path); arms.push(path);
+  }
+  state.hands.forEach((hand, i) => {
     const from = itemAt(state.dancers, hand.dancers[0]);
     const to = itemAt(state.dancers, hand.dancers[1]);
-    const [first, second] = handPaths(from, to, hand);
-    return `<path class="arm ${from.role === 'follower' ? 'follower' : ''}" d="${first}"/><path class="arm ${to.role === 'follower' ? 'follower' : ''}" d="${second}"/>`;
-  }).join('');
+    const paths = handPaths(from, to, hand);
+    for (const [side, dancer] of [from, to].entries()) {
+      const path = arms[i * 2 + side]!;
+      path.setAttribute('class', `arm ${dancer.role === 'follower' || dancer.front === 1 ? 'follower' : ''}`);
+      path.setAttribute('d', paths[side]!);
+    }
+  });
 }
