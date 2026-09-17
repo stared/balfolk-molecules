@@ -28,8 +28,9 @@ export function createPhraseStructure(seek: (time: number) => void) {
     score.classList.toggle('phrase-overview', compact);
     document.body.classList.toggle('phrase-overview', compact);
     const sectionSize = fitRow('.phrase-section');
+    const groupSize = fitRow('.phrase-group');
     for (const button of buttons) button.style.fontSize =
-      `${button.matches('.phrase-action') ? Math.max(8, detailSize) : sectionSize}px`;
+      `${button.matches('.phrase-action') ? Math.max(8, detailSize) : button.matches('.phrase-group') ? groupSize : sectionSize}px`;
   };
   new ResizeObserver(fitLabels).observe($('#timeline-scroll'));
   return {
@@ -40,13 +41,18 @@ export function createPhraseStructure(seek: (time: number) => void) {
       document.body.classList.toggle('has-structure', !!dance.structure);
       $('#timeline').style.minWidth = '';
       if (!dance.structure) return;
+      // The two Bourrée figures each contain four eight-beat phrases.
+      const grouped = dance.id === 'bourree';
+      const offset = grouped ? 24 : 0;
+      score.classList.toggle('phrase-grouped', grouped);
+      document.body.classList.toggle('phrase-grouped', grouped);
       const total = phraseBeats(dance.structure.phrase);
       const beatsPerPhrase = musicalBeatsPerPhrase(dance);
       const spans = phraseSpans(dance.structure.phrase);
       const motifs = spans.filter(span => span.depth === 1);
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.classList.add('phrase-edges');
-      svg.setAttribute('viewBox', '0 0 1000 64');
+      svg.setAttribute('viewBox', `0 0 1000 ${64 + offset}`);
       svg.setAttribute('preserveAspectRatio', 'none');
       svg.setAttribute('aria-hidden', 'true');
       const drawn = new Set<string>();
@@ -55,7 +61,7 @@ export function createPhraseStructure(seek: (time: number) => void) {
         if (drawn.has(key)) return;
         drawn.add(key);
         const line = document.createElementNS(svg.namespaceURI, 'line');
-        for (const [key, value] of Object.entries({x1,y1,x2,y2})) line.setAttribute(key, String(value));
+        for (const [key, value] of Object.entries({x1,y1:y1+offset,x2,y2:y2+offset})) line.setAttribute(key, String(value));
         if (y1 === 32 || y1 === 38 || y1 === 59) line.classList.add('phrase-detail-edge');
         if (y1 === 64 && y2 === 64) line.classList.add('phrase-baseline');
         line.setAttribute('stroke', color);
@@ -71,6 +77,19 @@ export function createPhraseStructure(seek: (time: number) => void) {
         edge(start, top, start, top + 6, color);
         edge(end, top, end, top + 6, color);
       };
+      if (grouped) for (const [index, group] of dance.sections.entries()) {
+        const start = group.start * beatsPerPhrase / total;
+        const width = group.duration * beatsPerPhrase / total;
+        const color = palette[index % palette.length]!;
+        bracket(start * 1000, (start + width) * 1000, 8 - offset, color);
+        const label = document.createElement('button');
+        label.type = 'button'; label.className = 'phrase-group';
+        label.style.left = `${start * 100}%`; label.style.width = `${width * 100}%`;
+        label.style.color = color; label.textContent = group.name;
+        label.title = group.detail;
+        label.addEventListener('click', () => seek(group.start));
+        score.append(label); buttons.push(label);
+      }
       for (const section of motifs) {
         if (!motifColors.has(section.name)) motifColors.set(section.name, palette[motifColors.size % palette.length]!);
         const color = motifColors.get(section.name)!;

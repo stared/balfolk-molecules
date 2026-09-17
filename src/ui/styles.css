@@ -215,3 +215,14 @@ a { color: inherit; text-underline-offset: 3px; }
   .player-bottom:has(#music-panel:not([hidden])) { grid-template-columns: minmax(0, 1fr); }
   #music-panel { width: 300px; max-width: 100%; margin-bottom: 20px; }
 }
+
+/* Bourrée's two figures sit above their four constituent phrases. */
+#phrase-score.phrase-grouped { height: 88px; }
+.phrase-group { position: absolute; top: 8px; height: 24px; padding: 0 2px; border: 0; border-radius: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+.phrase-group:hover:not(:disabled) { background: #ededf2; }
+.phrase-grouped .phrase-section { top: 32px; }
+.phrase-grouped .phrase-action { top: 60px; }
+#phrase-score.phrase-grouped.phrase-overview { height: 56px; }
+.phrase-grouped.phrase-overview .phrase-edges { height: 88px; }
+.has-structure.phrase-grouped:not(.hide-structure) #playhead { top: -88px; }
+.has-structure.phrase-grouped.phrase-overview:not(.hide-structure) #playhead { top: -56px; }
