@@ -1,3 +1,4 @@
+import { noirmoutierDance } from './noirmoutier.ts';
 import { coupleDances } from './couples.ts';
 import { tzadikFrame, drumulFrame, tzadikPhrases, drumulPhrases } from './folk-circles.ts';
 import { frame, sections, duration } from './bourree.ts';
@@ -41,6 +42,7 @@ export const dances: Dance[] = [
     sources: '<a href="https://dansetrad.fr/fiches/fiches_pdf/Cercle_circassien.pdf" target="_blank" rel="noreferrer">Steps: Olivier Pécheux</a> · Four-step walking variant. Swing with the neighbour on the left; promenade anticlockwise, follower outside. Travel distance and number of swing turns are schematic. Hand lines show connection, not the full swing hold; claps and optional final underarm turns are omitted.',
     frame: cercleFrame,
   },
+  noirmoutierDance,
   ...coupleDances,
   {
     id:'hanter-dro',category:'chain',formation:'chain',title:'Hanter-dro',description:'An open chain moves to its left with a close, steady armhold and a three-beat repeating step.',duration:4,
