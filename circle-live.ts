@@ -21,8 +21,8 @@ export class CircleLive {
   private transition: Transition | undefined;
   private nextIdentity = 0;
   private readonly choreography: (time: number, cycle: number, pairs: number) => LiveFrame;
-  private readonly progression: 1 | -1;
-  constructor(count: number, choreography: (time: number, cycle: number, pairs: number) => LiveFrame = chapelloiseFrame, progression: 1 | -1 = 1) {
+  private readonly progression: 0 | 1 | -1;
+  constructor(count: number, choreography: (time: number, cycle: number, pairs: number) => LiveFrame = chapelloiseFrame, progression: 0 | 1 | -1 = 1) {
     this.choreography=choreography;
     this.progression=progression;
     if(!Number.isInteger(count)||count<0||count>maxPairCount)throw new RangeError('Invalid pair count');
@@ -39,9 +39,9 @@ export class CircleLive {
   change(action: 'add'|'remove', cycle: number, time = 0): boolean {
     const old=this.transition?.to ?? this.formation, count=old.leaders.length;
     if(action==='add' && count>=maxPairCount || action!=='add' && count===0)return false;
-    const offset=count>1?cycle-old.origin:0;
+    const offset=this.progression!==0 && count>1?cycle-old.origin:0;
     // Preserve the pairs at the start of this cycle when rebasing the ring.
-    const to: Formation={leaders:[...old.leaders],followers:old.leaders.map((_,i)=>itemAt(old.followers,mod(i-this.progression*offset,count))),rotation:old.rotation-(count>1?offset*Math.PI/count:0),origin:cycle};
+    const to: Formation={leaders:[...old.leaders],followers:old.leaders.map((_,i)=>itemAt(old.followers,mod(i-this.progression*offset,count))),rotation:old.rotation-(count>1?offset*Math.PI/count:0),origin:this.progression===0?old.origin:cycle};
     const from=this.frame(time,cycle);
     if(action==='add')this.append(to);
     else {to.leaders.pop();to.followers.pop();}
@@ -76,7 +76,8 @@ export class CircleLive {
     const count=formation.leaders.length;
     if(count===0)return {dancers:[],hands:[],weight:0,section:this.choreography(time,cycle,2).section};
     // One pair waits for another pair before starting the mixer.
-    const state=this.choreography(count===1?0:time,count===1?0:cycle-formation.origin,count);
+    const waiting=count===1 && this.progression!==0;
+    const state=this.choreography(waiting?0:time,waiting?0:cycle-formation.origin,count);
     const cos=Math.cos(formation.rotation),sin=Math.sin(formation.rotation);
     return {...state,dancers:state.dancers.map((d,i)=>({...d,id:itemAt(i%2?formation.followers:formation.leaders,Math.floor(i/2)),x:d.x*cos-d.y*sin,y:d.x*sin+d.y*cos,angle:d.angle+formation.rotation*180/Math.PI}))};
   }
@@ -98,7 +99,7 @@ export class CircleLive {
       const angle=b?turn(heading,end.angle,blend((u-0.65)/0.35)):heading;
       const step=transition.elapsed/500,target=Math.floor(step)%2?1:-1;
       const weight=-target+2*target*blend((step%1)/0.3);
-      return {...end,x,y,angle,weight};
+      return {...end,x,y,angle,weight,sink:(start.sink??0)*(1-u)+(end.sink??0)*u};
     });
     const indices=new Map(dancers.map((d,i)=>[d.id,i]));
     const joined=new Map<string,HandReach>();

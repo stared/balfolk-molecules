@@ -1,3 +1,4 @@
+import { handPaths } from './hand-paths.ts';
 import { itemAt } from './indexed.ts';
 import { dances } from './dances.ts';
 import { defaultPairCount, maxPairCount } from './chapelloise.ts';
@@ -16,6 +17,7 @@ const scrub = $<HTMLInputElement>('#scrub');
 const speed = $<HTMLSelectElement>('#speed');
 const letters = $<HTMLInputElement>('#letters');
 const selector = $<HTMLSelectElement>('#dance');
+selector.replaceChildren(...dances.map(d => new Option(d.title, d.id)));
 const chaos = new BourreeChaos();
 const chaosControl = $<HTMLInputElement>('#chaos');
 const pairParameter = new URLSearchParams(location.search).get('pairs');
@@ -61,7 +63,7 @@ function setup() {
   $('#sections').innerHTML = dance.sections.map((section, i) => `<button type="button" style="flex:${section.duration}" data-section="${i}" title="${section.detail}">${section.name}</button>`).join('');
   const counts=dance.countsPerPhrase??4,totalSteps=dance.duration*counts;
   const ticks=new Set(Array.from({length:totalSteps-1},(_,i)=>i+1));
-  for(let phrase=0;phrase<dance.duration;phrase++)for(const contact of dance.contacts??[])if(phrase*counts+contact>0)ticks.add(phrase*counts+contact);
+  for(let phrase=0;phrase<dance.duration;phrase++)for(const contact of dance.phraseContacts?.[phrase]??dance.contacts??[])if(phrase*counts+contact>0)ticks.add(phrase*counts+contact);
   $('#ticks').innerHTML = [...ticks].sort((a,b)=>a-b).map(tick=>{
     const time=tick/counts;
     const kind=dance.sections.some(section=>section.start===time)?'section':tick%counts===0?'phrase':Number.isInteger(tick)?'step':'contact';
@@ -98,22 +100,15 @@ function render() {
     if(!element)throw new Error('Missing dancer');
     element.group.classList.toggle('follower', d.role === 'follower');
     element.group.setAttribute('transform', `translate(${d.x} ${d.y})`);
-    element.body.setAttribute('transform', `rotate(${d.angle})`);
+    element.body.setAttribute('transform', `rotate(${d.angle}) scale(${1-0.075*(d.sink??0)})`);
     element.left.style.opacity = String(0.35 + 0.25 * (1 - (d.weight ?? state.weight)) / 2);
     element.right.style.opacity = String(0.35 + 0.25 * (1 + (d.weight ?? state.weight)) / 2);
   });
-  $('#hands').innerHTML = state.hands.map(({ dancers: [a, b], reach, arch = 0 }) => {
-    const from = itemAt(state.dancers, a);
-    const to = itemAt(state.dancers, b);
-    const distance = Math.hypot(to.x - from.x, to.y - from.y) || 1;
-    const control = { x: (from.x + to.x) / 2 - (to.y - from.y) / distance * arch, y: (from.y + to.y) / 2 + (to.x - from.x) / distance * arch };
-    const u = reach / 2;
-    const arm = (start: typeof from, end: typeof to) => {
-      const x = (1-u)**2 * start.x + 2*(1-u)*u*control.x + u*u*end.x;
-      const y = (1-u)**2 * start.y + 2*(1-u)*u*control.y + u*u*end.y;
-      return `M ${start.x} ${start.y} Q ${start.x+(control.x-start.x)*u} ${start.y+(control.y-start.y)*u} ${x} ${y}`;
-    };
-    return `<path class="arm ${from.role === 'follower' ? 'follower' : ''}" d="${arm(from, to)}"/><path class="arm ${to.role === 'follower' ? 'follower' : ''}" d="${arm(to, from)}"/>`;
+  $('#hands').innerHTML = state.hands.map(hand => {
+    const from = itemAt(state.dancers, hand.dancers[0]);
+    const to = itemAt(state.dancers, hand.dancers[1]);
+    const [first, second] = handPaths(from, to, hand);
+    return `<path class="arm ${from.role === 'follower' ? 'follower' : ''}" d="${first}"/><path class="arm ${to.role === 'follower' ? 'follower' : ''}" d="${second}"/>`;
   }).join('');
   $('#timeline').style.setProperty('--progress', `${progress / dance.duration * 100}%`);
   scrub.value = String(progress);

@@ -1,3 +1,4 @@
+import { coupleDances } from './couples.ts';
 import { frame, sections, duration } from './movement.ts';
 import type { Dancer, HandReach, DanceSection } from './movement.ts';
 import { chapelloiseFrame } from './chapelloise.ts';
@@ -13,6 +14,7 @@ export interface Dance {
   millisecondsPerPhrase: number;
   countsPerPhrase?: number;
   contacts?: readonly number[];
+  phraseContacts?: readonly (readonly number[])[];
   tempoNote?: string;
   sections: DanceSection[];
   phrases: string[];
@@ -21,7 +23,7 @@ export interface Dance {
   sources: string;
   roles?: boolean;
   formation?: 'chain';
-  progression?: 1 | -1;
+  progression?: 0 | 1 | -1;
   frame(time: number, cycle: number, pairCount?: number): ViewFrame;
 }
 export const dances: Dance[] = [
@@ -59,6 +61,7 @@ export const dances: Dance[] = [
     sources: '<a href="https://dansetrad.fr/fiches/fiches_pdf/Cercle_circassien.pdf" target="_blank" rel="noreferrer">Steps: Olivier Pécheux</a> · Four-step walking variant. Swing with the neighbour on the left; promenade anticlockwise, follower outside. Travel distance and number of swing turns are schematic. Hand lines show connection, not the full swing hold; claps and optional final underarm turns are omitted.',
     frame: cercleFrame,
   },
+  ...coupleDances,
   {
     id:'hanter-dro',formation:'chain',title:'Hanter-dro',description:'An open chain moves to its left with a close, steady armhold and a three-beat repeating step.',duration:4,
     millisecondsPerPhrase:2000,countsPerPhrase:3,contacts:chainContacts('hanter-dro'),tempoNote:'90 beats/min at 1×.',

@@ -10,10 +10,12 @@ export interface Dancer extends Position {
   slot: number;
   id: string;
   weight?: number;
+  /** Soft lowering of the body, shown as a subtle top-view contraction (0–1). */
+  sink?: number;
   role?: 'leader' | 'follower';
 }
 export interface DanceSection { name: string; start: number; duration: number; detail: string }
-export interface HandReach { dancers: [number, number]; reach: number; arch?: number }
+export interface HandReach { dancers: [number, number]; reach: number; arch?: number; shoulderHold?: number }
 export interface DanceFrame {
   section: 0 | 1;
   label: string;
