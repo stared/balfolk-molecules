@@ -1,5 +1,5 @@
 import type { Dance } from '../model.ts';
-import { phraseBeats, phraseSpans, phraseRepeats } from '../engine/phrase-structure.ts';
+import { phraseBeats, phraseSpans } from '../engine/phrase-structure.ts';
 import { musicalBeatsPerPhrase } from '../engine/timeline.ts';
 import { $ } from './dom.ts';
 
@@ -10,12 +10,28 @@ export function createPhraseStructure(seek: (time: number) => void) {
   let buttons: HTMLButtonElement[] = [];
   let wasDisabled = false;
   const measure = document.createElement('canvas').getContext('2d')!;
-  measure.font = '12px system-ui';
   const fitLabels = () => {
-    for (const button of buttons) button.classList.toggle('phrase-label-tight',
-      measure.measureText(button.textContent ?? '').width + 8 > button.clientWidth);
+    const fitRow = (selector: string): number => {
+      let size = 12;
+      for (const button of buttons.filter(button => button.matches(selector))) {
+        const style = getComputedStyle(button);
+        measure.font = `12px ${style.fontFamily}`;
+        const width = measure.measureText(button.textContent ?? '').width;
+        const available = score.clientWidth * parseFloat(button.style.width) / 100 - 4;
+        size = Math.min(size, 12 * Math.max(0, available) / width);
+      }
+      return size;
+    };
+    const detailSize = fitRow('.phrase-action');
+    // A level is complete or absent: never blank out individual labels.
+    const compact = detailSize < 8;
+    score.classList.toggle('phrase-overview', compact);
+    document.body.classList.toggle('phrase-overview', compact);
+    const sectionSize = fitRow('.phrase-section');
+    for (const button of buttons) button.style.fontSize =
+      `${button.matches('.phrase-action') ? Math.max(8, detailSize) : sectionSize}px`;
   };
-  new ResizeObserver(fitLabels).observe(score);
+  new ResizeObserver(fitLabels).observe($('#timeline-scroll'));
   return {
     setup(dance: Dance) {
       buttons = []; wasDisabled = false;
@@ -40,6 +56,8 @@ export function createPhraseStructure(seek: (time: number) => void) {
         drawn.add(key);
         const line = document.createElementNS(svg.namespaceURI, 'line');
         for (const [key, value] of Object.entries({x1,y1,x2,y2})) line.setAttribute(key, String(value));
+        if (y1 === 32 || y1 === 38 || y1 === 59) line.classList.add('phrase-detail-edge');
+        if (y1 === 64 && y2 === 64) line.classList.add('phrase-baseline');
         line.setAttribute('stroke', color);
         line.setAttribute('vector-effect', 'non-scaling-stroke');
         svg.append(line);
@@ -57,7 +75,7 @@ export function createPhraseStructure(seek: (time: number) => void) {
         if (!motifColors.has(section.name)) motifColors.set(section.name, palette[motifColors.size % palette.length]!);
         const color = motifColors.get(section.name)!;
         const start = section.start / total, end = (section.start + section.beats) / total;
-        bracket(start * 1000, end * 1000, 32, color);
+        bracket(start * 1000, end * 1000, 8, color);
         const label = document.createElement('button');
         label.type = 'button'; label.className = 'phrase-section';
         label.style.left = `${start * 100}%`; label.style.width = `${(end-start) * 100}%`;
@@ -67,19 +85,10 @@ export function createPhraseStructure(seek: (time: number) => void) {
         label.addEventListener('click', () => seek(section.start / beatsPerPhrase));
         score.append(label); buttons.push(label);
       }
-      for (const repeat of phraseRepeats(dance.structure.phrase).filter(repeat => repeat.depth === 1)) {
-        const section = motifs.find(section => section.start === repeat.start);
-        const color = motifColors.get(section?.name ?? '') ?? palette[0]!;
-        bracket(repeat.start / total * 1000, (repeat.start + repeat.beats) / total * 1000, 0, color);
-        const hint = document.createElement('div');
-        hint.className = 'phrase-repeat';
-        hint.style.left = `${repeat.start / total * 100}%`;
-        hint.style.width = `${repeat.beats / total * 100}%`;
-        hint.title = `${repeat.name}, repeated ${repeat.times} times`;
-        score.append(hint);
-      }
       for (const span of spans.filter(span => span.depth === 2)) {
         const x = span.start / total;
+        const parent = motifs.find(motif => span.start >= motif.start && span.start < motif.start + motif.beats)!;
+        bracket(x * 1000, (span.start + span.beats) / total * 1000, 32, motifColors.get(parent.name)!);
         edge(x * 1000, 59, x * 1000, 64, '#b6b8c1');
         const button = document.createElement('button');
         button.type = 'button'; button.className = 'phrase-action';
@@ -92,9 +101,9 @@ export function createPhraseStructure(seek: (time: number) => void) {
         score.append(button); buttons.push(button);
       }
       score.append(svg);
-      // Keep the complete cycle visible. Narrow cells retain boundaries and
-      // accessible hover descriptions, rather than squeezing or wrapping text.
+      // Fit complete labelled tiers to the same beat axis, without scrolling.
       fitLabels();
+      $('#timeline-scroll').scrollLeft = 0;
 
     },
     render(_time: number, disabled: boolean) {

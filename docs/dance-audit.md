@@ -6,7 +6,7 @@ Audited 17 September 2026 against the references below, the animation scores, an
 
 The structure trees use musical beats. Animation time still uses internal phrases. Conversion happens at the timeline boundary; a bourrée step occupies **two** musical beats. Foot contacts may occur between beats. A repeated movement is not automatically a musical phrase: the four repetitions shown for the Breton chain dances are a practice window, not an assertion about the form of a recording.
 
-The UI shows two levels, with unnamed brackets spanning repeated phrases. Deeper steps remain in hover descriptions. Mirrored starting feet are separate phrases, not identical repeats. All scores share the ruler's axis; labels that cannot fit are omitted visually but retain accessible names and hover descriptions. The full cycle stays visible.
+The UI shows two levels, with unnamed brackets spanning repeated phrases. Deeper steps remain in hover descriptions. Mirrored starting feet are separate phrases, not identical repeats. All scores share the ruler's axis. Every phrase has a bracket above it; an additional enclosing bracket is reserved for genuine repetition. Labels remain visible, with the score and ruler scrolling together when the viewport is too narrow.
 
 ## Reviewed dances
 
@@ -88,4 +88,16 @@ The follow-up reviewed every score:
 - **Drumul:** expose stamps and holds independently of the right/left travel and crossing passages. The five travelling steps and four-count crossing rocks retain their internal step descriptions.
 - **Branle de Noirmoutier:** retain the previously accepted Forward/Back and Forward/Turn layout. Its four-count phrases describe complete passages, and the turn includes the approved pivot–travel–pivot movement rather than claiming constant rotation.
 
-These changes describe the existing selected movement more accurately; they do not substitute new choreography. The extra boundaries share the same time axis. Narrow cells retain hover descriptions rather than introducing abbreviations or wrapping labels.
+These changes describe the existing selected movement more accurately; they do not substitute new choreography. The extra boundaries share the same time axis.
+
+
+### Chapelloise hierarchy correction
+
+The outward and return passages are now separate sequences, not an identical repeat: they travel anticlockwise and clockwise respectively. Their visible children are Forward and Back. The turning fourth step is nested inside Forward because it happens while travelling; similarly, the settling count stays inside each exchange. Together and Apart each contain the two lateral pulses rather than discarding them. This preserves the steps without flattening every level into the same row.
+
+The renderer previously put brackets above repeats but below ordinary phrase titles. Every phrase now has an enclosing bracket above its title, and its children have their own brackets. The transparent-text fallback was also removed: it produced misleading sequences such as blank/Back/blank/Back on narrow screens. The complete labelled score can now be scrolled with its ruler as one strip.
+
+
+### Fitted hierarchy display
+
+Unnamed repetition brackets are no longer drawn. Repetition remains in the score data, but the visible diagram uses only labelled phrase and movement tiers. Both tiers use the same beat axis. Text scales uniformly within each tier down to 8px for movement detail. If that complete tier cannot fit, it is omitted as a whole and the phrase tier retains the nested steps in its hover description. The diagram never hides isolated labels or requires horizontal scrolling. This replaces the scrolling behavior described in the preceding iteration.

@@ -6,7 +6,7 @@ body.sidebar-collapsed { grid-template-columns: 56px minmax(0, 1fr); }
 main { min-width: 0; padding: 0 32px 24px; }
 .player { min-height: calc(100dvh - 48px); display: grid; grid-template-rows: auto minmax(240px, 1fr) auto; max-width: 1000px; margin: 0 auto; }
 .player-header { min-height: 76px; gap: 16px; }
-.floor-area { display: flex; align-items: center; justify-content: center; min-height: 0; }
+.floor-area { position: relative; display: flex; align-items: center; justify-content: center; min-height: 0; }
 .playback { padding: 20px 0 12px; }
 #sidebar { position: sticky; top: 0; height: 100dvh; background: #f0f2ee; border-right: 1px solid #dfe2de; overflow-y: auto; }
 .sidebar-header { display: flex; align-items: center; gap: 10px; min-height: 76px; padding: 0 10px; }
@@ -72,7 +72,7 @@ button, select { font: inherit; font-size: 12px; background: transparent; color:
 .tempo-control { display: flex; align-items: center; gap: 8px; margin-left: 4px; font-size: 12px; }
 .tempo-control span { min-width: 58px; white-space: nowrap; font-variant-numeric: tabular-nums; }
 #tempo { width: 110px; margin: 0; accent-color: #237c80; cursor: pointer; }
-#dance-status { margin-top: 10px; font-size: 12px; color: #737c76; }
+#dance-status { position: absolute; bottom: 8px; left: 0; right: 0; margin: 0; text-align: center; font-size: 12px; color: #737c76; pointer-events: none; }
 :focus-visible { outline: 2px solid #237c80; outline-offset: 4px; }
 .note { color: #737c76; font-size: 12px; margin-top: 14px; }
 #chaos-control { margin-top: 14px; font-size: 12px; color: #777d83; }
@@ -112,7 +112,7 @@ a { color: inherit; text-underline-offset: 3px; }
 .phrase-edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .phrase-edges line { stroke-width: 1px; }
 .phrase-section, .phrase-action { position: absolute; border: 0; border-radius: 0; background: transparent; color: #454752; display: flex; align-items: center; justify-content: center; }
-.phrase-section { top: 4px; height: 24px; padding: 0 8px; font-size: 12px; line-height: 1.1; text-align: center; }
+.phrase-section { top: 8px; height: 24px; padding: 0 8px; font-size: 12px; line-height: 1.1; text-align: center; }
 .phrase-action { top: 36px; height: 24px; padding: 0 2px; font-size: 12px; line-height: 1.1; }
 .phrase-section:hover:not(:disabled), .phrase-action:hover:not(:disabled) { background: #ededf2; }
 .phrase-repeat { position: absolute; top: 0; height: 8px; }
@@ -178,4 +178,16 @@ a { color: inherit; text-underline-offset: 3px; }
 .hide-structure #timeline { min-width: 0 !important; }
 #ticks i { transform: translateX(-50%); }
 
-.phrase-label-tight {color:transparent!important}
+
+.phrase-section, .phrase-action { white-space: nowrap; }
+
+/* Complete labelled tiers only; no unnamed repeat brackets or empty cells. */
+.phrase-section, .phrase-action { padding-left: 2px; padding-right: 2px; }
+#timeline-scroll { overflow-x: clip; }
+#phrase-score.phrase-overview { height: 32px; }
+.phrase-overview .phrase-action { display: none; }
+.phrase-overview .phrase-edges { height: 64px; }
+.phrase-overview .phrase-detail-edge { display: none; }
+.phrase-overview .phrase-baseline { transform: translateY(-32px); }
+.has-structure:not(.hide-structure).phrase-overview #playhead { top: -32px; }
+.has-structure:not(.hide-structure).phrase-overview #scrub { top: -8px; height: 24px; }

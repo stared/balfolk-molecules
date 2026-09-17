@@ -22,8 +22,12 @@ const bourreeCrossing = sequence('Crossing',
   action('Meet',2,'Outer dancers meet; middle dancers turn a quarter-turn.'),
   action('Pass',2,'Outer dancers pass; middle dancers retreat.'),
   action('Turn',2,'Face the next crossing; middle dancers finish retreating.'));
-const chapelloiseWalk = sequence('Walking',
-  action('Forward',3),action('Turn',1,'Keep travelling; turn toward your partner on the fourth step.'),action('Back',4));
+const chapelloiseWalk = (name: string, direction: string) => sequence(name,
+  sequence('Forward',action('Walk',3,`Walk ${direction}.`),
+    action('Turn',1,'Keep travelling; turn toward your partner on the fourth step.')),
+  action('Back',4,`Continue ${direction}, now walking backwards.`));
+const chapelloiseLateral = (name: string, first: string, second: string) =>
+  sequence(name,...lateral(name,first,second));
 const circle = sequence('Circle',action('In',4),action('Out',4));
 const mazurkaHalf = (first: string, other: string) => sequence(`${first} lead`,
   action('Lower',2,`Small weight shift onto ${first.toLowerCase()}; soften without travelling.`),
@@ -45,11 +49,11 @@ const drumulRock = sequence('Rock',action('Cross',1,'Right across left.'),action
 
 export const danceStructures: Record<string, Phrase> = {
   bourree: cycle(repeat(4,bourreeLines),repeat(4,bourreeCrossing)),
-  chapelloise: cycle(repeat(2,chapelloiseWalk),
-    sequence('Exchange',...lateral('Together','Right','Left'),...lateral('Apart','Left','Right'),
-      action('Swap sides',3,'Follower crosses in front on three steps.'),action('Settle',1)),
-    sequence('Progression',...lateral('Together','Left','Right'),...lateral('Apart','Right','Left'),
-      action('New partner',3,'Follower passes under the arm to the partner behind on three steps.'),action('Settle',1))),
+  chapelloise: cycle(chapelloiseWalk('Outward','anticlockwise'),chapelloiseWalk('Return','clockwise'),
+    sequence('Exchange',chapelloiseLateral('Together','Right','Left'),chapelloiseLateral('Apart','Left','Right'),
+      sequence('Swap sides',action('Cross',3,'Follower crosses in front on three steps.'),action('Settle',1))),
+    sequence('Progression',chapelloiseLateral('Together','Left','Right'),chapelloiseLateral('Apart','Right','Left'),
+      sequence('New partner',action('Pass',3,'Follower passes under the arm to the partner behind on three steps.'),action('Settle',1)))),
   cercle: cycle(repeat(2,circle),
     sequence('Followers',action('In',4),action('Out',4)),
     sequence('Leaders',action('In',4,'Turn left at the end.'),action('Meet',4,'Approach the partner originally on your left.')),

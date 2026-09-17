@@ -110,7 +110,7 @@ test('Tzadik labels only the two turning beats as a turn',()=>{
 });
 
 test('Chapelloise exposes walking turns and the quiet count after each exchange',()=>{
-  assert.deepEqual(movements('chapelloise').filter(span=>span.name==='Turn'||span.name==='Settle').map(span=>[span.name,span.start,span.beats]),[
+  assert.deepEqual(phraseSpans(dances.find(d=>d.id==='chapelloise')!.structure!.phrase).filter(span=>span.name==='Turn'||span.name==='Settle').map(span=>[span.name,span.start,span.beats]),[
     ['Turn',3,1],['Turn',11,1],['Settle',23,1],['Settle',31,1],
   ]);
 });
@@ -119,4 +119,12 @@ test('Drumul stamps and holds remain visible actions at their actual counts',()=
   const spans=movements('drumul-dracului');
   assert.deepEqual(spans.filter(s=>s.name==='Stamp').map(s=>s.start),[5,6,13,14,21,22,29,30,44,45,46,60,61,62]);
   assert.deepEqual(spans.filter(s=>s.name==='Hold').map(s=>s.start),[7,15,23,31,47,63]);
+});
+
+
+test('Chapelloise distinguishes outward and return passages without a repeat bracket',()=>{
+  const score=dances.find(d=>d.id==='chapelloise')!.structure!.phrase;
+  assert.deepEqual(phraseSpans(score).filter(s=>s.depth===1).map(s=>s.name),['Outward','Return','Exchange','Progression']);
+  assert.deepEqual(phraseRepeats(score),[]);
+  assert.deepEqual(movements('chapelloise').slice(0,4).map(s=>[s.name,s.beats]),[['Forward',4],['Back',4],['Forward',4],['Back',4]]);
 });
