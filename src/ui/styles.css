@@ -191,3 +191,27 @@ a { color: inherit; text-underline-offset: 3px; }
 .phrase-overview .phrase-baseline { transform: translateY(-32px); }
 .has-structure:not(.hide-structure).phrase-overview #playhead { top: -32px; }
 .has-structure:not(.hide-structure).phrase-overview #scrub { top: -8px; height: 24px; }
+
+/* Dance controls and music occupy two stable columns below the floor. */
+.player-bottom { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 16px; }
+.player-bottom:has(#music-panel:not([hidden])) { grid-template-columns: minmax(0, 1fr) 300px; }
+.dance-tools, .reference-copy { min-width: 0; }
+.player-bottom .controls { margin-top: 0; }
+.player-bottom .dance-reference { margin: 24px 0 0; padding: 0; }
+.player-bottom .controls { gap: 12px; grid-template-columns: auto minmax(60px, 1fr) auto; }
+#music-panel { position: relative; min-width: 0; font-size: 12px; }
+.music-heading { height: 34px; margin-bottom: 8px; }
+.music-heading select { width: 100%; height: 34px; font: inherit; border-color: #b8c3bb; padding: 5px 8px; }
+#youtube-player { width: 100%; height: 203px; background: #ebeeea; }
+#youtube-player iframe { display: block; width: 100%; height: 203px; border: 0; }
+#music-status { position: absolute; top: 249px; left: 0; right: 0; color: #626b65; font-size: 12px; line-height: 1.4; }
+#tempo:disabled { opacity: .45; cursor: default; }
+@media (max-width: 1100px) {
+  .player-bottom:has(#music-panel:not([hidden])) { grid-template-columns: minmax(0, 1fr) 240px; gap: 20px; }
+  .player-bottom:has(#music-panel:not([hidden])) .tempo-control { display: grid; gap: 0; }
+  .player-bottom:has(#music-panel:not([hidden])) .tempo-control span { grid-row: 1; text-align: center; }
+}
+@media (max-width: 850px) {
+  .player-bottom:has(#music-panel:not([hidden])) { grid-template-columns: minmax(0, 1fr); }
+  #music-panel { width: 300px; max-width: 100%; margin-bottom: 20px; }
+}

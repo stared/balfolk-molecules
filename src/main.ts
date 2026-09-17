@@ -1,3 +1,6 @@
+import { createYouTubePlayer } from './ui/youtube-player.ts';
+import { bourreeRecordings } from './music/recordings.ts';
+import { musicPosition, timeAtBeat } from './engine/music-time.ts';
 import { musicalBeatsPerPhrase, timelineTicks } from './engine/timeline.ts';
 import { createPhraseStructure } from './ui/phrase-structure.ts';
 import { bpmAtPosition, positionAtBpm, defaultBpm } from './engine/tempo.ts';
@@ -15,9 +18,54 @@ import { DancerAssignment } from './engine/dancer-assignment.ts';
 const scrub = $<HTMLInputElement>('#scrub');
 const tempoSlider = $<HTMLInputElement>('#tempo');
 const tempos = new Map<string, number>();
+const recordingSelect = $<HTMLSelectElement>('#music-recording');
+let recording = itemAt(bourreeRecordings, 0);
+let musicError = '';
+let musicEnded = false;
+let loadingRecording = false;
+const youtube = createYouTubePlayer($('#youtube-player'), musicChanged, message => { musicError = message; });
+for (const track of bourreeRecordings) {
+  const option = document.createElement('option');
+  option.value = track.videoId; option.textContent = `${track.artist} — ${track.title}`;
+  recordingSelect.append(option);
+}
+recordingSelect.value = recording.videoId;
+function withMusic() { return dance.id === 'bourree' && recordingSelect.value !== ''; }
+function updateMusicStatus() {
+  const status = $('#music-status');
+  const message = !withMusic() ? '' : musicError || (!youtube.ready ? 'Loading…' : youtube.state === 3 ? 'Buffering…' : '');
+  if (status.textContent !== message) status.textContent = message;
+  status.hidden = !message;
+  $('#youtube-player').hidden = !withMusic();
+  tempoSlider.disabled = withMusic();
+  $<HTMLButtonElement>('#play').disabled = withMusic() && !youtube.ready;
+}
+function musicChanged() {
+  // A video must not keep playing after its dance has been hidden.
+  if (dance.id !== 'bourree') { if (youtube.state === 1 || youtube.state === 3) youtube.pause(); return; }
+  if (withMusic() && !rearrangement && !loadingRecording) {
+    playing = youtube.state === 1;
+    if (playing && musicEnded && youtube.time >= recording.beats.at(-1)!) youtube.seek(recording.beats[0]!);
+    if (playing) musicEnded = false;
+    followMusic(); render();
+  }
+  updateMusicStatus();
+}
+function followMusic() {
+  const position = musicPosition(youtube.time, recording.beats, dance.duration * musicalBeatsPerPhrase(dance), musicalBeatsPerPhrase(dance));
+  progress = position.progress; cycle = position.cycle;
+}
+function seekDance(time: number) {
+  if (withMusic()) {
+    youtube.pause();
+    youtube.seek(timeAtBeat((cycle * dance.duration + time) * musicalBeatsPerPhrase(dance), recording.beats));
+  }
+  playing = false; progress = time; render();
+}
+
 const letters = $<HTMLInputElement>('#letters');
 const navigation = createDanceNavigation(dances, selectDance);
-const structure = createPhraseStructure(time => { progress = time; render(); });
+const structure = createPhraseStructure(time => seekDance(time));
 const chaos = new BourreeChaos();
 const chaosControl = $<HTMLInputElement>('#chaos');
 const pairParameter = new URLSearchParams(location.search).get('pairs');
@@ -74,6 +122,9 @@ function setup() {
   ).join('');
   scrub.setAttribute('aria-label',`Dance timeline: ${dance.sections.length} sections, ${dance.phrases.length} phrases`);
   showLetters();
+  $('#music-panel').hidden = dance.id !== 'bourree';
+  if (withMusic()) void youtube.load(recording.videoId);
+  updateMusicStatus();
 }
 let progress = 0;
 let cycle = 0;
@@ -106,10 +157,19 @@ function render() {
 }
 $('#sections').addEventListener('click', event => {
   const button = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('[data-section]') : null;
-  if (button) { progress = itemAt(dance.sections, Number(button.dataset.section)).start; render(); }
+  if (button) seekDance(itemAt(dance.sections, Number(button.dataset.section)).start);
 });
-$('#play').addEventListener('click', () => { playing = !playing; render(); });
-$('#reset').addEventListener('click', () => { progress = 0; cycle = 0; chaos.reset(); live.restart(); if(rearrangement && displayed)rearrangement=new FormationChange(displayed,danceFrame()); render(); });
+$('#play').addEventListener('click', () => {
+  if (withMusic() && !rearrangement) {
+    if (youtube.state === 1) { youtube.pause(); playing = false; }
+    else {
+      if (musicEnded || youtube.time >= recording.beats.at(-1)!) { youtube.seek(recording.beats[0]!); musicEnded = false; }
+      youtube.play();
+    }
+  } else playing = !playing;
+  render();
+});
+$('#reset').addEventListener('click', () => { if (withMusic()) { youtube.pause(); youtube.seek(recording.beats[0]!); playing = false; musicEnded = false; } progress = 0; cycle = 0; chaos.reset(); live.restart(); if(rearrangement && displayed)rearrangement=new FormationChange(displayed,danceFrame()); render(); });
 chaosControl.addEventListener('input', () => {
   chaos.setProbability(Number(chaosControl.value)/100);
   $('#chaos-value').textContent = `${chaosControl.value}%`;
@@ -136,9 +196,20 @@ $('#show-structure').addEventListener('change', event => {
   document.body.classList.toggle('hide-structure', !(event.target as HTMLInputElement).checked);
 });
 
-scrub.addEventListener('input', () => { playing = false; progress = Number(scrub.value); render(); });
+scrub.addEventListener('input', () => seekDance(Number(scrub.value)));
+
+recordingSelect.addEventListener('change', async () => {
+  loadingRecording = true; youtube.pause(); playing = false;
+  previousTime = undefined; rearrangement = undefined;
+  const selected = bourreeRecordings.find(track => track.videoId === recordingSelect.value);
+  if (selected) recording = selected;
+  musicError = ''; musicEnded = false; progress = 0; cycle = 0; chaos.reset();
+  updateMusicStatus(); showTempo(); render();
+  if (selected) await youtube.load(recording.videoId);
+  loadingRecording = false; updateMusicStatus(); showTempo(); render();
+});
 function showTempo(): void {
-  const bpm = tempos.get(dance.id) ?? defaultBpm(dance);
+  const bpm = withMusic() ? Math.round(recording.bpm * youtube.rate) : tempos.get(dance.id) ?? defaultBpm(dance);
   $('#tempo-value').textContent = String(bpm);
   tempoSlider.setAttribute('aria-valuetext', `${bpm} BPM`);
 }
@@ -147,6 +218,19 @@ tempoSlider.addEventListener('input', () => {
   showTempo();
 });
 function animate(time: number) {
+  if (withMusic() && !rearrangement) {
+    playing = youtube.ready && youtube.state === 1;
+    if (youtube.ready) {
+      followMusic();
+      if (playing && youtube.time >= recording.beats.at(-1)!) {
+        youtube.pause(); playing = false; musicEnded = true;
+      }
+    }
+    render(); showTempo(); updateMusicStatus();
+    previousTime = time;
+    requestAnimationFrame(animate);
+    return;
+  }
   if (!playing) {
     previousTime = time;
     requestAnimationFrame(animate);
@@ -174,6 +258,7 @@ function animate(time: number) {
 }
 function selectDance(id: string): void {
   if (id === dance.id) return;
+  youtube.pause();
   const from=displayed ?? danceFrame();
   const chainOrder=dance.formation==='chain'?danceFrame().dancers.map(d=>d.id):undefined;
   dance = dances.find(d => d.id === id) ?? itemAt(dances, 0);

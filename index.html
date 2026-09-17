@@ -38,6 +38,8 @@
         </div>
       </div>
       </div>
+      <div class="player-bottom">
+      <div class="dance-tools">
       <div class="controls">
         <div class="transport">
           <button id="play" type="button">Pause</button>
@@ -58,16 +60,27 @@
         </div>
       </div>
       <div id="chaos-control" hidden><label for="chaos">Chaos <output id="chaos-value" for="chaos">0%</output></label><input id="chaos" type="range" min="0" max="100" step="5" value="0" aria-describedby="chaos-hint" /><span id="chaos-hint">Chance a crossing pair bounces back. Changes apply to new encounters.</span></div>
-      </section>
-      </section>
 
       <footer class="dance-reference">
+        <div class="reference-copy">
         <div class="reference-heading">
           <h2 id="dance-names"></h2><p id="dance-aliases"></p>
         </div>
         <p id="dance-origin"></p>
         <nav id="dance-materials" aria-label="Dance references"></nav>
+        </div>
       </footer>
+      </div>
+        <section id="music-panel" aria-label="Music" hidden>
+          <div class="music-heading">
+            <select id="music-recording" aria-label="Recording"><option value="">No music</option></select>
+          </div>
+          <div id="youtube-player"></div>
+          <p id="music-status" role="status"></p>
+        </section>
+      </div>
+      </section>
+      </section>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
