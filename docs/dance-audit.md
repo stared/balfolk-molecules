@@ -69,3 +69,23 @@ The displayed twelve-beat variant is the explicitly requested interpretation: a 
 Automated checks cover all eleven cycle lengths, phrase boundaries, complete coverage of both visible levels, nested repeats, mirrored feet, beat/time conversion and fractional contacts. Motion tests cover support, continuity, turning, spacing and connections. Open-chain transitions preserve dancer order, including Drumul. Browser checks cover all eleven scores at desktop and mobile widths, alignment, label fit, seeking and restart.
 
 Source descriptions do not establish precise body trajectories, angular velocities, embrace geometry or individual musical accents. Those remain visual interpretations. A future recording layer should describe its own measures, sections and introductions rather than reusing these movement trees as song analysis.
+
+## Follow-up: movement labels versus supporting feet
+
+The Hanter-dro correction exposed a distinction the first pass missed: a two-beat step can contain **two directional movements** and an intervening support change. A label covering that entire step concealed the second movement. Durations adding up correctly did not catch this.
+
+The follow-up reviewed every score:
+
+- **Hanter-dro:** Left, Left, Close; one beat each, with the intervening right support inside the first beat.
+- **An dro:** Left, Left, In place, In place. Half-beat support changes remain in the nested description.
+- **Schottische:** Left, Left, Right, Right, followed by four turning supports. The second half remains continuous in the animation.
+- **Bourrée:** each forward/back bourrée step gets its own two-beat block. The four distinct crossing stages stay separate.
+- **Chapelloise:** the fourth walking count explicitly contains the turn. Together and Apart each contain two visible pulses. Exchanges occupy three moving counts and a separate settling count, matching the animation.
+- **Cercle:** retain whole inward/outward walking passages, invitations, swing and promenade. These are continuous figures, unlike the short lateral motifs above; their internal walking counts already appear on the ruler. The final opening remains nested under Promenade.
+- **Waltz:** retain each of the three supporting steps in both mirrored measures. Here Left/Right names feet, not lateral travel.
+- **Mazurka:** retain the two-beat lowering and third-beat transfer; expose all three subsequent walking supports instead of a single Walk block.
+- **Tzadik:** only the two turning counts are labelled Turn. The subsequent six counts become two three-count Rock groups instead of being included in an eight-count Turning block.
+- **Drumul:** expose stamps and holds independently of the right/left travel and crossing passages. The five travelling steps and four-count crossing rocks retain their internal step descriptions.
+- **Branle de Noirmoutier:** retain the previously accepted Forward/Back and Forward/Turn layout. Its four-count phrases describe complete passages, and the turn includes the approved pivot–travel–pivot movement rather than claiming constant rotation.
+
+These changes describe the existing selected movement more accurately; they do not substitute new choreography. The extra boundaries share the same time axis. Narrow cells retain hover descriptions rather than introducing abbreviations or wrapping labels.

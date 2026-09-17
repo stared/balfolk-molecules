@@ -91,3 +91,32 @@ test('Mazurka preserves two-beat lowering, third-beat transfer, and three walkin
     ['Lower',2],['Transfer',1],['Right',1],['Left',1],['Right',1],
   ]);
 });
+
+const movements = (id: string) => phraseSpans(dances.find(d=>d.id===id)!.structure!.phrase)
+  .filter(span=>span.depth===2);
+
+test('lateral motifs expose each main-beat movement, not only each two-beat step',()=>{
+  for(const [id,names] of [
+    ['hanter-dro',['Left','Left','Close']],
+    ['an-dro',['Left','Left','In place','In place']],
+    ['scottish',['Left','Left','Right','Right']],
+  ] as const) {
+    assert.deepEqual(movements(id).slice(0,names.length).map(span=>[span.name,span.beats]),names.map(name=>[name,1]));
+  }
+});
+
+test('Tzadik labels only the two turning beats as a turn',()=>{
+  assert.deepEqual(movements('tzadik-katamar').filter(span=>span.name==='Turn').map(span=>[span.start,span.beats]),[[20,2],[36,2]]);
+});
+
+test('Chapelloise exposes walking turns and the quiet count after each exchange',()=>{
+  assert.deepEqual(movements('chapelloise').filter(span=>span.name==='Turn'||span.name==='Settle').map(span=>[span.name,span.start,span.beats]),[
+    ['Turn',3,1],['Turn',11,1],['Settle',23,1],['Settle',31,1],
+  ]);
+});
+
+test('Drumul stamps and holds remain visible actions at their actual counts',()=>{
+  const spans=movements('drumul-dracului');
+  assert.deepEqual(spans.filter(s=>s.name==='Stamp').map(s=>s.start),[5,6,13,14,21,22,29,30,44,45,46,60,61,62]);
+  assert.deepEqual(spans.filter(s=>s.name==='Hold').map(s=>s.start),[7,15,23,31,47,63]);
+});
