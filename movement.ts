@@ -12,6 +12,10 @@ export interface Dancer extends Position {
   weight?: number;
   /** Soft lowering of the body, shown as a subtle top-view contraction (0–1). */
   sink?: number;
+  /** Lower-body rotation relative to the facing tick, in degrees. */
+  hipAngle?: number;
+  stampLeft?: number;
+  stampRight?: number;
   role?: 'leader' | 'follower';
 }
 export interface DanceSection { name: string; start: number; duration: number; detail: string }

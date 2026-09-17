@@ -1,4 +1,5 @@
 import { coupleDances } from './couples.ts';
+import { tzadikFrame, drumulFrame, tzadikPhrases, drumulPhrases } from './folk-circles.ts';
 import { frame, sections, duration } from './movement.ts';
 import type { Dancer, HandReach, DanceSection } from './movement.ts';
 import { chapelloiseFrame } from './chapelloise.ts';
@@ -81,5 +82,23 @@ export const dances: Dance[] = [
     note:'1 & 2 · 3 & 4 — L R L · R L R. Four repeats · Open chain.',
     sources:'<a href="https://www.dansetrad.fr/fiches/fiches_pdf/Kei_jaj.pdf" target="_blank" rel="noreferrer">Step rhythm: Olivier Pécheux</a> · <a href="https://www.accrofolk.net/danses-folks/an-dro" target="_blank" rel="noreferrer">Hold and movement: AccroFolk</a> · Lateral version: travel left, then step in place. Hand curves suggest forward/back motion; little-finger grip, arm height and the full rolling gesture cannot be shown from above. The four-beat motif is also taught using eight half-beat counts.',
     frame:anDroFrame,
+  },
+  {
+    id:'tzadik-katamar',title:'Tzadik Katamar',description:'A circle walks, sways, crosses and turns together, without partners.',duration:12,
+    millisecondsPerPhrase:2000,tempoNote:'120 counts/min at 1× · illustrative practice tempo.',
+    sections:[{name:'Walk + sway × 2',start:0,duration:4,detail:'Four walking counts anticlockwise, four sways; twice.'},{name:'Cross + turn + rock × 2',start:4,duration:8,detail:'Open mayim, right turn, crossing rocks, four sways; twice.'}],
+    phrases:tzadikPhrases,guides:'<circle class="guide" r="145"/>',
+    note:'48 counts · Walk/sway × 2 + crossing sequence × 2.',
+    sources:'<a href="https://www.evansvillefolkdancers.com/resources/Notes/T/Tzadik%20Katamar%20DN.pdf" target="_blank" rel="noreferrer">48-count step notes: Evansville Folk Dancers</a> · Yonatan Gabay choreography. Body travel and turning speed are schematic. Right hand reaches to the left shoulder of the dancer ahead when walking; hands open to the sides for sways and release for turns. Arm height, palm orientation and crossed feet remain abstract.',
+    frame:tzadikFrame,
+  },
+  {
+    id:'drumul-dracului',title:'Drumul Dracului',description:'A closed circle travels right and left, stamps, then crosses and opens with a hip twist.',duration:16,
+    millisecondsPerPhrase:1500,tempoNote:'160 counts/min at 1× · fixed practice tempo; recordings often accelerate.',
+    sections:[{name:'Right + left × 2',start:0,duration:8,detail:'Five side/close steps, two stamps, hold; mirror left. Repeat.'},{name:'Cross + twist × 2',start:8,duration:8,detail:'Cross right in front, recover; open right to the side/back, recover. Three times, then three stamps and hold. Repeat.'}],
+    phrases:drumulPhrases,guides:'<circle class="guide" r="145"/>',
+    note:'64 counts · Side sequence × 2 + crossing sequence × 2. Foot-dot pulses = stamps without weight transfer.',
+    sources:'<a href="https://duramecho.com/Dance/BEECIIFolkDance/Drumul_Dracului.html" target="_blank" rel="noreferrer">Step sequence: Andrew Hardwick</a> · Closed-circle adaptation using the crossing-step variation. Csángó dance from Romania. Crossing and opening twist the lower body, shown by the two foot dots; the facing tick turns less. Travel distances and twist angles are schematic. Heel stamps pulse the free foot dot; vertical bounce and heel contact are omitted.',
+    frame:drumulFrame,
   },
 ];

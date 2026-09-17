@@ -103,6 +103,10 @@ function render() {
     element.body.setAttribute('transform', `rotate(${d.angle}) scale(${1-0.075*(d.sink??0)})`);
     element.left.style.opacity = String(0.35 + 0.25 * (1 - (d.weight ?? state.weight)) / 2);
     element.right.style.opacity = String(0.35 + 0.25 * (1 + (d.weight ?? state.weight)) / 2);
+    element.left.setAttribute('transform', `rotate(${d.hipAngle ?? 0})`);
+    element.right.setAttribute('transform', `rotate(${d.hipAngle ?? 0})`);
+    element.left.setAttribute('r', String(1.8 + 1.2 * (d.stampLeft ?? 0)));
+    element.right.setAttribute('r', String(1.8 + 1.2 * (d.stampRight ?? 0)));
   });
   $('#hands').innerHTML = state.hands.map(hand => {
     const from = itemAt(state.dancers, hand.dancers[0]);

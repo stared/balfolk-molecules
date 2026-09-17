@@ -52,7 +52,7 @@ export class FormationChange {
       const walking=length>1?-target+2*target*blend((step%1)/0.25):(start.weight??this.from.weight);
       const begin=blend(this.elapsed/400),finish=blend((this.elapsed-(this.duration-650))/650);
       const weight=(start.weight??this.from.weight)+(walking-(start.weight??this.from.weight))*begin;
-      return {...end,x,y,angle,sink:(start.sink??0)*(1-begin)+(end.sink??0)*finish,weight:weight+((end.weight??this.to.weight)-weight)*finish};
+      return {...end,x,y,angle,sink:(start.sink??0)*(1-begin)+(end.sink??0)*finish,hipAngle:(start.hipAngle??0)*(1-begin)+(end.hipAngle??0)*finish,weight:weight+((end.weight??this.to.weight)-weight)*finish};
     });
     const indices=new Map(dancers.map((d,i)=>[d.id,i]));
     const hands:HandReach[]=[];
