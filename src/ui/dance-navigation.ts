@@ -8,7 +8,7 @@ export function createDanceNavigation(dances: readonly Dance[], onSelect: (id: s
   const toggle = $<HTMLButtonElement>('#sidebar-toggle');
   const narrow = window.matchMedia('(max-width: 680px)');
   const buttons = new Map<string, HTMLButtonElement>();
-  const groups = [['chain', 'Chain'], ['circle', 'Circle'], ['couple', 'Couple'], ['set', 'Set']] as const;
+  const groups = [['chain', 'Chain & line'], ['circle', 'Circle'], ['couple', 'Couple'], ['set', 'Set']] as const;
   for (const [category, title] of groups) {
     const section = document.createElement('section');
     const heading = document.createElement('h2');

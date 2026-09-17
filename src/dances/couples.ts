@@ -97,7 +97,7 @@ const shared = {
 const schematic = ' Partners stay together. Speed changes make the step accents visible; their strength, spacing and turn amounts are illustrative; the link suggests a closed hold. Foot dots show support, not foot placement or vertical lift.';
 export const coupleDances: Dance[] = [
   {
-    ...shared, id: 'waltz', title: 'Waltz',
+    ...shared, id: 'waltz', title: 'Waltz', origin: 'Austria and southern Germany',
     description: 'Several couples turn clockwise while travelling anticlockwise around the floor.',
     duration: 2, countsPerPhrase: 3, millisecondsPerPhrase: 1800,
     tempoNote: 'Practice tempo.',
@@ -108,30 +108,31 @@ export const coupleDances: Dance[] = [
     frame: (time, cycle, pairs) => coupleFrame('waltz', time, cycle, pairs),
   },
   {
-    ...shared, id: 'scottish', title: 'Schottische',
+    // Origin accounts differ: https://www.accrofolk.net/index.php/danses-folks/34-scottish
+    ...shared, id: 'scottish', title: 'Schottische', origin: 'Central Europe; German or Hungarian roots',
     description: 'Several couples step sideways and back, then turn together around the floor.',
     duration: 4, countsPerPhrase: 2, millisecondsPerPhrase: 1250,
     phraseContacts: [[0, 0.5, 1], [0, 0.5, 1], [0, 1], [0, 1]],
-    sections: [{ name: 'Side + return', start: 0, duration: 2, detail: 'Left–right–left, then right–left–right: 1 & 2, 3 & 4.' }, { name: 'Turn', start: 2, duration: 2, detail: 'Four steps across four main beats (eight half-beat counts). A continuous pivot is shown; this section also admits improvised figures.' }],
+    sections: [{ name: 'Sideways', start: 0, duration: 2, detail: 'Left–right–left, then right–left–right: 1 & 2, 3 & 4.' }, { name: 'Turn', start: 2, duration: 2, detail: 'Four steps across four main beats (eight half-beat counts). A continuous pivot is shown; this section also admits improvised figures.' }],
     phrases: ['LEFT–close–LEFT · 1 & 2', 'RIGHT–close–RIGHT · 3 & 4', 'Flow through the turn · 5 6', 'Continue the turn · 7 8'],
     note: 'Left, left · right, right · Flow through four steps · Same partner.',
     sources: '<a href="https://www.accrofolk.net/danses-folks/scottish" target="_blank" rel="noreferrer">Scottish steps: AccroFolk</a> · Eight main beats per cycle, equivalent to sixteen half-beat counts. Four steps fill the second half. A smooth pivot is one example; improvised figures can fill the same time.' + schematic,
     frame: (time, cycle, pairs) => coupleFrame('scottish', time, cycle, pairs),
   },
   {
-    ...shared, id: 'mazurka', title: 'Mazurka',
+    ...shared, id: 'mazurka', title: 'Mazurka', origin: 'Poland; balfolk adaptation',
     description: 'Several couples soften into a small weight shift, transfer on three, then take three small steps in close embrace.',
     duration: 4, countsPerPhrase: 3, millisecondsPerPhrase: 2000,
     tempoNote: 'Practice tempo.',
     sections: [
-      { name: 'Sink + shift', start: 0, duration: 1, detail: 'Small weight shift onto the left; soften through ONE–TWO, transfer to the right on three.' },
+      { name: 'Weight shift', start: 0, duration: 1, detail: 'Small weight shift onto the left; soften through ONE–TWO, transfer to the right on three.' },
       { name: 'Small steps', start: 1, duration: 1, detail: 'Left, right, left, gently changing direction in close embrace.' },
-      { name: 'Sink + shift', start: 2, duration: 1, detail: 'Small weight shift onto the right; soften through ONE–TWO, transfer to the left on three.' },
+      { name: 'Weight shift', start: 2, duration: 1, detail: 'Small weight shift onto the right; soften through ONE–TWO, transfer to the left on three.' },
       { name: 'Small steps', start: 3, duration: 1, detail: 'Right, left, right, gently changing direction in close embrace.' },
     ],
     phrases: ['Sink ONE–TWO · transfer on three', 'Left · right · left — travel', 'Sink ONE–TWO · transfer on three', 'Right · left · right — travel'],
     note: 'Sink ONE–TWO, shift on three · Then three small steps in close embrace.',
-    sources: '<a href="https://www.youtube.com/watch?v=DB6mAbrUuxw" target="_blank" rel="noreferrer">Suggested video reference</a> · This interpretation follows the requested ONE–TWO sink, transfer on three, then three travelling steps. A slight contraction of the body circle indicates sinking; it is a top-view cue, not body size. Close embrace with small steps and a gentle change of direction; the turn amount is illustrative.' + schematic,
+    sources: 'This interpretation follows the requested ONE–TWO sink, transfer on three, then three travelling steps. A slight contraction of the body circle indicates sinking; it is a top-view cue, not body size. Close embrace with small steps and a gentle change of direction; the turn amount is illustrative.' + schematic,
     frame: (time, cycle, pairs) => coupleFrame('mazurka', time, cycle, pairs),
   },
 ];

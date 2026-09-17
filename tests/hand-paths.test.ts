@@ -19,10 +19,11 @@ test('Tzadik arms attach to shoulders, meet, release and stay continuous across 
   const end=paths(12,0),next=paths(0,1);
   end.forEach((n,i)=>assert.ok(Math.abs(n-itemAt(next,i))<1e-8));
 });
-test('Drumul closes the last-to-first link with equal spacing all around',()=>{
+test('Drumul keeps both ends open with equally spaced neighbours',()=>{
   for(const time of [0,4,8.25,12,16]) {
     const state=drumulFrame(time);
-    assert.deepEqual(itemAt(state.hands,9).dancers,[9,0]);
+    assert.equal(state.hands.length,9);
+    assert.deepEqual(state.hands.map(h=>h.dancers),Array.from({length:9},(_,i)=>[i,i+1]));
     const distances=state.hands.map(h=>{const a=itemAt(state.dancers,h.dancers[0]),b=itemAt(state.dancers,h.dancers[1]);return Math.hypot(a.x-b.x,a.y-b.y);});
     assert.ok(Math.max(...distances)-Math.min(...distances)<1e-8);
   }

@@ -51,7 +51,7 @@ export function noirmoutierFrame(time: number, cycle = 0) {
 }
 
 export const noirmoutierDance: Dance = {
-  id: 'branle-de-noirmoutier', title: 'Branle de Noirmoutier', category: 'set',
+  id: 'branle-de-noirmoutier', title: 'Branle de Noirmoutier', category: 'chain',
   aliases: ['Branle de l’Épine'],
   origin: 'Vendée, France',
   materials: [

@@ -16,7 +16,7 @@
     </aside>
     <main>
       <section class="player" aria-labelledby="dance-title">
-      <header class="player-header"><h1 id="dance-title"></h1><p id="roles" hidden><span class="role-key leader"></span> Leader <span class="role-key follower"></span> Follower</p></header>
+      <header class="player-header"><h1 id="dance-title"></h1><div class="formation-controls"><p id="roles" hidden><span class="role-key leader"></span> Leader <span class="role-key follower"></span> Follower</p><div id="pairs-control" hidden><button id="remove-pair" type="button" aria-label="Remove pair">−</button><span><output id="pair-count">5</output> pairs</span><button id="add-pair" type="button" aria-label="Add pair">+</button></div></div></header>
       <div class="floor-area">
       <svg id="dance-floor" viewBox="-210 -200 420 400" role="img" aria-label="Six dancers approach in lines and change chains during each approach. Then edge dancers pass each other around a square while the two middle dancers advance, turn right and retreat.">
         <g id="guides"></g>
@@ -26,7 +26,7 @@
       </svg>
       </div>
       <section class="playback" aria-label="Playback controls">
-      <div id="timeline">
+      <div id="timeline-scroll"><div id="timeline">
         <nav id="sections" aria-label="Dance sections"></nav>
         <div id="phrase-structure" hidden><div id="phrase-score"></div></div>
         <div id="track">
@@ -36,6 +36,7 @@
           <input id="scrub" aria-label="Dance timeline: two sections, four phrases per section, four steps per phrase" type="range" min="0" max="8" step="0.001" value="0" />
         </div>
       </div>
+      </div>
       <div class="controls">
         <div class="transport">
           <button id="play" type="button">Pause</button>
@@ -43,7 +44,7 @@
         </div>
         <label class="tempo-control"><input id="tempo" type="range" min="0" max="1000" step="1" aria-label="Tempo" /><span><output id="tempo-value" for="tempo">90</output> BPM</span></label>
         <div class="display-controls">
-          <div id="pairs-control" hidden><button id="remove-pair" type="button" aria-label="Remove pair">−</button><span><output id="pair-count">5</output> pairs</span><button id="add-pair" type="button" aria-label="Add pair">+</button></div>
+
           <div class="view-settings">
             <button id="settings-toggle" type="button" aria-expanded="false" aria-controls="settings-panel" aria-label="Settings" title="Settings">⚙</button>
             <div id="settings-panel" hidden>

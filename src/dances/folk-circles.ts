@@ -82,8 +82,9 @@ function countedFrame(kind:'tzadik'|'drumul',time:number,cycle:number) {
   const facing=mix(a.facing,b.facing);
   const stamp=b.stamp===undefined?0:blend(phase/0.12)*(1-blend((phase-0.18)/0.25));
   const dancers:Dancer[]=Array.from({length:10},(_,i)=>{
-    // Both variants use a closed circle.
-    const theta=Math.PI*1.15-i*2*Math.PI/10-travel/145;
+    // Drumul leaves the ends open; Tzadik joins the last dancer to the first.
+    const spacing=kind==='drumul'?2*Math.PI*0.8/9:2*Math.PI/10;
+    const theta=Math.PI*1.15-i*spacing-travel/145;
     return {id:String.fromCharCode(65+i),slot:i,x:radius*Math.cos(theta),y:radius*Math.sin(theta),angle:theta*180/Math.PI-90+facing,weight,hipAngle:kind==='drumul'?facing*1.5:0,
       stampLeft:b.stamp===-1?stamp:0,stampRight:b.stamp===1?stamp:0};
   });
@@ -93,7 +94,7 @@ function countedFrame(kind:'tzadik'|'drumul',time:number,cycle:number) {
     reach=local<4?1-blend((local-3)/0.7):local<6?0:blend((local-6)/0.7);
   }
   const shoulderHold=beat<16||beat>47?Math.max(0,Math.sin(facing*Math.PI/180)):0;
-  const hands:HandReach[]=Array.from({length:10},(_,i)=>({dancers:[i,(i+1)%10],reach,
+  const hands:HandReach[]=Array.from({length:kind==='drumul'?9:10},(_,i)=>({dancers:[i,(i+1)%10],reach,
     ...(kind==='tzadik'?{shoulderHold}:{}),
   }));
   return {dancers,hands,weight,section:kind==='tzadik'?(beat<16?0:1):(beat<32?0:1)};

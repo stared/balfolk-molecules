@@ -14,7 +14,7 @@ export interface DanceFrame {
 }
 export const slots: Point[] = [[-120, -120], [0, -120], [120, -120], [120, 120], [0, 120], [-120, 120]];
 export const sections: DanceSection[] = [
-  { name: 'Lines + changes', start: 0, duration: 4, detail: 'Approach → right-end dancers change lines → retreat · × 4' },
+  { name: 'Lines', start: 0, duration: 4, detail: 'Approach → right-end dancers change lines → retreat · × 4' },
   { name: 'Four sides', start: 4, duration: 4, detail: 'Edges: approach · meet · pass · turn / Middles: forward · turn · backward' },
 ];
 export const duration = 8;

@@ -2,7 +2,7 @@ import { blend } from '../engine/rhythm.ts';
 import { itemAt } from '../utils/indexed.ts';
 import type { Dancer, HandReach } from '../model.ts';
 
-// Count structure: Olivier Pécheux, Chapelloise (2012), detailed sheet.
+// Count structure: Olivier Pécheux, Chapelloise (2010), detailed sheet.
 // Positions are schematic body centers, not measured foot placements.
 export const defaultPairCount = 5;
 export const minPairCount = 1;

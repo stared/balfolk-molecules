@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { tzadikFrame, drumulFrame, tzadikPhrases, drumulPhrases } from '../src/dances/folk-circles.ts';
 import { itemAt } from '../src/utils/indexed.ts';
 
-for(const [name,frame,duration,links] of [['Tzadik',tzadikFrame,12,10],['Drumul',drumulFrame,16,10]] as const) {
+for(const [name,frame,duration,links] of [['Tzadik',tzadikFrame,12,10],['Drumul',drumulFrame,16,9]] as const) {
   test(`${name}: whole score preserves neighbours, spacing and cycle continuity`,()=>{
     for(let t=0;t<=duration;t+=0.025) {
       const state=frame(t);

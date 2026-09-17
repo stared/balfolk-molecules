@@ -33,7 +33,7 @@ p { font-size: 13px; line-height: 1.6; margin: 0; }
 .center { fill: none; stroke: #aaaead; stroke-width: 0.8; }
 .dancer, .arm { color: #237c80; }
 .dancer.follower, .arm.follower { color: #b36735; }
-#roles { margin: 0; color: #777d83; font-size: 11px; white-space: nowrap; }
+#roles { margin: 0; color: #626b65; font-size: 12px; white-space: nowrap; }
 .role-key { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
 .role-key.leader { background: #237c80; }
 .role-key.follower { background: #b36735; margin-left: 12px; }
@@ -88,8 +88,8 @@ a { color: inherit; text-underline-offset: 3px; }
   #sidebar { z-index: 5; }
   body:not(.sidebar-collapsed) #sidebar { position: fixed; width: 232px; box-shadow: 8px 0 24px #292d321c; }
   main { grid-column: 2; padding: 0 16px 20px; }
-  .player-header { flex-wrap: wrap; align-content: center; gap: 6px; padding: 12px 0; }
-  .player-header h1 { width: 100%; font-size: 18px; }
+  .player-header { flex-wrap: nowrap; gap: 12px; padding: 12px 0; overflow-x: auto; }
+  .player-header h1 { flex-shrink: 0; font-size: 18px; }
   #dance-floor { height: min(50dvh, 480px); }
   .controls { gap: 8px; }
   .transport { gap: 6px; flex-wrap: wrap; }
@@ -162,8 +162,20 @@ a { color: inherit; text-underline-offset: 3px; }
   .tempo-control span { grid-row: 1; text-align: center; min-width: 0; }
   #tempo { grid-row: 2; height: 20px; }
 
-  #pairs-control { position: absolute; right: 12px; top: 76px; }
   .phrase-section { font-size: 11px; padding: 0 3px; }
   .phrase-action { font-size: 11px; padding: 0; white-space: nowrap; }
   #dance-materials { gap: 8px 16px; margin-top: 12px; }
 }
+
+.formation-controls { display: flex; flex-shrink: 0; align-items: center; gap: 20px; font-size: 12px; color: #626b65; }
+.formation-controls #pairs-control { font: inherit; }
+.formation-controls #pairs-control button { width: 26px; padding: 3px; }
+@media (max-width: 680px) {
+  .formation-controls { width: auto; gap: 8px; }
+}
+
+#timeline-scroll { overflow-x: auto; padding: 4px 1px 8px; scrollbar-width: thin; }
+.hide-structure #timeline { min-width: 0 !important; }
+#ticks i { transform: translateX(-50%); }
+
+.phrase-label-tight {color:transparent!important}

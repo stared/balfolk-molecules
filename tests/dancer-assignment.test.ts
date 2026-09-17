@@ -58,7 +58,7 @@ test('every dance transition keeps the target geometry and valid hand indices',(
   }
 });
 
-test('Hanter-dro ↔ An dro preserves the complete chain order at every phrase and cycle',()=>{
+test('open-chain switches preserve the complete chain order at every phrase and cycle',()=>{
   const chains=dances.filter(d=>d.formation==='chain');
   for(const source of chains)for(const target of chains)for(let cycle=0;cycle<8;cycle++)for(const time of [0,0.3,1.2,2.7,3.99]) {
     const mapping=new DancerAssignment();
@@ -69,7 +69,8 @@ test('Hanter-dro ↔ An dro preserves the complete chain order at every phrase a
     const old=new Map(from.dancers.map(d=>[d.id,d]));
     for(const d of to.dancers) {
       const a=old.get(d.id);assert.ok(a);
-      assert.ok(Math.hypot(d.x-a.x,d.y-a.y)<59,'Only local widening/tightening, no crossing the room');
+      if(source.id!=='drumul-dracului' && target.id!=='drumul-dracului')
+        assert.ok(Math.hypot(d.x-a.x,d.y-a.y)<59,'Breton chains only widen/tighten locally');
     }
     assert.deepEqual(mapping.apply(target.frame(0,0)),to,'No reset of chain orientation when playback resumes');
     assert.deepEqual(to.hands.map(h=>h.dancers.map(i=>itemAt(to.dancers,i).id)),from.hands.map(h=>h.dancers.map(i=>itemAt(from.dancers,i).id)));

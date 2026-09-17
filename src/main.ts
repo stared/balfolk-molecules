@@ -1,3 +1,4 @@
+import { musicalBeatsPerPhrase, timelineTicks } from './engine/timeline.ts';
 import { createPhraseStructure } from './ui/phrase-structure.ts';
 import { bpmAtPosition, positionAtBpm, defaultBpm } from './engine/tempo.ts';
 import { $ } from './ui/dom.ts';
@@ -67,14 +68,10 @@ function setup() {
   scrub.max = String(dance.duration);
   $('#guides').innerHTML = dance.guides;
   $('#sections').innerHTML = dance.sections.map((section, i) => `<button type="button" style="flex:${section.duration}" data-section="${i}" title="${section.detail}">${section.name}</button>`).join('');
-  const counts=dance.countsPerPhrase??4,totalSteps=dance.duration*counts;
-  const ticks=new Set(Array.from({length:totalSteps-1},(_,i)=>i+1));
-  for(let phrase=0;phrase<dance.duration;phrase++)for(const contact of dance.phraseContacts?.[phrase]??dance.contacts??[])if(phrase*counts+contact>0)ticks.add(phrase*counts+contact);
-  $('#ticks').innerHTML = [...ticks].sort((a,b)=>a-b).map(tick=>{
-    const time=tick/counts;
-    const kind=dance.sections.some(section=>section.start===time)?'section':tick%counts===0?'phrase':Number.isInteger(tick)?'step':'contact';
-    return `<i class="${kind}" style="left:${tick/totalSteps*100}%"></i>`;
-  }).join('');
+  const totalBeats = dance.duration * musicalBeatsPerPhrase(dance);
+  $('#ticks').innerHTML = timelineTicks(dance).map(tick =>
+    `<i class="${tick.kind === 'beat' ? 'step' : tick.kind}" style="left:${tick.beat / totalBeats * 100}%"></i>`
+  ).join('');
   scrub.setAttribute('aria-label',`Dance timeline: ${dance.sections.length} sections, ${dance.phrases.length} phrases`);
   showLetters();
 }
@@ -101,7 +98,7 @@ function render() {
   $('#timeline').style.setProperty('--progress', `${progress / dance.duration * 100}%`);
   scrub.value = String(progress);
   const position=Math.min(progress,dance.duration-1e-9),section=sectionAt(position);
-  scrub.setAttribute('aria-valuetext', `${section.name}, phrase ${Math.floor(position-section.start)+1}, step ${Math.floor((position%1)*(dance.countsPerPhrase??4))+1}`);
+  scrub.setAttribute('aria-valuetext', `${section.name}, phrase ${Math.floor(position-section.start)+1}, beat ${Math.floor(position*musicalBeatsPerPhrase(dance))+1}`);
   $('#play').textContent = playing ? 'Pause' : 'Play';
   $('#pair-count').textContent = String(live.count);
   $<HTMLButtonElement>('#add-pair').disabled = live.count >= maxPairCount;
