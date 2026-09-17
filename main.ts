@@ -1,4 +1,6 @@
-import { handPaths } from './hand-paths.ts';
+import { $ } from './ui-dom.ts';
+import { createDanceNavigation } from './dance-navigation.ts';
+import { renderFloor } from './dance-floor.ts';
 import { itemAt } from './indexed.ts';
 import { dances } from './dances.ts';
 import { defaultPairCount, maxPairCount } from './chapelloise.ts';
@@ -7,17 +9,10 @@ import { CircleLive } from './circle-live.ts';
 import type { LiveFrame } from './circle-live.ts';
 import { FormationChange } from './formation-change.ts';
 import { DancerAssignment } from './dancer-assignment.ts';
-import type { Dancer } from './movement.ts';
-function $<T extends Element = HTMLElement>(selector: string): T {
-  const element = document.querySelector<T>(selector);
-  if (!element) throw new Error(`Missing element: ${selector}`);
-  return element;
-}
 const scrub = $<HTMLInputElement>('#scrub');
 const speed = $<HTMLSelectElement>('#speed');
 const letters = $<HTMLInputElement>('#letters');
-const selector = $<HTMLSelectElement>('#dance');
-selector.replaceChildren(...dances.map(d => new Option(d.title, d.id)));
+const navigation = createDanceNavigation(dances, selectDance);
 const chaos = new BourreeChaos();
 const chaosControl = $<HTMLInputElement>('#chaos');
 const pairParameter = new URLSearchParams(location.search).get('pairs');
@@ -34,26 +29,13 @@ let live=activeCircle();
 function sectionAt(time:number) {
   return dance.sections.find(section=>time<section.start+section.duration) ?? itemAt(dance.sections,dance.sections.length-1);
 }
-const dancers = new Map<string,{ group: SVGGElement; body: SVGGElement; left: SVGCircleElement; right: SVGCircleElement }>();
-function syncDancers(poses: Dancer[]): void {
-  const ids = new Set(poses.map(d=>d.id));
-  for(const [id,element] of dancers)if(!ids.has(id)){element.group.remove();dancers.delete(id);}
-  for(const d of poses)if(!dancers.has(d.id)){
-    const group=document.createElementNS('http://www.w3.org/2000/svg','g');
-    group.setAttribute('class','dancer');group.dataset.identity=d.id;
-    group.innerHTML=`<g class="body"><circle r="14"/><path class="facing" d="M 0 -11 V -16"/><circle class="support left" cx="-4" cy="8" r="1.8"/><circle class="support right" cx="4" cy="8" r="1.8"/></g><text text-anchor="middle" dy="2">${d.id}</text>`;
-    $('#dancers').append(group);
-    const body=group.querySelector<SVGGElement>('.body'),left=group.querySelector<SVGCircleElement>('.left'),right=group.querySelector<SVGCircleElement>('.right');
-    if(!body||!left||!right)throw new Error('Incomplete dancer');
-    dancers.set(d.id,{group,body,left,right});
-  }
-}
 function setup() {
-  selector.value = dance.id;
+  navigation.setActive(dance.id);
+  $('#dance-title').textContent = dance.title;
   $('#pairs-control').hidden = !dance.roles;
   $('#chaos-control').hidden = dance.id !== 'bourree';
   document.title = dance.title;
-  $('svg').setAttribute('aria-label', dance.description);
+  $('#dance-floor').setAttribute('aria-label', dance.description);
   $('#dance-note').textContent = dance.note;
   $('#tempo-note').textContent = dance.tempoNote ?? '96 beats/min at 1×.';
   $('#sources').innerHTML = dance.sources;
@@ -94,26 +76,7 @@ function render() {
   $('#dance-note').textContent = rearrangement ? 'Rearranging…' : dance.note;
   scrub.disabled=!!rearrangement;
   for(const button of document.querySelectorAll<HTMLButtonElement>('#sections button, #phrases button'))button.disabled=!!rearrangement;
-  syncDancers(state.dancers);
-  state.dancers.forEach(d => {
-    const element = dancers.get(d.id);
-    if(!element)throw new Error('Missing dancer');
-    element.group.classList.toggle('follower', d.role === 'follower');
-    element.group.setAttribute('transform', `translate(${d.x} ${d.y})`);
-    element.body.setAttribute('transform', `rotate(${d.angle}) scale(${1-0.075*(d.sink??0)})`);
-    element.left.style.opacity = String(0.35 + 0.25 * (1 - (d.weight ?? state.weight)) / 2);
-    element.right.style.opacity = String(0.35 + 0.25 * (1 + (d.weight ?? state.weight)) / 2);
-    element.left.setAttribute('transform', `rotate(${d.hipAngle ?? 0})`);
-    element.right.setAttribute('transform', `rotate(${d.hipAngle ?? 0})`);
-    element.left.setAttribute('r', String(1.8 + 1.2 * (d.stampLeft ?? 0)));
-    element.right.setAttribute('r', String(1.8 + 1.2 * (d.stampRight ?? 0)));
-  });
-  $('#hands').innerHTML = state.hands.map(hand => {
-    const from = itemAt(state.dancers, hand.dancers[0]);
-    const to = itemAt(state.dancers, hand.dancers[1]);
-    const [first, second] = handPaths(from, to, hand);
-    return `<path class="arm ${from.role === 'follower' ? 'follower' : ''}" d="${first}"/><path class="arm ${to.role === 'follower' ? 'follower' : ''}" d="${second}"/>`;
-  }).join('');
+  renderFloor(state);
   $('#timeline').style.setProperty('--progress', `${progress / dance.duration * 100}%`);
   scrub.value = String(progress);
   const position=Math.min(progress,dance.duration-1e-9),section=sectionAt(position);
@@ -161,10 +124,11 @@ function animate(time: number) {
   previousTime = time;
   requestAnimationFrame(animate);
 }
-selector.addEventListener('change', () => {
+function selectDance(id: string): void {
+  if (id === dance.id) return;
   const from=displayed ?? danceFrame();
   const chainOrder=dance.formation==='chain'?danceFrame().dancers.map(d=>d.id):undefined;
-  dance = dances.find(d => d.id === selector.value) ?? itemAt(dances, 0);
+  dance = dances.find(d => d.id === id) ?? itemAt(dances, 0);
   progress = 0; cycle = 0;
   live=activeCircle();
   live.restart();
@@ -178,7 +142,7 @@ selector.addEventListener('change', () => {
   if(dance.roles)url.searchParams.set('pairs',String(live.count));
   history.replaceState(null, '', url);
   setup(); render();
-});
+}
 function changePairs(action:'add'|'remove'): void {
   const from=displayed ?? danceFrame();
   if(!live.change(action,cycle,progress))return;

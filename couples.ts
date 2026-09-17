@@ -91,13 +91,13 @@ export function coupleFrame(kind: Kind, time: number, cycle = 0, pairs = default
 }
 
 const shared = {
-  roles: true, progression: 0,
+  roles: true, progression: 0, category: 'couple',
   guides: '<circle class="guide" r="158"/>',
 } as const;
 const schematic = ' Partners stay together. Speed changes make the step accents visible; their strength, spacing and turn amounts are illustrative; the link suggests a closed hold. Foot dots show support, not foot placement or vertical lift.';
 export const coupleDances: Dance[] = [
   {
-    ...shared, id: 'waltz', title: 'Waltz · Valse',
+    ...shared, id: 'waltz', title: 'Waltz',
     description: 'Several couples turn clockwise while travelling anticlockwise around the floor.',
     duration: 2, countsPerPhrase: 3, millisecondsPerPhrase: 1800,
     tempoNote: '100 beats/min at 1× · practice tempo.',
@@ -108,7 +108,7 @@ export const coupleDances: Dance[] = [
     frame: (time, cycle, pairs) => coupleFrame('waltz', time, cycle, pairs),
   },
   {
-    ...shared, id: 'scottish', title: 'Scottish · Schottische',
+    ...shared, id: 'scottish', title: 'Schottische',
     description: 'Several couples step sideways and back, then turn together around the floor.',
     duration: 4, countsPerPhrase: 2, millisecondsPerPhrase: 1250,
     phraseContacts: [[0, 0.5, 1], [0, 0.5, 1], [0, 1], [0, 1]],
