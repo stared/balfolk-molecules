@@ -16,15 +16,15 @@ The UI shows two levels, with unnamed brackets spanning repeated phrases. Deeper
 | --- | --- | --- | --- |
 | Bourrée bancale | 64 beats: four 8-beat line passages, four 8-beat crossings | Six-person set | France |
 | Chapelloise | 32: walking 8, walking 8, exchange 8, progression 8 | Progressive couples in a circle | France; earlier origin disputed |
-| Cercle circassien | 64: circle 16, followers 8, leaders 8, swing 16, promenade 16 | Circle, then couples | England, United Kingdom |
-| Branle de Noirmoutier | 32: straight 8, straight 8, turning 8, turning 8 | Two facing lines | Vendée, France |
+| Cercle circassien | 64: circle 16, followers 8, leaders 8, swing 16, promenade 16 | Circle, then couples | Britain; collected in Northumberland, England |
+| Branle de Noirmoutier | 32: straight 8, straight 8, turning 8, turning 8 | Two facing lines | Île de Noirmoutier, Vendée, France |
 | Waltz | 6: two mirrored 3-beat measures | Couples | Austria and southern Germany |
 | Schottische | 8: sideways 4, turning 4 | Couples | Central Europe; precise origin disputed |
 | Mazurka | 12: two mirrored 6-beat passages | Couples | Poland; balfolk adaptation |
-| Hanter-dro | 12: four 3-beat motifs | Open chain | Morbihan, Brittany, France |
-| An dro | 16: four 4-beat motifs | Open chain | Morbihan, Brittany, France |
+| Hanter-dro | 12: four 3-beat motifs | Open chain | Pays vannetais (Morbihan), Brittany, France |
+| An dro | 16: four 4-beat motifs | Open chain | Pays vannetais (Morbihan), Brittany, France |
 | Tzadik Katamar | 48: procession 8 twice, figure 16 twice | Circle | Israel |
-| Drumul Dracului | 64: travel 16 twice, crossing 16 twice | Closed circle | Romania, Csángó tradition |
+| Drumul Dracului | 64: travel 16 twice, crossing 16 twice | Closed circle | Moldavia, Romania (Hungarian Csángó tradition) |
 
 ### Bourrée bancale
 

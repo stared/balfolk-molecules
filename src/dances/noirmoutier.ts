@@ -53,7 +53,7 @@ export function noirmoutierFrame(time: number, cycle = 0) {
 export const noirmoutierDance: Dance = {
   id: 'branle-de-noirmoutier', title: 'Branle de Noirmoutier', category: 'chain',
   aliases: ['Branle de l’Épine'],
-  origin: 'Vendée, France',
+  origin: 'Île de Noirmoutier, Vendée, France',
   materials: [
     { name: 'Ciac Boum recording', url: 'https://soundcloud.com/pierre-bordes-910807711/suite-a-manoue-bransles-de' },
   ],

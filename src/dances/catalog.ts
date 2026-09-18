@@ -32,7 +32,7 @@ const catalog: Dance[] = [
     frame: chapelloiseFrame,
   },
   {
-    id: 'cercle', category: 'circle', title: 'Cercle circassien', origin: 'England, United Kingdom', description: 'A circle advances and retreats, followers then leaders approach, new partners swing and promenade.', duration: 16,
+    id: 'cercle', category: 'circle', title: 'Cercle circassien', origin: 'Britain; collected in Northumberland, England', description: 'A circle advances and retreats, followers then leaders approach, new partners swing and promenade.', duration: 16,
     millisecondsPerPhrase: 2500, roles: true, progression: -1,
     sections: [
       {name:'Circle',start:0,duration:4,detail:'Four steps in, four out, twice.'},
@@ -49,7 +49,7 @@ const catalog: Dance[] = [
   noirmoutierDance,
   ...coupleDances,
   {
-    id:'hanter-dro',category:'chain',formation:'chain',title:'Hanter-dro',origin:'Morbihan, Brittany, France',description:'An open chain moves to its left with a close, steady armhold and a three-beat repeating step.',duration:4,
+    id:'hanter-dro',category:'chain',formation:'chain',title:'Hanter-dro',origin:'Pays vannetais (Morbihan), Brittany, France',description:'An open chain moves to its left with a close, steady armhold and a three-beat repeating step.',duration:4,
     millisecondsPerPhrase:2000,countsPerPhrase:3,contacts:chainContacts('hanter-dro'),
     sections:[{name:'Basic step',start:0,duration:4,detail:'Repeat: left–right–left on 1 & 2; right closes slightly behind on 3.'}],
     phrases:Array.from({length:4},()=> '1 & 2: left–right–left travelling left · 3: right closes'),
@@ -59,7 +59,7 @@ const catalog: Dance[] = [
     frame:hanterDroFrame,
   },
   {
-    id:'an-dro',category:'chain',formation:'chain',title:'An dro',origin:'Morbihan, Brittany, France',description:'An open chain steps left, then on the spot, with hands rolling forward and back.',duration:4,
+    id:'an-dro',category:'chain',formation:'chain',title:'An dro',origin:'Pays vannetais (Morbihan), Brittany, France',description:'An open chain steps left, then on the spot, with hands rolling forward and back.',duration:4,
     millisecondsPerPhrase:2500,countsPerPhrase:4,contacts:chainContacts('an-dro'),
     sections:[{name:'Basic step',start:0,duration:4,detail:'Repeat: left–right–left on 1 & 2; right–left–right on 3 & 4.'}],
     phrases:Array.from({length:4},()=> '1 & 2: left–right–left travelling left · 3 & 4: right–left–right in place'),
@@ -78,7 +78,7 @@ const catalog: Dance[] = [
     frame:tzadikFrame,
   },
   {
-    id:'drumul-dracului',category:'circle',title:'Drumul Dracului',origin:'Romania (Csángó tradition)',description:'A closed circle travels right and left, stamps, then crosses and opens with a hip twist.',duration:16,
+    id:'drumul-dracului',category:'circle',title:'Drumul Dracului',origin:'Moldavia, Romania (Hungarian Csángó tradition)',description:'A closed circle travels right and left, stamps, then crosses and opens with a hip twist.',duration:16,
     millisecondsPerPhrase:1500,tempoNote:'Fixed practice tempo; recordings often accelerate.',
     sections:[{name:'Travel',start:0,duration:8,detail:'Five side/close steps, two stamps, hold; mirror left. Repeat.'},{name:'Crossing',start:8,duration:8,detail:'Cross right in front, recover; open right to the side/back, recover. Three times, then three stamps and hold. Repeat.'}],
     phrases:drumulPhrases,guides:'<circle class="guide" r="145"/>',
