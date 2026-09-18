@@ -1,6 +1,6 @@
 import { createYouTubePlayer } from './ui/youtube-player.ts';
 import { bourreeRecordings, recordingsByDance } from './music/recordings.ts';
-import { musicPosition, timeAtBeat, tempoAtTime } from './engine/music-time.ts';
+import { musicPosition, timeAtMusicPosition, tempoAtTime } from './engine/music-time.ts';
 import { musicalBeatsPerPhrase, timelineTicks } from './engine/timeline.ts';
 import { createPhraseStructure } from './ui/phrase-structure.ts';
 import { bpmAtPosition, positionAtBpm, defaultBpm } from './engine/tempo.ts';
@@ -59,15 +59,15 @@ function musicChanged() {
   updateMusicStatus();
 }
 function followMusic() {
-  const position = musicPosition(youtube.time, recording.beats, dance.duration * musicalBeatsPerPhrase(dance), musicalBeatsPerPhrase(dance));
+  const position = musicPosition(youtube.time, recording.beats, dance.duration * musicalBeatsPerPhrase(dance), musicalBeatsPerPhrase(dance), recording.danceOffset);
   progress = position.progress; cycle = position.cycle;
 }
 function seekDance(time: number) {
   if (withMusic()) {
     youtube.pause();
-    youtube.seek(timeAtBeat((cycle * dance.duration + time) * musicalBeatsPerPhrase(dance), recording.beats));
+    youtube.seek(timeAtMusicPosition(cycle,time,recording.beats,dance.duration*musicalBeatsPerPhrase(dance),musicalBeatsPerPhrase(dance),recording.danceOffset));
   }
-  playing = false; progress = time; render();
+  playing = false; progress = time; if (withMusic()) followMusic(); render();
 }
 
 const letters = $<HTMLInputElement>('#letters');
@@ -176,7 +176,7 @@ $('#play').addEventListener('click', () => {
   } else playing = !playing;
   render();
 });
-$('#reset').addEventListener('click', () => { if (withMusic()) { youtube.pause(); youtube.seek(recording.beats[0]!); playing = false; musicEnded = false; } progress = 0; cycle = 0; chaos.reset(); live.restart(); if(rearrangement && displayed)rearrangement=new FormationChange(displayed,danceFrame()); render(); });
+$('#reset').addEventListener('click', () => { if (withMusic()) { youtube.pause(); youtube.seek(recording.beats[0]!); playing = false; musicEnded = false; } progress = 0; cycle = 0; chaos.reset(); live.restart(); if(withMusic()) followMusic(); if(rearrangement && displayed)rearrangement=new FormationChange(displayed,danceFrame()); render(); });
 chaosControl.addEventListener('input', () => {
   chaos.setProbability(Number(chaosControl.value)/100);
   $('#chaos-value').textContent = `${chaosControl.value}%`;

@@ -7,6 +7,8 @@ export interface Recording {
   artist: string;
   bpm: number;
   variableTempo?: boolean;
+  /** Dance count at the first mapped recording beat. */
+  danceOffset?: number;
   beats: readonly number[];
   passage: string;
 }
@@ -32,7 +34,7 @@ export const anDroRecordings: readonly Recording[] = [
     beats:anDroBeats,passage:'Measured passage 1:41.3–3:37.9'},
 ];
 export const drumulRecordings: readonly Recording[] = [
-  {videoId:'jwQukZnz4BQ',title:'Drumul Draculi',artist:'Żniwa',bpm:154,variableTempo:true,
+  {videoId:'jwQukZnz4BQ',title:'Drumul Draculi',artist:'Żniwa',bpm:154,variableTempo:true,danceOffset:32,
     beats:zniwaDrumulBeats,passage:'Measured passage 0:00.4–2:34.2'},
   {videoId:'qXdZO2gc_uw',title:'Drumul Draculi',artist:'Stary Olsa',bpm:126,variableTempo:true,
     beats:staryOlsaDrumulBeats,passage:'Measured passage 0:44.9–3:37.3'},

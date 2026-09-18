@@ -2,7 +2,7 @@ import { dances } from '../src/dances/catalog.ts';
 import { musicalBeatsPerPhrase } from '../src/engine/timeline.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {beatAtTime,timeAtBeat,musicPosition,tempoAtTime} from '../src/engine/music-time.ts';
+import {beatAtTime,timeAtBeat,musicPosition,tempoAtTime,timeAtMusicPosition} from '../src/engine/music-time.ts';
 import {bourreeRecordings,recordingsByDance} from '../src/music/recordings.ts';
 
 test('music clock interpolates variable beat intervals and clamps intro/outro',()=>{
@@ -130,4 +130,22 @@ test('tempo display follows the local count duration, including paused seeks',()
   assert.equal(tempoAtTime(2.2,beats),150);
   assert.equal(tempoAtTime(.5,beats),120);
   assert.equal(tempoAtTime(0,[]),0);
+});
+
+
+test('Żniwa starts on Crossing and swaps figures without changing the beat clock',()=>{
+  const track=recordingsByDance['drumul-dracului']![0]!;
+  assert.equal(track.danceOffset,32);
+  const at=(beat:number)=>musicPosition(timeAtBeat(beat,track.beats),track.beats,64,4,track.danceOffset);
+  assert.deepEqual(at(0),{cycle:0,progress:8});
+  assert.deepEqual(at(32),{cycle:1,progress:0});
+  assert.deepEqual(at(64),{cycle:1,progress:8});
+  assert.deepEqual(at(96),{cycle:2,progress:0});
+  for(const beat of [0,12.5,32,48,64,128.5,350]) {
+    const pos=at(beat);
+    assert.ok(Math.abs(timeAtMusicPosition(pos.cycle,pos.progress,track.beats,64,4,track.danceOffset)-timeAtBeat(beat,track.beats))<1e-9);
+  }
+  // The opening travel figure is absent; clicking it seeks the next available one.
+  assert.equal(timeAtMusicPosition(0,0,track.beats,64,4,track.danceOffset),15.92);
+  assert.equal(recordingsByDance['drumul-dracului']![1]!.danceOffset,undefined);
 });

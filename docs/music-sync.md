@@ -87,3 +87,9 @@ For Stary Olsa, the opening has irregular and duplicate detections. The selected
 For an additional phase check, chroma contours were sampled four times per dance count and compared across neighbouring 16-count phrases. Among candidate offsets 0–15, offset zero gave the strongest average agreement in both maps (approximately 0.53 for Żniwa and 0.61 for Stary Olsa). This supports the selected repeating phrase origin separately from the pulse rate, without claiming a manually listened-through score annotation.
 
 Checks cover 64-count conversion, complete-cycle endpoints, increasing local tempo, backward seeks and both real YouTube players. Choreography tests separately cover closed-ring hand connections, every stamp/hold, support continuity and full coverage of all three structure tiers. These validate different things; player-clock agreement alone does not validate musical phrasing.
+
+### Żniwa figure phase
+
+The selected Żniwa map starts at dance count 32 (Crossing), then reaches Travel after 32 recorded beats at 15.92 s. This changes figure assignment only: the media timestamps, tempo curve and 64-count cycle length stay intact. The user's identification of the more forceful music as Crossing prompted this correction. Spectral comparisons support that reading in most later repetitions: the previously assigned Travel halves generally have stronger high-frequency energy than the following halves. The opening orchestration builds differently, so intensity alone is not treated as proof of choreography.
+
+`danceOffset` belongs to a recording, not to the dance's shared structure. The position-to-time conversion applies its inverse for timeline seeks; when the requested figure would precede the recording, it selects the first available occurrence. Restart returns to the recording's selected opening figure. Stary Olsa retains its existing figure phase.
