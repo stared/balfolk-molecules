@@ -95,12 +95,14 @@ const shared = {
   guides: '<circle class="guide" r="158"/>',
 } as const;
 const schematic = ' Partners stay together. Speed changes make the step accents visible; their strength, spacing and turn amounts are illustrative; the link suggests a closed hold. Foot dots show support, not foot placement or vertical lift.';
+// The animation's cycle-wide contacts, split into the timeline's per-phrase counts.
+const phraseContacts = (kind: Kind, phrases: number, counts: number) => Array.from({length: phrases}, (_, phrase) =>
+  contacts[kind].filter(beat => Math.floor(beat / counts) === phrase).map(beat => beat - phrase * counts));
 export const coupleDances: Dance[] = [
   {
     ...shared, id: 'waltz', title: 'Waltz', origin: 'Austria and southern Germany',
     description: 'Several couples turn clockwise while travelling anticlockwise around the floor.',
-    duration: 2, countsPerPhrase: 3, millisecondsPerPhrase: 1800,
-    tempoNote: 'Practice tempo.',
+    duration: 2, countsPerPhrase: 3, millisecondsPerPhrase: 1800, phraseContacts: phraseContacts('waltz', 2, 3),
     sections: [{ name: 'Turning waltz', start: 0, duration: 2, detail: 'Drive on ONE, glide through two–three; three steps per half-turn.' }],
     phrases: ['Left · right · left — half-turn', 'Right · left · right — half-turn'],
     note: 'ONE–two–three · Push, glide, settle · Same partner.',
@@ -109,21 +111,19 @@ export const coupleDances: Dance[] = [
   },
   {
     // Origin accounts differ: https://www.accrofolk.net/index.php/danses-folks/34-scottish
-    ...shared, id: 'scottish', title: 'Schottische', origin: 'Central Europe; German or Hungarian roots',
+    ...shared, id: 'scottish', title: 'Schottische', origin: 'Central Europe; precise origin disputed',
     description: 'Several couples step sideways and back, then turn together around the floor.',
-    duration: 4, countsPerPhrase: 2, millisecondsPerPhrase: 1250,
-    phraseContacts: [[0, 0.5, 1], [0, 0.5, 1], [0, 1], [0, 1]],
+    duration: 4, countsPerPhrase: 2, millisecondsPerPhrase: 1250, phraseContacts: phraseContacts('scottish', 4, 2),
     sections: [{ name: 'Sideways', start: 0, duration: 2, detail: 'Left–right–left, then right–left–right: 1 & 2, 3 & 4.' }, { name: 'Turn', start: 2, duration: 2, detail: 'Four steps across four main beats (eight half-beat counts). A continuous pivot is shown; this section also admits improvised figures.' }],
     phrases: ['LEFT–close–LEFT · 1 & 2', 'RIGHT–close–RIGHT · 3 & 4', 'Flow through the turn · 5 6', 'Continue the turn · 7 8'],
     note: 'Left, left · right, right · Flow through four steps · Same partner.',
-    sources: '<a href="https://www.accrofolk.net/danses-folks/scottish" target="_blank" rel="noreferrer">Scottish steps: AccroFolk</a> · Eight main beats per cycle, equivalent to sixteen half-beat counts. Four steps fill the second half. A smooth pivot is one example; improvised figures can fill the same time.' + schematic,
+    sources: '<a href="https://www.accrofolk.net/danses-folks/scottish" target="_blank" rel="noreferrer">Schottische steps: AccroFolk</a> · Eight main beats per cycle, equivalent to sixteen half-beat counts. Four steps fill the second half. A smooth pivot is one example; improvised figures can fill the same time.' + schematic,
     frame: (time, cycle, pairs) => coupleFrame('scottish', time, cycle, pairs),
   },
   {
     ...shared, id: 'mazurka', title: 'Mazurka', origin: 'Poland; balfolk adaptation',
     description: 'Several couples soften into a small weight shift, transfer on three, then take three small steps in close embrace.',
-    duration: 4, countsPerPhrase: 3, millisecondsPerPhrase: 2000,
-    tempoNote: 'Practice tempo.',
+    duration: 4, countsPerPhrase: 3, millisecondsPerPhrase: 2000, phraseContacts: phraseContacts('mazurka', 4, 3),
     sections: [
       { name: 'Weight shift', start: 0, duration: 1, detail: 'Small weight shift onto the left; soften through ONE–TWO, transfer to the right on three.' },
       { name: 'Small steps', start: 1, duration: 1, detail: 'Left, right, left, gently changing direction in close embrace.' },

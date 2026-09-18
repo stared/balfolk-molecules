@@ -24,7 +24,7 @@ const catalog: Dance[] = [
     id: 'chapelloise', category: 'circle', title: 'Chapelloise', origin: 'France; earlier origin disputed', description: 'Couples in a circle: walk, turn, exchange sides, then join the partner behind.', duration: 8,
     millisecondsPerPhrase: 2500, roles: true,
     phraseContacts: [[0,1,2,3],[0,1,2,3],[0,1,2,3],[0,1,2,3],[0,0.5,1,2,2.5,3],[0,1,2],[0,0.5,1,2,2.5,3],[0,1,2]],
-    sections: [{ name: 'Walking', start: 0, duration: 4, detail: 'Four forward, turn, four backward; repeat back to the start.' }, { name: 'Progression', start: 4, duration: 4, detail: 'Together/apart, exchange sides; together/apart, underarm turn to the partner behind.' }],
+    sections: [{ name: 'Walking', start: 0, duration: 4, detail: 'Four forward, turn, four backward; repeat back to the start.' }, { name: 'Exchanges', start: 4, duration: 4, detail: 'Together/apart, exchange sides; together/apart, underarm turn to the partner behind.' }],
     phrases: ['Forward + turn', 'Backward', 'Forward + turn', 'Backward', 'Together / apart', 'Exchange sides', 'Together / apart', 'Change partner'],
     guides: '<circle class="guide" r="108"/><circle class="guide" r="162"/>',
     note: '32 counts · Four counts per phrase · New partner each cycle.',
@@ -50,7 +50,7 @@ const catalog: Dance[] = [
   ...coupleDances,
   {
     id:'hanter-dro',category:'chain',formation:'chain',title:'Hanter-dro',origin:'Morbihan, Brittany, France',description:'An open chain moves to its left with a close, steady armhold and a three-beat repeating step.',duration:4,
-    millisecondsPerPhrase:2000,countsPerPhrase:3,contacts:chainContacts('hanter-dro'),tempoNote:'Practice tempo.',
+    millisecondsPerPhrase:2000,countsPerPhrase:3,contacts:chainContacts('hanter-dro'),
     sections:[{name:'Basic step',start:0,duration:4,detail:'Repeat: left–right–left on 1 & 2; right closes slightly behind on 3.'}],
     phrases:Array.from({length:4},()=> '1 & 2: left–right–left travelling left · 3: right closes'),
     guides:'<circle class="guide" r="145"/>',
@@ -70,7 +70,7 @@ const catalog: Dance[] = [
   },
   {
     id:'tzadik-katamar',category:'circle',title:'Tzadik Katamar',origin:'Israel',description:'A circle walks, sways, crosses and turns together, without partners.',duration:12,
-    millisecondsPerPhrase:2000,tempoNote:'Illustrative practice tempo.',
+    millisecondsPerPhrase:2000,
     sections:[{name:'Procession',start:0,duration:4,detail:'Four walking counts anticlockwise, four sways; twice.'},{name:'Figure',start:4,duration:8,detail:'Open mayim, right turn, crossing rocks, four sways; twice.'}],
     phrases:tzadikPhrases,guides:'<circle class="guide" r="145"/>',
     note:'48 counts · Walk/sway × 2 + crossing sequence × 2.',

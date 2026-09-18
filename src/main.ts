@@ -219,6 +219,7 @@ recordingSelect.addEventListener('change', async () => {
 function showTempo(): void {
   const bpm = withMusic() ? Math.round((recording.variableTempo ? tempoAtTime(youtube.time, recording.beats) : recording.bpm) * youtube.rate) : tempos.get(dance.id) ?? defaultBpm(dance);
   $('#tempo-value').textContent = String(bpm);
+  $('#tempo-value').title = withMusic() ? (recording.variableTempo ? 'Measured from the recording.' : 'Tempo of the recording.') : dance.tempoNote ?? 'Practice tempo.';
   tempoSlider.setAttribute('aria-valuetext', `${bpm} BPM`);
 }
 tempoSlider.addEventListener('input', () => {

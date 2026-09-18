@@ -58,13 +58,15 @@ export const noirmoutierDance: Dance = {
     { name: 'Ciac Boum recording', url: 'https://soundcloud.com/pierre-bordes-910807711/suite-a-manoue-bransles-de' },
   ],
   description: 'Two facing lines advance and retreat in turn, then release hands for individual left turns.',
-  duration: 8, millisecondsPerPhrase: 2500, tempoNote: 'Illustrative practice tempo.',
+  duration: 8, millisecondsPerPhrase: 2500,
   sections: [
     { name: 'Straight', start: 0, duration: 2, detail: 'Four counts forward, four back.' },
     { name: 'Straight', start: 2, duration: 2, detail: 'Four counts forward, four back.' },
     { name: 'Turning', start: 4, duration: 2, detail: 'Forward, pivot, travel, face back.' },
     { name: 'Turning', start: 6, duration: 2, detail: 'Forward, pivot, travel, face back.' },
   ],
+  // Nominal counts of the teal front; the animation delays the first three slightly.
+  phraseContacts: Array.from({length: 8}, (_, phrase) => phrase % 2 ? [0, 2] : [0, 0.5, 1, 2]),
   phrases: ['Advance', 'Retreat', 'Advance', 'Retreat', 'Advance', 'Left turn', 'Advance', 'Left turn'],
   structure: {
     phrase: { kind: 'sequence', name: 'Cycle', parts: [

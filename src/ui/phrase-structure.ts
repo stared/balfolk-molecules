@@ -38,6 +38,7 @@ export function createPhraseStructure(seek: (time: number) => void) {
       buttons = []; wasDisabled = false;
       score.replaceChildren();
       panel.hidden = !dance.structure;
+      panel.title = dance.structure?.note ?? '';
       document.body.classList.toggle('has-structure', !!dance.structure);
       $('#timeline').style.minWidth = '';
       if (!dance.structure) return;
