@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { tzadikFrame, drumulFrame, tzadikPhrases, drumulPhrases } from '../src/dances/folk-circles.ts';
 import { itemAt } from '../src/utils/indexed.ts';
 
-for(const [name,frame,duration,links] of [['Tzadik',tzadikFrame,12,10],['Drumul',drumulFrame,16,9]] as const) {
+for(const [name,frame,duration,links] of [['Tzadik',tzadikFrame,12,10],['Drumul',drumulFrame,16,10]] as const) {
   test(`${name}: whole score preserves neighbours, spacing and cycle continuity`,()=>{
     for(let t=0;t<=duration;t+=0.025) {
       const state=frame(t);
@@ -61,6 +61,31 @@ test('Drumul crosses and opens on opposite diagonals, twisting the hips more tha
     for(const d of [recover,end]) {
       assert.ok(Math.hypot(d.x-home.x,d.y-home.y)<1e-8);
       assert.equal(d.hipAngle,0);
+    }
+  }
+});
+
+
+test('Drumul has quiet holds, correct support and no jumps at all figure boundaries',()=>{
+  const stamps=[5,6,13,14,21,22,29,30,44,45,46,60,61,62];
+  const holds=[7,15,23,31,47,63];
+  for(let beat=0;beat<64;beat++) {
+    const state=drumulFrame((beat+0.15)/4);
+    const dancer=itemAt(state.dancers,0);
+    const stamping=(dancer.stampLeft??0)>0 || (dancer.stampRight??0)>0;
+    assert.equal(stamping,stamps.includes(beat),`Stamp at count ${beat+1}`);
+    if(stamps.includes(beat)||holds.includes(beat)) {
+      const before=itemAt(drumulFrame(beat/4).dancers,0);
+      assert.equal(dancer.weight,before.weight);
+      assert.ok(Math.hypot(dancer.x-before.x,dancer.y-before.y)<1e-8);
+    }
+    if(beat>0) {
+      const before=drumulFrame((beat-1e-6)/4),after=drumulFrame((beat+1e-6)/4);
+      for(let i=0;i<10;i++) {
+        const a=itemAt(before.dancers,i),b=itemAt(after.dancers,i);
+        assert.ok(Math.hypot(a.x-b.x,a.y-b.y)<1e-4);
+        assert.ok(Math.abs(a.weight!-b.weight!)<1e-4);
+      }
     }
   }
 });

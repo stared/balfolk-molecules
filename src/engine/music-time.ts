@@ -19,3 +19,11 @@ export function musicPosition(seconds: number, beats: readonly number[], cycleBe
   const beat = beatAtTime(seconds, beats);
   return {cycle: Math.floor(beat / cycleBeats), progress: (beat % cycleBeats) / beatsPerPhrase};
 }
+
+/** Tempo of the current four-count block; stable display while music accelerates. */
+export function tempoAtTime(seconds: number, beats: readonly number[]): number {
+  if(beats.length<2)return 0;
+  const start=Math.min(Math.floor(beatAtTime(seconds,beats)/4)*4,beats.length-2);
+  const end=Math.min(start+4,beats.length-1);
+  return 60*(end-start)/(beats[end]!-beats[start]!);
+}

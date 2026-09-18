@@ -78,12 +78,13 @@ const catalog: Dance[] = [
     frame:tzadikFrame,
   },
   {
-    id:'drumul-dracului',category:'chain',formation:'chain',title:'Drumul Dracului',origin:'Romania (Csángó tradition)',description:'An open circle travels right and left, stamps, then crosses and opens with a hip twist.',duration:16,
+    id:'drumul-dracului',category:'circle',title:'Drumul Dracului',origin:'Romania (Csángó tradition)',description:'A closed circle travels right and left, stamps, then crosses and opens with a hip twist.',duration:16,
     millisecondsPerPhrase:1500,tempoNote:'Fixed practice tempo; recordings often accelerate.',
     sections:[{name:'Travel',start:0,duration:8,detail:'Five side/close steps, two stamps, hold; mirror left. Repeat.'},{name:'Crossing',start:8,duration:8,detail:'Cross right in front, recover; open right to the side/back, recover. Three times, then three stamps and hold. Repeat.'}],
     phrases:drumulPhrases,guides:'<circle class="guide" r="145"/>',
     note:'64 counts · Side sequence × 2 + crossing sequence × 2. Foot-dot pulses = stamps without weight transfer.',
     sources:'<a href="https://duramecho.com/Dance/BEECIIFolkDance/Drumul_Dracului.html" target="_blank" rel="noreferrer">Step sequence: Andrew Hardwick</a> · Crossing-step adaptation with the basic heel-stamp ending. Csángó dance from Romania. Crossing and opening twist the lower body, shown by the two foot dots; the facing tick turns less. Travel distances and twist angles are schematic. Heel stamps pulse the free foot dot; vertical bounce and heel contact are omitted.',
+    materials:[{name:'Closed-circle formation',url:'https://socalfolkdance.org/dances/D/Drumul_Dracului.pdf'}],
     frame:drumulFrame,
   },
 ];

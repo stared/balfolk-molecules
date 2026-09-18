@@ -69,8 +69,7 @@ test('open-chain switches preserve the complete chain order at every phrase and 
     const old=new Map(from.dancers.map(d=>[d.id,d]));
     for(const d of to.dancers) {
       const a=old.get(d.id);assert.ok(a);
-      if(source.id!=='drumul-dracului' && target.id!=='drumul-dracului')
-        assert.ok(Math.hypot(d.x-a.x,d.y-a.y)<59,'Breton chains only widen/tighten locally');
+      assert.ok(Math.hypot(d.x-a.x,d.y-a.y)<59,'Breton chains only widen/tighten locally');
     }
     assert.deepEqual(mapping.apply(target.frame(0,0)),to,'No reset of chain orientation when playback resumes');
     assert.deepEqual(to.hands.map(h=>h.dancers.map(i=>itemAt(to.dancers,i).id)),from.hands.map(h=>h.dancers.map(i=>itemAt(from.dancers,i).id)));

@@ -22,7 +22,7 @@ The UI shows two levels, with unnamed brackets spanning repeated phrases. Deeper
 | Hanter-dro | 12: four 3-beat motifs | Open chain | Morbihan, Brittany, France |
 | An dro | 16: four 4-beat motifs | Open chain | Morbihan, Brittany, France |
 | Tzadik Katamar | 48: procession 8 twice, figure 16 twice | Circle | Israel |
-| Drumul Dracului | 64: travel 16 twice, crossing 16 twice | Open circle | Romania, Csángó tradition |
+| Drumul Dracului | 64: travel 16 twice, crossing 16 twice | Closed circle | Romania, Csángó tradition |
 
 ### Bourrée bancale
 
@@ -62,11 +62,13 @@ The displayed twelve-beat variant is the explicitly requested interpretation: a 
 
 ### Drumul Dracului
 
-[Hardwick's notes](https://duramecho.com/Dance/BEECIIFolkDance/Drumul_Dracului.html) specify an open circle: the erroneous closing link is removed and the dance is grouped under Chain & line. Travel has five steps, two stamps and a hold in each direction. Crossing has three four-count rocks followed by three stamps and a hold. The existing animation combines crossing steps with the basic heel-stamp ending; it is now explicitly identified as that adaptation, not a faithful rendering of Variation 1's flat stamps at three positions. Support stays on the standing foot during stamps. Fixed practice tempo does not reproduce a recording's acceleration.
+The selected formation is now a closed circle, as documented in [the Southern California dance notes](https://socalfolkdance.org/dances/D/Drumul_Dracului.pdf). [Hardwick's notes](https://duramecho.com/Dance/BEECIIFolkDance/Drumul_Dracului.html) describe an open-circle variant; the earlier implementation followed that variant, producing the visible gap. All ten neighbours now remain equally spaced and linked, including the last-to-first pair. The dance belongs to the Circle sidebar group.
+
+Travel has five steps, two stamps and a hold in each direction. Crossing has three four-count rocks followed by three stamps and a hold. The animation retains its crossing-step adaptation with the basic heel-stamp ending, rather than Variation 1's flat stamps at three positions. Support stays on the standing foot during stamps. Three complete hierarchy tiers group right/left travel and rocking/stamps beneath the four repeated figures; finer cells expose travel, crossing/opening, stamps and holds. Checks cover every count, boundary continuity, quiet holds and the full closed hand ring.
 
 ## Verification and remaining limits
 
-Automated checks cover all eleven cycle lengths, phrase boundaries, complete coverage of both visible levels, nested repeats, mirrored feet, beat/time conversion and fractional contacts. Motion tests cover support, continuity, turning, spacing and connections. Open-chain transitions preserve dancer order, including Drumul. Browser checks cover all eleven scores at desktop and mobile widths, alignment, label fit, seeking and restart.
+Automated checks cover all eleven cycle lengths, phrase boundaries, complete coverage of both visible levels, nested repeats, mirrored feet, beat/time conversion and fractional contacts. Motion tests cover support, continuity, turning, spacing and connections. Open-chain transitions preserve dancer order for the Breton chain dances. Browser checks cover all eleven scores at desktop and mobile widths, alignment, label fit, seeking and restart.
 
 Source descriptions do not establish precise body trajectories, angular velocities, embrace geometry or individual musical accents. Those remain visual interpretations. A future recording layer should describe its own measures, sections and introductions rather than reusing these movement trees as song analysis.
 

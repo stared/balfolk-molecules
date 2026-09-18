@@ -48,8 +48,8 @@ test('nested repetition retains inner groups without overlapping the outer displ
   const dance=dances.find(d=>d.id==='drumul-dracului')!;
   const repeats=phraseRepeats(dance.structure!.phrase);
   assert.deepEqual(repeats.filter(r=>r.depth===1).map(r=>[r.start,r.beats,r.times]),[[0,32,2],[32,32,2]]);
-  assert.ok(repeats.some(r=>r.start===32 && r.beats===12 && r.times===3));
-  assert.ok(repeats.some(r=>r.start===48 && r.beats===12 && r.times===3));
+  const rocks=phraseSpans(dance.structure!.phrase).filter(s=>s.depth===3&&s.name==='Cross');
+  assert.deepEqual(rocks.map(s=>s.start),[32,36,40,48,52,56]);
 });
 
 test('mirrored starting feet are not marked as identical repeated phrases',()=>{
@@ -116,7 +116,7 @@ test('Chapelloise exposes walking turns and the quiet count after each exchange'
 });
 
 test('Drumul stamps and holds remain visible actions at their actual counts',()=>{
-  const spans=movements('drumul-dracului');
+  const spans=phraseSpans(dances.find(d=>d.id==='drumul-dracului')!.structure!.phrase).filter(s=>s.depth===3);
   assert.deepEqual(spans.filter(s=>s.name==='Stamp').map(s=>s.start),[5,6,13,14,21,22,29,30,44,45,46,60,61,62]);
   assert.deepEqual(spans.filter(s=>s.name==='Hold').map(s=>s.start),[7,15,23,31,47,63]);
 });
@@ -144,5 +144,24 @@ test('Chapelloise has three complete labelled tiers with four-count movement blo
       end+=span.beats;
     }
     assert.equal(end,32);
+  }
+});
+
+
+test('Drumul groups travelling, rocking and stamps in complete aligned tiers',()=>{
+  const dance=dances.find(d=>d.id==='drumul-dracului')!;
+  assert.equal(dance.category,'circle');
+  assert.equal(dance.formation,undefined);
+  const spans=phraseSpans(dance.structure!.phrase);
+  assert.deepEqual(spans.filter(s=>s.depth===2).map(s=>[s.name,s.start,s.beats]),[
+    ['Right',0,8],['Left',8,8],['Right',16,8],['Left',24,8],
+    ['Rock',32,12],['Stamps',44,4],['Rock',48,12],['Stamps',60,4],
+  ]);
+  for(const depth of [1,2,3]) {
+    let end=0;
+    for(const span of spans.filter(s=>s.depth===depth)) {
+      assert.ok(span.name.trim());assert.equal(span.start,end);end+=span.beats;
+    }
+    assert.equal(end,64);
   }
 });

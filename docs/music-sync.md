@@ -35,3 +35,55 @@ The official visible iframe remains at least 200 px in both dimensions at tested
 - Layout checks: 1280, 390 and 320 px wide viewports; no page overflow; player minimum size retained.
 
 API reference: https://developers.google.com/youtube/iframe_api_reference
+
+## Hanter-dro and An dro
+
+The recording catalogue is keyed by dance. Each dance remembers its selected recording (including No music) while navigating within the page. A music selection always drives that dance's clock; the same transport controls apply to every supported dance.
+
+| Dance | Recording | Pulse | Selected start | Selected end | Dance cycles |
+| --- | --- | --- | --- | --- | --- |
+| Hanter-dro | [Valentin Barray — Hanter Dro](https://www.youtube.com/watch?v=RUpWyj8LFcE) | Variable, nominal 167 BPM | 0.920 s | 191.220 s | 44 |
+| Hanter-dro | [ba.fnu — Hanter dro](https://www.youtube.com/watch?v=iMQLYCar4WI) | 80 BPM | 25.280 s | 295.280 s | 30 |
+| An dro | [Battlefield Band — The Devil’s Courtship / An Dro](https://www.youtube.com/watch?v=sVui_IvFjyQ) | Variable, nominal 100 BPM | 101.340 s | 217.940 s | 12 |
+
+Barray's own upload identifies the piano piece as a composition from *Mirages*. The ba.fnu upload credits ba.fnu, Yann-Fañch Kemener and guests, from *YFK~2016*. The An dro upload names Battlefield Band and links the combined song/tune title; [Alan Reid's catalogue](https://www.alansongsreid.com/lyrics) independently credits the song and traditional An Dro arrangement separately.
+
+### Timing checks
+
+Hanter-dro uses three dance counts per basic step, with contacts on 1, &, 2, 3. Four basic steps occupy the visualization's 12-count cycle. Audio trackers can choose different metrical levels; their output must not automatically be halved. The count-to-movement interpretation is checked separately for each recording.
+
+For Barray, successive measured pulses are used as dance counts, starting at 0.92 s. The typical interval is approximately 0.36 s (median 166.67 BPM), and a three-count pattern takes about 1.1 s. Early four-pattern boundaries are at 5.30 and 9.68 s. The map retains all pulses from the librosa track; nearby neural onset estimates within 60 ms refine their timestamps, and otherwise a 15 ms onset-latency correction is applied. The neural track's half-tempo interpretation is not used to choose which pulses to keep. All intervals remain between 0.25 and 0.5 s, preserving tempo changes without skipped counts. The selected passage contains 44 complete visualization cycles and stops before the uncertain closing cadence.
+
+For ba.fnu, the opening sustained texture precedes the main rhythmic entry around 25.28 s. Fitting the subdivision pulse over 26–295 s gave 0.37500138 s, or 79.9997 quarter notes per minute. The preset uses 80 BPM. Neural detections near 25.26, 26.02, 26.78 and 27.52 s corroborate the quarter-note spacing and entry; the final selected cycle ends before the breakdown/outro around 297 s.
+
+For Battlefield Band, the early opening has ambiguous beat/subdivision detections. The selected later passage begins at the independently detected downbeat at 101.34 s; subsequent 16-beat boundaries include 111.40 and 121.34 s. Its measured quarter-note intervals vary around 0.58–0.66 s, so a constant grid would drift. All 192 intervals in the selected passage are continuous, without inserted beats or subdivision changes. Downbeat estimates disagree by two quarter notes in some later sections (around 131–141 and 208–218 s); the map preserves the continuous pulse rather than inventing a jump. The chosen entry is a computationally supported practice boundary, not a confirmed transcription of exactly where the medley's named An Dro tune begins. Full compositional phrase alignment in those later sections remains uncertain.
+
+The BPM readout is nominal for variable-tempo recordings; animation follows the measured timestamps. These checks are computational, not an ear-verified score transcription. All media and analysis dependencies remain outside the app and repository.
+
+
+### Barray count-rate correction
+
+The original implementation kept alternate detected pulses and labelled the result 83 BPM. A later change shifted its start from 0.92 to 2.38 s, but still used that half-speed grid. Both choices were superseded after the user identified the remaining speed mismatch.
+
+The expanded audit measures positive spectral changes in the 35–300 Hz band around **every** fast pulse (4096-sample windows, 110-sample hop, 22050 Hz). It compares all six phases of the old three-count cycle. There are two quieter closing phases, at fast-pulse indices 2 and 5, rather than only one. Over 54–95 s, mean strengths at the three fast phases were approximately 70, 53 and 21; over 100–140 s, 69, 52 and 19; over 140–167 s, 101, 60 and 28. The third fast phase remains quieter in the opening and final tested passages as well. The previous alternate-pulse analysis concealed every second closing phase.
+
+The corrected mapping uses three fast pulses per movement pattern, restores the start to 0.92 s, and retains the original performance speed. For example, the first close occurs at 1.64 s, the next first travelling step at 2.01 s, and the next close at 2.759 s. Regression checks require a full pattern to take approximately 1.1 s at several points in the performance; merely testing the iframe clock against the configured map would not catch this mistake.
+
+This interpretation combines the user's dance feedback with the expanded computational accent audit. The composer's score listing was found, but the notation itself was not accessible; no claim of score-based or manually listened-through validation is made.
+
+## Drumul Dracului
+
+| Recording | Selected start | Selected end | 64-count cycles | Tempo in selected passage |
+| --- | --- | --- | --- | --- |
+| [Żniwa — Drumul Draculi](https://www.youtube.com/watch?v=jwQukZnz4BQ) | 0.440 s | 154.200 s | 6 | approximately 119–160 BPM |
+| [Stary Olsa — Drumul Draculi](https://www.youtube.com/watch?v=qXdZO2gc_uw) | 44.860 s | 217.260 s | 5 | approximately 81–125 BPM |
+
+The supplied artist uploads identify these as tracks from *Dwa Żywioły* and *Drygula*, respectively. Only beat timestamps are shipped. The dance uses one count per travel step/stamp, four counts per timeline phrase and 64 counts per complete cycle. Neither map uses a fixed BPM, and the displayed tempo follows the current four-count block, including after a seek or native playback-rate change.
+
+Żniwa's neural beat detections change to half-tempo in later passages. Intervals close to twice the preceding local period were split to maintain the accelerating pulse, giving 384 intervals and a final cadence at 154.20 s. Intermediate estimates are interpolated, not claimed as independently observed footfall accents. Checkpoints at counts 0, 64, 128, 192, 256, 320 and 384 are 0.44, 30.86, 57.24, 82.18, 106.66, 130.56 and 154.20 s. A separate onset tracker corroborates the overall tempo increase but introduces count/phase differences, so it is not blindly averaged with this map.
+
+For Stary Olsa, the opening has irregular and duplicate detections. The selected regular passage starts at 44.86 s. A variable-tempo onset tracker follows the locally estimated pulse; neural timestamps within 55 ms refine its detections, with a 15 ms onset-latency correction otherwise. The selected five complete cycles stop at 217.26 s. The final acceleration after this boundary and closing material remain outside the synchronized practice passage; this is not a full-track transcription.
+
+For an additional phase check, chroma contours were sampled four times per dance count and compared across neighbouring 16-count phrases. Among candidate offsets 0–15, offset zero gave the strongest average agreement in both maps (approximately 0.53 for Żniwa and 0.61 for Stary Olsa). This supports the selected repeating phrase origin separately from the pulse rate, without claiming a manually listened-through score annotation.
+
+Checks cover 64-count conversion, complete-cycle endpoints, increasing local tempo, backward seeks and both real YouTube players. Choreography tests separately cover closed-ring hand connections, every stamp/hold, support continuity and full coverage of all three structure tiers. These validate different things; player-clock agreement alone does not validate musical phrasing.

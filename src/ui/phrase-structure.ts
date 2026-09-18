@@ -41,8 +41,8 @@ export function createPhraseStructure(seek: (time: number) => void) {
       document.body.classList.toggle('has-structure', !!dance.structure);
       $('#timeline').style.minWidth = '';
       if (!dance.structure) return;
-      // Chapelloise exposes figure, movement and action; Bourrée groups repeats.
-      const nested = dance.id === 'chapelloise';
+      // Nested scores expose figure, movement and action; Bourrée groups repeats.
+      const nested = dance.id === 'chapelloise' || dance.id === 'drumul-dracului';
       const grouped = dance.id === 'bourree' || nested;
       const offset = grouped ? 24 : 0;
       score.classList.toggle('phrase-grouped', grouped);

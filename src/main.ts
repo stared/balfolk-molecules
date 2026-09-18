@@ -1,6 +1,6 @@
 import { createYouTubePlayer } from './ui/youtube-player.ts';
-import { bourreeRecordings } from './music/recordings.ts';
-import { musicPosition, timeAtBeat } from './engine/music-time.ts';
+import { bourreeRecordings, recordingsByDance } from './music/recordings.ts';
+import { musicPosition, timeAtBeat, tempoAtTime } from './engine/music-time.ts';
 import { musicalBeatsPerPhrase, timelineTicks } from './engine/timeline.ts';
 import { createPhraseStructure } from './ui/phrase-structure.ts';
 import { bpmAtPosition, positionAtBpm, defaultBpm } from './engine/tempo.ts';
@@ -24,13 +24,20 @@ let musicError = '';
 let musicEnded = false;
 let loadingRecording = false;
 const youtube = createYouTubePlayer($('#youtube-player'), musicChanged, message => { musicError = message; });
-for (const track of bourreeRecordings) {
-  const option = document.createElement('option');
-  option.value = track.videoId; option.textContent = `${track.artist} — ${track.title}`;
-  recordingSelect.append(option);
+const selectedRecordings = new Map<string, string>();
+let musicDance = '';
+function setupMusic() {
+  if (musicDance === dance.id) return;
+  musicDance = dance.id;
+  const tracks = recordingsByDance[dance.id] ?? [];
+  recordingSelect.replaceChildren(new Option('No music', ''));
+  for (const track of tracks) recordingSelect.add(new Option(`${track.artist} — ${track.title}`, track.videoId));
+  recordingSelect.value = selectedRecordings.get(dance.id) ?? tracks[0]?.videoId ?? '';
+  recording = tracks.find(track => track.videoId === recordingSelect.value) ?? recording;
+  musicError = ''; musicEnded = false;
+  $('#music-panel').hidden = tracks.length === 0;
 }
-recordingSelect.value = recording.videoId;
-function withMusic() { return dance.id === 'bourree' && recordingSelect.value !== ''; }
+function withMusic() { return !!recordingsByDance[dance.id]?.some(track => track.videoId === recordingSelect.value); }
 function updateMusicStatus() {
   const status = $('#music-status');
   const message = !withMusic() ? '' : musicError || (!youtube.ready ? 'Loading…' : youtube.state === 3 ? 'Buffering…' : '');
@@ -42,7 +49,7 @@ function updateMusicStatus() {
 }
 function musicChanged() {
   // A video must not keep playing after its dance has been hidden.
-  if (dance.id !== 'bourree') { if (youtube.state === 1 || youtube.state === 3) youtube.pause(); return; }
+  if (!withMusic()) { if (youtube.state === 1 || youtube.state === 3) youtube.pause(); return; }
   if (withMusic() && !rearrangement && !loadingRecording) {
     playing = youtube.state === 1;
     if (playing && musicEnded && youtube.time >= recording.beats.at(-1)!) youtube.seek(recording.beats[0]!);
@@ -83,6 +90,7 @@ function sectionAt(time:number) {
   return dance.sections.find(section=>time<section.start+section.duration) ?? itemAt(dance.sections,dance.sections.length-1);
 }
 function setup() {
+  setupMusic();
   navigation.setActive(dance.id);
   structure.setup(dance);
   $('#dance-title').textContent = dance.title;
@@ -122,7 +130,6 @@ function setup() {
   ).join('');
   scrub.setAttribute('aria-label',`Dance timeline: ${dance.sections.length} sections, ${dance.phrases.length} phrases`);
   showLetters();
-  $('#music-panel').hidden = dance.id !== 'bourree';
   if (withMusic()) void youtube.load(recording.videoId);
   updateMusicStatus();
 }
@@ -201,7 +208,8 @@ scrub.addEventListener('input', () => seekDance(Number(scrub.value)));
 recordingSelect.addEventListener('change', async () => {
   loadingRecording = true; youtube.pause(); playing = false;
   previousTime = undefined; rearrangement = undefined;
-  const selected = bourreeRecordings.find(track => track.videoId === recordingSelect.value);
+  selectedRecordings.set(dance.id, recordingSelect.value);
+  const selected = recordingsByDance[dance.id]?.find(track => track.videoId === recordingSelect.value);
   if (selected) recording = selected;
   musicError = ''; musicEnded = false; progress = 0; cycle = 0; chaos.reset();
   updateMusicStatus(); showTempo(); render();
@@ -209,7 +217,7 @@ recordingSelect.addEventListener('change', async () => {
   loadingRecording = false; updateMusicStatus(); showTempo(); render();
 });
 function showTempo(): void {
-  const bpm = withMusic() ? Math.round(recording.bpm * youtube.rate) : tempos.get(dance.id) ?? defaultBpm(dance);
+  const bpm = withMusic() ? Math.round((recording.variableTempo ? tempoAtTime(youtube.time, recording.beats) : recording.bpm) * youtube.rate) : tempos.get(dance.id) ?? defaultBpm(dance);
   $('#tempo-value').textContent = String(bpm);
   tempoSlider.setAttribute('aria-valuetext', `${bpm} BPM`);
 }
