@@ -7,7 +7,7 @@ Two user-selected YouTube recordings are available below the full-width dance ti
 | Accordzéâm — Allez, bourrés | AE2tuIaFmTA | approximately 135 BPM | 40.540 s | 211.207 s | 6 |
 | AedO — Experior (Remix) | 7pzXyRLWiuc | approximately 150 BPM | 25.980 s | 230.780 s | 8 |
 
-These are selected practice passages, not full-song transcriptions. The introduction plays with the dancers waiting. Restart seeks to the first dance phrase. Playback pauses at the selected passage end. Selecting No music allows independent practice; selecting a recording always synchronizes the dance.
+These are selected practice passages, not full-song transcriptions. The player opens at the selected dance passage. Main Play seeks to the exact first mapped beat if the player is before it, instead of playing an unanimated opening. Native controls can still seek into earlier material, where the dance remains held. Restart seeks to the first dance phrase. Playback pauses at the selected passage end. Selecting No music allows independent practice; selecting a recording always synchronizes the dance.
 
 ## Measurement and phrase origins
 
@@ -61,7 +61,9 @@ For Battlefield Band, the early opening has ambiguous beat/subdivision detection
 The BPM readout is nominal for variable-tempo recordings; animation follows the measured timestamps. These checks are computational, not an ear-verified score transcription. All media and analysis dependencies remain outside the app and repository.
 
 
-### Barray count-rate correction
+### Barray count-rate interpretation — unresolved
+
+Review status, 18 September: the user still reports an incompatible tempo after the faster mapping below. It remains a hypothesis, not a confirmed correction. Clock-consistency tests and spectral accent measurements do not independently establish which pulse carries a dance count. No further rate or phase change was made in this review.
 
 The original implementation kept alternate detected pulses and labelled the result 83 BPM. A later change shifted its start from 0.92 to 2.38 s, but still used that half-speed grid. Both choices were superseded after the user identified the remaining speed mismatch.
 

@@ -42,7 +42,7 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
   let currentId = '';
   let generation = 0;
   return {
-    async load(videoId: string) {
+    async load(videoId: string, startSeconds = 0) {
       if (videoId === currentId && (ready || loading)) return;
       const request = ++generation;
       ready = false; loading = true;
@@ -55,7 +55,7 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
         container.replaceChildren(target);
         player = new api.Player(target, {
           videoId, width: '100%', height: '203',
-          playerVars: {origin: location.origin, playsinline: 1, controls: 1, autoplay: 0},
+          playerVars: {origin: location.origin, playsinline: 1, controls: 1, autoplay: 0, start: Math.max(0, Math.floor(startSeconds))},
           events: {
             onReady() { if (request !== generation) return; ready = true; loading = false; changed(); },
             onStateChange() { if (request === generation) changed(); },

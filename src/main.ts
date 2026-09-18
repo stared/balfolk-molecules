@@ -130,7 +130,7 @@ function setup() {
   ).join('');
   scrub.setAttribute('aria-label',`Dance timeline: ${dance.sections.length} sections, ${dance.phrases.length} phrases`);
   showLetters();
-  if (withMusic()) void youtube.load(recording.videoId);
+  if (withMusic()) void youtube.load(recording.videoId, recording.beats[0]!);
   updateMusicStatus();
 }
 let progress = 0;
@@ -170,7 +170,7 @@ $('#play').addEventListener('click', () => {
   if (withMusic() && !rearrangement) {
     if (youtube.state === 1) { youtube.pause(); playing = false; }
     else {
-      if (musicEnded || youtube.time >= recording.beats.at(-1)!) { youtube.seek(recording.beats[0]!); musicEnded = false; }
+      if (musicEnded || youtube.time < recording.beats[0]! || youtube.time >= recording.beats.at(-1)!) { youtube.seek(recording.beats[0]!); musicEnded = false; }
       youtube.play();
     }
   } else playing = !playing;
@@ -213,7 +213,7 @@ recordingSelect.addEventListener('change', async () => {
   if (selected) recording = selected;
   musicError = ''; musicEnded = false; progress = 0; cycle = 0; chaos.reset();
   updateMusicStatus(); showTempo(); render();
-  if (selected) await youtube.load(recording.videoId);
+  if (selected) await youtube.load(recording.videoId, recording.beats[0]!);
   loadingRecording = false; updateMusicStatus(); showTempo(); render();
 });
 function showTempo(): void {

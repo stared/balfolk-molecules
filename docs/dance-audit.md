@@ -1,5 +1,7 @@
 # Dance data audit
 
+Historical implementation audit. See the [18 September review](dance-review.md) for current findings, measured readability defects, and unresolved musical interpretation. The interface descriptions below include superseded iterations.
+
 Audited 17 September 2026 against the references below, the animation scores, and the movement decisions made during development. This is a textual-source and implementation audit, not independent verification of every movement against video.
 
 ## Units and scope
