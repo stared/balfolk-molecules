@@ -65,7 +65,7 @@ export const danceStructures: Record<string, Phrase> = {
   waltz: cycle(
     sequence('Left lead',action('Left',1,'Drive on the first beat.'),action('Right',1),action('Left',1)),
     sequence('Right lead',action('Right',1,'Drive on the first beat.'),action('Left',1),action('Right',1))),
-  scottish: cycle(
+  schottische: cycle(
     sequence('Sideways',...lateral('Left','Left','Right'),...lateral('Right','Right','Left')),
     sequence('Turning',action('Step',1),action('Step',1),action('Step',1),action('Step',1))),
   mazurka: cycle(mazurkaHalf('Left','Right'),mazurkaHalf('Right','Left')),

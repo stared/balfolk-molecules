@@ -30,7 +30,7 @@ for (const dance of dances) test(`${dance.title}: sections, phrases, structure a
 });
 
 test('couple timelines show the contacts that drive the animation',()=>{
-  for (const kind of ['waltz','scottish','mazurka'] as const) {
+  for (const kind of ['waltz','schottische','mazurka'] as const) {
     const dance = dances.find(d=>d.id===kind)!, counts = dance.countsPerPhrase!;
     for (const [phrase, contacts] of dance.phraseContacts!.entries()) for (const contact of contacts) {
       // Support crosses to the other foot at each listed contact, never before it.

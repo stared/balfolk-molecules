@@ -11,7 +11,7 @@ const expected = {
   cercle: {beats:64, starts:[0,8,16,24,32]},
   'branle-de-noirmoutier': {beats:32, starts:[0,8,16,24]},
   waltz: {beats:6, starts:[0,3]},
-  scottish: {beats:8, starts:[0,4]},
+  schottische: {beats:8, starts:[0,4]},
   mazurka: {beats:12, starts:[0,6]},
   'hanter-dro': {beats:12, starts:[0,3,6,9]},
   'an-dro': {beats:16, starts:[0,4,8,12]},
@@ -99,7 +99,7 @@ test('lateral motifs expose each main-beat movement, not only each two-beat step
   for(const [id,names] of [
     ['hanter-dro',['Left','Left','Close']],
     ['an-dro',['Left','Left','In place','In place']],
-    ['scottish',['Left','Left','Right','Right']],
+    ['schottische',['Left','Left','Right','Right']],
   ] as const) {
     assert.deepEqual(movements(id).slice(0,names.length).map(span=>[span.name,span.beats]),names.map(name=>[name,1]));
   }

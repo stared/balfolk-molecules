@@ -58,19 +58,19 @@ test('mazurka stays on one support through ONE–TWO, then transfers on three', 
   assert.equal(coupleFrame('mazurka',8.8/3).dancers[0]!.weight,-1);
 });
 test('Scottish changes support on the offbeat only during side steps', () => {
-  assert.equal(coupleFrame('scottish',0.8/2).dancers[0]!.weight,1);
-  assert.equal(coupleFrame('scottish',4.8/2).dancers[0]!.weight,-1);
+  assert.equal(coupleFrame('schottische',0.8/2).dancers[0]!.weight,1);
+  assert.equal(coupleFrame('schottische',4.8/2).dancers[0]!.weight,-1);
 });
 
-const centre = (kind: 'waltz'|'scottish'|'mazurka', time: number) => {
+const centre = (kind: 'waltz'|'schottische'|'mazurka', time: number) => {
   const [a,b] = coupleFrame(kind,time).dancers;
   return {x:(a!.x+b!.x)/2,y:(a!.y+b!.y)/2};
 };
-const distance = (kind: 'waltz'|'scottish'|'mazurka', from: number, to: number) => {
+const distance = (kind: 'waltz'|'schottische'|'mazurka', from: number, to: number) => {
   const a=centre(kind,from),b=centre(kind,to);
   return Math.hypot(a.x-b.x,a.y-b.y);
 };
-const angle = (kind: 'waltz'|'scottish'|'mazurka', time: number, cycle=0) => coupleFrame(kind,time,cycle).dancers[0]!.angle;
+const angle = (kind: 'waltz'|'schottische'|'mazurka', time: number, cycle=0) => coupleFrame(kind,time,cycle).dancers[0]!.angle;
 
 test('waltz visibly drives both travel and rotation on one, then coasts without stopping', () => {
   const first=angle('waltz',1/3)-angle('waltz',0);
@@ -84,15 +84,15 @@ test('waltz visibly drives both travel and rotation on one, then coasts without 
   assert.ok(Math.abs(before-after)<0.02, 'no abrupt velocity change at the repeat');
 });
 test('Scottish keeps side travel restrained and flows through all four turning supports', () => {
-  assert.ok(distance('scottish',0,1)>10);
-  assert.ok(distance('scottish',0,1)<18);
-  assert.ok(distance('scottish',0,2)<1e-8);
+  assert.ok(distance('schottische',0,1)>10);
+  assert.ok(distance('schottische',0,1)<18);
+  assert.ok(distance('schottische',0,2)<1e-8);
   // A transfer is not a stop: retain travel and angular velocity on both sides.
   for (let t=2.2;t<3.9;t+=0.025) {
-    assert.ok(distance('scottish',t,t+0.001)>0.001);
-    assert.ok(angle('scottish',t+0.001)-angle('scottish',t)>0.02);
+    assert.ok(distance('schottische',t,t+0.001)>0.001);
+    assert.ok(angle('schottische',t+0.001)-angle('schottische',t)>0.02);
   }
-  const beatWeights=[4.8,5.8,6.8,7.8].map(beat=>coupleFrame('scottish',beat/2).dancers[0]!.weight);
+  const beatWeights=[4.8,5.8,6.8,7.8].map(beat=>coupleFrame('schottische',beat/2).dancers[0]!.weight);
   assert.deepEqual(beatWeights,[-1,1,-1,1]);
 });
 test('mazurka opens with a small sinking weight shift; travel belongs to the following three steps', () => {

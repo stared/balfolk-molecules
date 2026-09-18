@@ -4,10 +4,10 @@ import { defaultPairCount, maxPairCount } from './chapelloise.ts';
 import { blend } from '../engine/rhythm.ts';
 import { itemAt } from '../utils/indexed.ts';
 
-type Kind = 'waltz' | 'scottish' | 'mazurka';
+type Kind = 'waltz' | 'schottische' | 'mazurka';
 const contacts = {
   waltz: [0, 1, 2, 3, 4, 5],
-  scottish: [0, 0.5, 1, 2, 2.5, 3, 4, 5, 6, 7],
+  schottische: [0, 0.5, 1, 2, 2.5, 3, 4, 5, 6, 7],
   mazurka: [0, 2, 3, 4, 5, 6, 8, 9, 10, 11],
 };
 
@@ -39,7 +39,7 @@ function mazurkaMotion(bars: number) {
 export function coupleFrame(kind: Kind, time: number, cycle = 0, pairs = defaultPairCount) {
   if (!Number.isInteger(pairs) || pairs < 1 || pairs > maxPairCount) throw new RangeError('Invalid pair count');
   const duration = kind === 'waltz' ? 2 : 4;
-  const counts = kind === 'scottish' ? 2 : 3;
+  const counts = kind === 'schottische' ? 2 : 3;
   const t = Math.max(0, Math.min(duration, time));
   const beat = t * counts;
   const sequence = contacts[kind];
@@ -55,7 +55,7 @@ export function coupleFrame(kind: Kind, time: number, cycle = 0, pairs = default
   let travel = waltzFlow(absolute) * 0.13;
   let turn = waltzFlow(absolute) * Math.PI;
   let sink = 0;
-  if (kind === 'scottish') {
+  if (kind === 'schottische') {
     // Four alternating supports carry one flowing pivot, not four separate turns.
     // At this tempo four main beats equal eight half-beat counts.
     const pivot = blend((t-2)/2);
@@ -87,7 +87,7 @@ export function coupleFrame(kind: Kind, time: number, cycle = 0, pairs = default
     }
     hands.push({ dancers: [pair*2, pair*2+1], reach: 1, shoulderHold: 0 });
   }
-  return { dancers, hands, weight, section: kind === 'waltz' ? 0 : kind === 'scottish' ? (t < 2 ? 0 : 1) : Math.min(3, Math.floor(t)) };
+  return { dancers, hands, weight, section: kind === 'waltz' ? 0 : kind === 'schottische' ? (t < 2 ? 0 : 1) : Math.min(3, Math.floor(t)) };
 }
 
 const shared = {
@@ -110,15 +110,16 @@ export const coupleDances: Dance[] = [
     frame: (time, cycle, pairs) => coupleFrame('waltz', time, cycle, pairs),
   },
   {
-    // Origin accounts differ: https://www.accrofolk.net/index.php/danses-folks/34-scottish
-    ...shared, id: 'scottish', title: 'Schottische', origin: 'Central Europe; precise origin disputed',
+    // Origin accounts differ. AccroFolk: “d'origine incertaine, elle serait allemande ou hongroise”
+    // (https://www.accrofolk.net/index.php/danses-folks/34-scottish); English Wikipedia: Bohemia, uncited.
+    ...shared, id: 'schottische', title: 'Schottische', origin: 'Central Europe; precise origin disputed',
     description: 'Several couples step sideways and back, then turn together around the floor.',
-    duration: 4, countsPerPhrase: 2, millisecondsPerPhrase: 1250, phraseContacts: phraseContacts('scottish', 4, 2),
+    duration: 4, countsPerPhrase: 2, millisecondsPerPhrase: 1250, phraseContacts: phraseContacts('schottische', 4, 2),
     sections: [{ name: 'Sideways', start: 0, duration: 2, detail: 'Left–right–left, then right–left–right: 1 & 2, 3 & 4.' }, { name: 'Turn', start: 2, duration: 2, detail: 'Four steps across four main beats (eight half-beat counts). A continuous pivot is shown; this section also admits improvised figures.' }],
     phrases: ['LEFT–close–LEFT · 1 & 2', 'RIGHT–close–RIGHT · 3 & 4', 'Flow through the turn · 5 6', 'Continue the turn · 7 8'],
     note: 'Left, left · right, right · Flow through four steps · Same partner.',
     sources: '<a href="https://www.accrofolk.net/danses-folks/scottish" target="_blank" rel="noreferrer">Schottische steps: AccroFolk</a> · Eight main beats per cycle, equivalent to sixteen half-beat counts. Four steps fill the second half. A smooth pivot is one example; improvised figures can fill the same time.' + schematic,
-    frame: (time, cycle, pairs) => coupleFrame('scottish', time, cycle, pairs),
+    frame: (time, cycle, pairs) => coupleFrame('schottische', time, cycle, pairs),
   },
   {
     ...shared, id: 'mazurka', title: 'Mazurka', origin: 'Poland; balfolk adaptation',
