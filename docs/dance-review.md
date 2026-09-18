@@ -106,3 +106,14 @@ The existing recursive model is a good starting point. Before a broad refactor:
 - Source review used the linked step descriptions. No new ear-verified transcription or independent frame-by-frame video validation was performed. The music player was excluded from this layout pass.
 
 The previous An dro startup fix remains a separate, pre-existing working-tree change. This review changes documentation only and does not commit the supplied PDF.
+
+## Follow-up: data consistency branch
+
+A later read-only check of the data found no arithmetic errors; the changes below remove disagreements between fields. `tests/data-consistency.test.ts` keeps them from returning.
+
+- **Names:** Chapelloise's second scrubber section is `Exchanges`; `Progression` now only means the eight-count change of partner. Bourrée's second section is `Crossings`, matching the tree's `Crossing`. The Schottische origin reads “precise origin disputed”, as this audit already stated, and its source link uses the display spelling. The internal id stays `scottish`. “Drumul Draculi” in recording titles is the artists' spelling.
+- **Units:** `model.ts` documents `sections` (phrases), `phrases` (fixed-length captions that may cut across movements, as in Tzadik's rocks), `structure` (beats) and contacts (counts within a phrase; a Bourrée count is a two-beat step). Section boundaries must coincide with structure boundaries; granularity may differ, as in Cercle and Mazurka.
+- **Contacts:** couple-dance timeline contacts are derived from the arrays that drive the animation. Noirmoutier lists its nominal forward contacts 1 & 2, 3, so the half-beat contact has a tick.
+- **Unused fields:** `structure.note` is the diagram's tooltip and `tempoNote` the tempo readout's, defaulting to “Practice tempo.”; the redundant generic notes were dropped. `Recording.passage` was removed. Prose in `sources` remains deliberately unrendered.
+- **Noirmoutier** stays in the Chain group without `formation: 'chain'`: that flag means one open chain whose order survives a change of dance.
+- Music findings are in [music-sync.md](music-sync.md): the Hanter-dro count-rate disagreement, tempo flags, Stary Olsa's segments and timestamp precision.

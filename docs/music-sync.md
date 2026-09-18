@@ -1,4 +1,8 @@
-# Bourrée music prototype
+# Music synchronization
+
+Recordings exist for Bourrée, Hanter-dro, An dro and Drumul Dracului. `tests/data-consistency.test.ts` checks that every map is increasing, belongs to a dance, has a nominal BPM within 3% of its median interval, and is flagged `variableTempo` exactly when its four-count tempo varies by more than 2%.
+
+## Bourrée bancale
 
 Two user-selected YouTube recordings are available below the full-width dance timeline, to the right of the controls and dance notes. No audio, video, player credentials or downloaded analysis files are shipped.
 
@@ -58,8 +62,12 @@ For ba.fnu, the opening sustained texture precedes the main rhythmic entry aroun
 
 For Battlefield Band, the early opening has ambiguous beat/subdivision detections. The selected later passage begins at the independently detected downbeat at 101.34 s; subsequent 16-beat boundaries include 111.40 and 121.34 s. Its measured quarter-note intervals vary around 0.58–0.66 s, so a constant grid would drift. All 192 intervals in the selected passage are continuous, without inserted beats or subdivision changes. Downbeat estimates disagree by two quarter notes in some later sections (around 131–141 and 208–218 s); the map preserves the continuous pulse rather than inventing a jump. The chosen entry is a computationally supported practice boundary, not a confirmed transcription of exactly where the medley's named An Dro tune begins. Full compositional phrase alignment in those later sections remains uncertain.
 
-The BPM readout is nominal for variable-tempo recordings; animation follows the measured timestamps. These checks are computational, not an ear-verified score transcription. All media and analysis dependencies remain outside the app and repository.
+Barray and Battlefield Band are flagged `variableTempo`, like the Drumul recordings: the BPM readout follows the current four-count block (157–179 and 94–103 BPM respectively) and the animation follows the measured timestamps. `bpm` is only the nominal median. These checks are computational, not an ear-verified score transcription. All media and analysis dependencies remain outside the app and repository.
 
+
+### The two Hanter-dro maps disagree — unresolved
+
+The maps assign different metrical levels to a dance count. Barray: 167 counts per minute, one three-count step pattern in about 1.1 s. ba.fnu: 80 counts per minute, one pattern in 2.25 s; its measured 0.375 s pulse is treated as a subdivision, whereas Barray's 0.36 s pulse is treated as the count itself. The practice default is 90, and Barray's original mapping was 83. Both cannot be right for the same dance unless one performance is danced at twice the rate, which nobody has claimed. Barray's accent strengths (about 70, 53, 21 over three fast pulses) show that pulses group in threes; they do not say whether a count is one, two or three pulses. This needs a dancer's ear on both recordings, not another computational pass.
 
 ### Barray count-rate interpretation — unresolved
 
@@ -77,14 +85,14 @@ This interpretation combines the user's dance feedback with the expanded computa
 
 | Recording | Selected start | Selected end | 64-count cycles | Tempo in selected passage |
 | --- | --- | --- | --- | --- |
-| [Żniwa — Drumul Draculi](https://www.youtube.com/watch?v=jwQukZnz4BQ) | 0.440 s | 154.200 s | 6 | approximately 119–160 BPM |
+| [Żniwa — Drumul Draculi](https://www.youtube.com/watch?v=jwQukZnz4BQ) | 0.440 s | 154.200 s | 6 | approximately 119–167 BPM |
 | [Stary Olsa — Drumul Draculi](https://www.youtube.com/watch?v=qXdZO2gc_uw) | 44.860 s | 217.260 s | 5 | approximately 81–125 BPM |
 
 The supplied artist uploads identify these as tracks from *Dwa Żywioły* and *Drygula*, respectively. Only beat timestamps are shipped. The dance uses one count per travel step/stamp, four counts per timeline phrase and 64 counts per complete cycle. Neither map uses a fixed BPM, and the displayed tempo follows the current four-count block, including after a seek or native playback-rate change.
 
 Żniwa's neural beat detections change to half-tempo in later passages. Intervals close to twice the preceding local period were split to maintain the accelerating pulse, giving 384 intervals and a final cadence at 154.20 s. Intermediate estimates are interpolated, not claimed as independently observed footfall accents. Checkpoints at counts 0, 64, 128, 192, 256, 320 and 384 are 0.44, 30.86, 57.24, 82.18, 106.66, 130.56 and 154.20 s. A separate onset tracker corroborates the overall tempo increase but introduces count/phase differences, so it is not blindly averaged with this map.
 
-For Stary Olsa, the opening has irregular and duplicate detections. The selected regular passage starts at 44.86 s. A variable-tempo onset tracker follows the locally estimated pulse; neural timestamps within 55 ms refine its detections, with a 15 ms onset-latency correction otherwise. The selected five complete cycles stop at 217.26 s. The final acceleration after this boundary and closing material remain outside the synchronized practice passage; this is not a full-track transcription.
+For Stary Olsa, the opening has irregular and duplicate detections. The selected regular passage starts at 44.86 s. A variable-tempo onset tracker follows the locally estimated pulse; neural timestamps within 55 ms refine its detections, with a 15 ms onset-latency correction otherwise. The selected five complete cycles stop at 217.26 s. The resulting map is effectively five constant-tempo segments rather than a continuous curve: linear fits give 80.0, 94.1, 100.0, 106.1 and 126.0 BPM, with changes near counts 28–32, 64, 96 and 128, and residuals of about 8 ms RMS, close to the rounding noise of its 20 ms timestamps. The round values suggest a click-tracked recording. The first change, at counts 28–32, is the only one off a 16-count boundary and is the least trustworthy stretch. The final acceleration after this boundary and closing material remain outside the synchronized practice passage; this is not a full-track transcription.
 
 For an additional phase check, chroma contours were sampled four times per dance count and compared across neighbouring 16-count phrases. Among candidate offsets 0–15, offset zero gave the strongest average agreement in both maps (approximately 0.53 for Żniwa and 0.61 for Stary Olsa). This supports the selected repeating phrase origin separately from the pulse rate, without claiming a manually listened-through score annotation.
 
@@ -95,3 +103,7 @@ Checks cover 64-count conversion, complete-cycle endpoints, increasing local tem
 The selected Żniwa map starts at dance count 32 (Crossing), then reaches Travel after 32 recorded beats at 15.92 s. This changes figure assignment only: the media timestamps, tempo curve and 64-count cycle length stay intact. The user's identification of the more forceful music as Crossing prompted this correction. Spectral comparisons support that reading in most later repetitions: the previously assigned Travel halves generally have stronger high-frequency energy than the following halves. The opening orchestration builds differently, so intensity alone is not treated as proof of choreography.
 
 `danceOffset` belongs to a recording, not to the dance's shared structure. The position-to-time conversion applies its inverse for timeline seeks; when the requested figure would precede the recording, it selects the first available occurrence. Restart returns to the recording's selected opening figure. Stary Olsa retains its existing figure phase.
+
+## Timestamp precision
+
+Żniwa, Stary Olsa and Battlefield Band timestamps lie on a 20 ms grid (the beat model's frame rate); that is about 5% of one interval at Żniwa's fastest tempo, so single intervals are noisy even where the tempo is steady. Barray mixes 20 ms values with millisecond onset refinements (43% of its stamps). In the Żniwa map 220 of 383 neighbouring interval pairs are equal: beats interpolated across half-tempo detections are not marked and cannot be told from observed ones. Re-measuring would need the audio, which is deliberately not kept. The former `passage` captions were removed from the data: they were never displayed and are exactly the first and last entries of `beats`.
