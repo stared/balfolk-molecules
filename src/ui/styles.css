@@ -37,7 +37,7 @@ p { font-size: 13px; line-height: 1.6; margin: 0; }
 .role-key { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
 .role-key.leader { background: #237c80; }
 .role-key.follower { background: #b36735; margin-left: 12px; }
-.dancer .silhouette { fill: currentColor; stroke: #fafaf8; stroke-width: 1.5; }
+.dancer .silhouette { fill: currentColor; stroke: none; }
 .dancer .eyes { fill: #fff; stroke: none; }
 .dancer .pupil { fill: #171b1b; }
 .dancer .support { fill: #111; stroke: none; }
