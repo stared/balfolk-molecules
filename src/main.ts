@@ -151,7 +151,7 @@ function render() {
   $('#dance-status').hidden = !rearrangement;
   scrub.disabled=!!rearrangement;
   for(const button of document.querySelectorAll<HTMLButtonElement>('#sections button'))button.disabled=!!rearrangement;
-  renderFloor(state);
+  renderFloor(state, (cycle * dance.duration + progress) * dance.millisecondsPerPhrase, dance.id, !rearrangement);
   structure.render(progress, !!rearrangement);
   $('#timeline').style.setProperty('--progress', `${progress / dance.duration * 100}%`);
   scrub.value = String(progress);

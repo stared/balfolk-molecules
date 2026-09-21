@@ -37,9 +37,10 @@ p { font-size: 13px; line-height: 1.6; margin: 0; }
 .role-key { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
 .role-key.leader { background: #237c80; }
 .role-key.follower { background: #b36735; margin-left: 12px; }
-.dancer circle { fill: currentColor; stroke: #fafaf8; stroke-width: 1.5; }
-.dancer .facing { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
-.dancer .support { fill: white; stroke: none; }
+.dancer .silhouette { fill: currentColor; stroke: #fafaf8; stroke-width: 1.5; }
+.dancer .eyes { fill: #fff; stroke: none; }
+.dancer .pupil { fill: #171b1b; }
+.dancer .support { fill: #111; stroke: none; }
 .dancer text { fill: white; font-size: 10px; font-weight: 500; }
 #dancers.hide-letters text { display: none; }
 #hands path { fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; }
