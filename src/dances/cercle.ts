@@ -1,4 +1,5 @@
 import { blend } from '../engine/rhythm.ts';
+import { stepTravel } from '../engine/step-travel.ts';
 import { defaultPairCount, maxPairCount } from './chapelloise.ts';
 import type { Dancer, HandReach, Position } from '../model.ts';
 
@@ -14,12 +15,8 @@ const mix = (a:Position,b:Position,u:number):Position => ({x:a.x+(b.x-a.x)*u,y:a
 const turn = (a:number,b:number,u:number) => a+(((b-a)%360+540)%360-180)*u;
 const heading = (a:Position,b:Position) => Math.atan2(b.x-a.x,a.y-b.y)*degrees;
 
-// Equal walking strides with brief acceleration/deceleration, not a sine wave.
-function travel(count:number,length:number):number {
-  const t=Math.max(0,Math.min(length,count)),ramp=0.3;
-  const distance=t<ramp?t*t/(2*ramp):t>length-ramp?length-ramp-(length-t)**2/(2*ramp):t-ramp/2;
-  return distance/(length-ramp);
-}
+// Walking advances on each support; a swing gets a push every other count.
+const travel = (count: number, length: number) => stepTravel(count, length);
 function walkingWeight(count:number):number {
   const step=Math.floor(count),target=step%2?-1:1;
   return -target+2*target*blend((count-step)/0.22);
@@ -64,7 +61,7 @@ export function cercleFrame(time:number,cycle=0,pairCount=defaultPairCount) {
       angle=turn(initial,heading(swingStart,center),blend((count-28)/4));
       if(follower && count<30)weight=0;
     } else if(count<48){
-      const sweep=3.5*Math.PI*travel(count-32,16);
+      const sweep=3.5*Math.PI*stepTravel(count-32,16,2,0.3);
       const offset=polar(orbit,startOrbit+sweep);
       pose={x:center.x+offset.x,y:center.y+offset.y};
       angle=heading(pose,center);

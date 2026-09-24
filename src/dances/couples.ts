@@ -2,6 +2,7 @@ import type { Dance } from '../model.ts';
 import type { Dancer, HandReach } from '../model.ts';
 import { defaultPairCount, maxPairCount } from './chapelloise.ts';
 import { blend } from '../engine/rhythm.ts';
+import { stepFlow, stepTravel } from '../engine/step-travel.ts';
 import { itemAt } from '../utils/indexed.ts';
 
 type Kind = 'waltz' | 'schottische' | 'mazurka';
@@ -18,10 +19,12 @@ function waltzFlow(bars: number): number {
   return bars + 0.35 / tau * (Math.sin(tau * (phase-peak)) - Math.sin(-tau*peak));
 }
 
-// A continuous side step with a modest change of pace, no planted pauses.
+// Three supports on 1 & 2: drive each short step and the longer third step.
 function chasse(phase: number): number {
   const u = Math.max(0, Math.min(1, phase));
-  return blend(u) + 0.025*Math.sin(4*Math.PI*u)*Math.sin(Math.PI*u)**2;
+  const onset = u < 0.25 ? 0 : u < 0.5 ? 0.25 : 0.5;
+  const interval = onset < 0.5 ? 0.25 : 0.5;
+  return blend(onset + interval * stepFlow((u-onset)/interval, 1, 0.35));
 }
 function mazurkaMotion(bars: number) {
   const half = Math.floor(bars/2), phase = bars-half*2;
@@ -30,7 +33,7 @@ function mazurkaMotion(bars: number) {
   // Sinking is a body cue, not forward travel. Transfer to the other leg on 3.
   const sink = phase < 1
     ? blend(phase/0.35)*(1-blend((phase-2/3)/(1/3))) : 0;
-  const walking = blend(phase-1);
+  const walking = stepTravel((phase-1)*3, 3, 1, 0.35);
   // Close-embrace interpretation: three small steps with a gentle 30° redirection.
   return {travel: half*0.07 + shift + 0.07*walking, turn: (half+walking)*Math.PI/6, sink};
 }
@@ -52,13 +55,16 @@ export function coupleFrame(kind: Kind, time: number, cycle = 0, pairs = default
   const weight = -target + 2 * target * blend((localBeat - itemAt(sequence, contact)) / transferTime);
   const absolute = cycle * duration + t;
   // On an SVG floor decreasing polar angle means anticlockwise travel.
-  let travel = waltzFlow(absolute) * 0.13;
-  let turn = waltzFlow(absolute) * Math.PI;
+  // Preserve the stronger first beat of the waltz while each of its three
+  // supports contributes to body travel and rotation.
+  const waltz = waltzFlow(stepFlow(absolute*3, 1, 0.18)/3);
+  let travel = waltz * 0.13;
+  let turn = waltz * Math.PI;
   let sink = 0;
   if (kind === 'schottische') {
     // Four alternating supports carry one flowing pivot, not four separate turns.
     // At this tempo four main beats equal eight half-beat counts.
-    const pivot = blend((t-2)/2);
+    const pivot = stepTravel(beat-4, 4, 1, 0.4);
     travel = cycle * 0.30 + (t < 1 ? 0.10 * chasse(t) : t < 2 ? 0.10 * (1-chasse(t-1)) : 0.30 * pivot);
     turn = cycle * Math.PI * 2 + Math.PI * 2 * pivot;
   } else if (kind === 'mazurka') {

@@ -80,8 +80,8 @@ test('walking strides stay even instead of easing across the whole passage', () 
 test('polka uses half-count contacts and exchanges settle on the fourth count', () => {
   const leaderWeight = (count:number) => itemAt(frame(count/4).dancers,0).weight;
   assert.equal(leaderWeight(16.25),1);
-  assert.equal(leaderWeight(16.75),-1);
-  assert.equal(leaderWeight(17.25),1);
+  assert.equal(leaderWeight(16.95),-1);
+  assert.equal(leaderWeight(17.8),1);
   assert.equal(leaderWeight(17.9),1);
   for(const start of [20,28]) {
     const settled=frame((start+3)/4);
@@ -89,6 +89,38 @@ test('polka uses half-count contacts and exchanges settle on the fourth count', 
       const previous=itemAt(settled.dancers,i);
       assert.ok(distance(d,previous)<1e-8);
       assert.equal(d.angle,previous.angle);
+      assert.equal(d.sink,0);
+    });
+  }
+});
+
+test('walking rolls through support with gentle stride variation, without beatwise stops', () => {
+  const at = (count: number) => itemAt(frame(count/4).dancers,0);
+  // The body still crosses between supports mid-step instead of snapping to
+  // the new side in the first 22% and remaining rigid for the rest of the count.
+  assert.ok(Math.abs(at(1.35).weight!)<0.05);
+  assert.ok(at(1.35).sink!>0.1);
+  assert.equal(at(1.8).weight,1);
+  assert.equal(at(1.8).sink,0);
+  const speeds:number[]=[];
+  for(let count=1;count<3;count+=.01) {
+    const a=at(count),b=at(count+.001);
+    speeds.push(distance(a,b)/.001);
+    assert.ok(Math.abs(b.weight!-a.weight!)/.001<4.4);
+    assert.ok(a.sink!>=0 && a.sink!<=.18);
+  }
+  const ratio=Math.max(...speeds)/Math.min(...speeds);
+  assert.ok(ratio>1.7 && ratio<2.1,'Readable drive/coast without a sharp surge or constant-speed glide');
+});
+
+test('lowering and weight stay continuous through turns, settles and the cycle seam', () => {
+  for(const count of [4,8,12,16,20,23,24,28,31,32]) {
+    const before=frame((count-1e-6)/4);
+    const after=count===32?frame(0,1):frame((count+1e-6)/4);
+    before.dancers.forEach((d,i)=>{
+      const next=itemAt(after.dancers,i);
+      assert.ok(Math.abs(d.sink!-next.sink!)<1e-4);
+      assert.ok(Math.abs(d.weight!-next.weight!)<1e-4);
     });
   }
 });

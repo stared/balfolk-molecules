@@ -127,3 +127,15 @@ test('couple movement and sinking stay continuous across phrases and repeats', (
     }
   }
 });
+
+test('schottische turn is driven by four steps, not one whole-turn easing',()=>{
+  const speed=(beat:number)=>{
+    const a=angle('schottische',beat/2),b=angle('schottische',(beat+.001)/2);
+    return (b-a)/.001;
+  };
+  for(const beat of [5,6]) {
+    assert.ok(speed(beat+.3)>speed(beat+.8)*2,'Each support must drive then coast');
+    assert.ok(speed(beat)>0,'No stop between turning steps');
+    assert.ok(Math.abs(speed(beat-.001)-speed(beat+.001))<1,'No velocity jump at the contact');
+  }
+});

@@ -91,3 +91,19 @@ test('live Cercle supports repeated additions during later-cycle swings without 
   assert.equal(live.frame(14,3).dancers.length,12);
   assert.equal(live.frame(14,3).section,3);
 });
+
+test('promenade drives each walking step and swing pushes every other count',()=>{
+  const speed=(count:number,swing=false)=>{
+    const a=frame(count/4).dancers[0]!,b=frame((count+.001)/4).dancers[0]!;
+    if(!swing)return Math.abs(Math.atan2(a.x*b.y-a.y*b.x,a.x*b.x+a.y*b.y))/.001;
+    return Math.abs(b.angle-a.angle)/.001;
+  };
+  for(const count of [49,52,57,60]) {
+    assert.ok(speed(count+.3)>speed(count+.8)*2.3,'Walking must not use constant angular velocity');
+    assert.ok(speed(count)>0,'Keep momentum at the contact');
+  }
+  for(const count of [34,38,42]) {
+    assert.ok(speed(count+.6,true)>speed(count+1.6,true)*1.7,'A swing has one push per two counts');
+    assert.ok(speed(count+1,true)>0);
+  }
+});

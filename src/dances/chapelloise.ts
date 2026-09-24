@@ -1,4 +1,5 @@
 import { blend } from '../engine/rhythm.ts';
+import { stepTravel } from '../engine/step-travel.ts';
 import { itemAt } from '../utils/indexed.ts';
 import type { Dancer, HandReach } from '../model.ts';
 
@@ -33,20 +34,19 @@ function score(count: number, marks: readonly Mark[]): number {
     + (-2*u**3+3*u**2)*b[1] + (u**3-u**2)*duration*slope(index+1);
 }
 
-// Approximately equal strides through each eight-count passage. Only starting,
-// reversing direction, and finishing slow down; turning does not stop travel.
-function walk(count: number): number {
-  const c = Math.max(0, Math.min(8, count));
-  const ramp = 0.35;
-  const distance = c < ramp ? c*c/(2*ramp) : c > 8-ramp ? 8-ramp-(8-c)**2/(2*ramp) : c-ramp/2;
-  return distance * 8 / (8-ramp);
-}
+// Walking carries momentum over the supporting leg. A softer drive than the
+// shared default keeps each step readable without a surge on every count.
+const walk = (count: number) => 8 * stepTravel(count, 8, 1, 0.3);
 function support(count: number, contacts: readonly number[], first: number, previous: number): number {
   let index = contacts.length - 1;
   while (index > 0 && itemAt(contacts, index) > count) index--;
   const target = first * (index % 2 === 0 ? 1 : -1);
   const from = index === 0 ? previous : -target;
-  return from + (target-from) * blend((count-itemAt(contacts,index))/0.22);
+  const onset = itemAt(contacts,index);
+  const interval = index+1 < contacts.length ? itemAt(contacts,index+1)-onset : 1;
+  // Walking and half-count polka transfers have different available time.
+  // Keep a brief supported finish, without snapping across then hovering.
+  return from + (target-from) * blend((count-onset)/(0.7*interval));
 }
 const polkaContacts = [0, 0.5, 1, 2, 2.5, 3];
 const exchangeContacts = [0, 1, 2];
@@ -80,6 +80,10 @@ export function chapelloiseFrame(time: number, cycle = 0, pairCount = defaultPai
   else if(phrase === 6) leaderWeight = support(local,polkaContacts,-1,1);
   else leaderWeight = support(local,exchangeContacts,-1,1);
 
+  // Small top-view contraction during double support, not an added hop.
+  // It naturally vanishes when a transfer finishes and during held counts.
+  const sink = 0.18 * (1-leaderWeight**2);
+
   for(let identity=0;identity<coupleCount*2;identity++) {
     const follower = identity%2 === 1;
     const pair = follower ? mod(Math.floor(identity/2)+cycle) : Math.floor(identity/2);
@@ -105,7 +109,7 @@ export function chapelloiseFrame(time: number, cycle = 0, pairCount = defaultPai
         facing = angle*180/Math.PI;
       }
     }
-    dancers.push({ ...polar(radius,angle), angle:facing, slot:pair, id:String.fromCharCode(65+identity), role:follower?'follower':'leader', weight:follower?-leaderWeight:leaderWeight });
+    dancers.push({ ...polar(radius,angle), angle:facing, slot:pair, id:String.fromCharCode(65+identity), role:follower?'follower':'leader', weight:follower?-leaderWeight:leaderWeight, sink });
   }
   for(let follower=0;follower<coupleCount;follower++) {
     const current=mod(follower+cycle), next=mod(current+1), id=follower*2+1;
