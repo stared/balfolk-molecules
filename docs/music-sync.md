@@ -1,5 +1,7 @@
 # Music synchronization
 
+The [24 September movement review](movement-review.md) checks stamp/hold rendering against both existing Drumul maps and provides an experimental schottische comparison page. It changes visual cues, not recording timestamps or count-rate interpretations. The [recording shortlist](recording-shortlist.md) distinguishes practice candidates from synchronized presets.
+
 Recordings exist for Bourrée, Hanter-dro, An dro and Drumul Dracului. `tests/data-consistency.test.ts` checks that every map is increasing, belongs to a dance, has a nominal BPM within 3% of its median interval, and is flagged `variableTempo` exactly when its four-count tempo varies by more than 2%.
 
 ## Bourrée bancale

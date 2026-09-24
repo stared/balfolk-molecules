@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Music and movement review</title>
+<link rel="stylesheet" href="../../src/ui/styles.css">
+<style>
+body{display:block;max-width:980px;margin:24px auto;padding:0 18px}h1{font-size:26px}p{line-height:1.5}.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end}label{display:grid;gap:5px}select,button,input{font:inherit;max-width:100%}select,button{padding:7px}#stage{display:block;width:100%;height:440px;background:#fafaf7;margin:12px 0}#seek,audio{width:100%}.muted{color:#586461;font-size:14px}#readout{font-variant-numeric:tabular-nums}#phase{width:80px}[hidden]{display:none!important}@media(max-width:520px){#stage{height:320px}body{margin:12px auto}select{width:100%}}
+</style>
+<h1>Music and movement review</h1>
+<p>The current dancer animation, with five contrasting recordings. Run <code>pnpm dev</code> and open this page through its local server.</p>
+<div class="controls">
+<label>Recording<select id="recording"></select></label>
+<label id="phase-label">Count offset<select id="phase"></select></label>
+<label><span>Step cues</span><input id="cues" type="checkbox" checked></label>
+<button id="play">Play without audio</button>
+</div>
+<p id="alignment" class="muted"></p>
+<svg id="stage" viewBox="-235 -235 470 470" role="img" aria-label="Dancers following the selected recording's count map"><g id="hands"></g><g id="dancers"></g></svg>
+<input id="seek" type="range" min="0" step="0.01" aria-label="Recording time"><p id="readout"></p>
+<div class="controls"><label>Matching local audio<input id="file" type="file" accept="audio/*"></label><label>Passage<select id="checkpoint"></select></label></div>
+<audio id="audio" controls></audio><p id="audio-note" class="muted">Optional audio stays on this computer. No music is bundled or uploaded.</p>
+<p class="muted">Judge steps in place, repeated stamps and held counts. The schottische count offsets are comparison hypotheses, not confirmed phrase entries. <a href="README.md">Measurements and limits</a> · <a href="../../docs/movement-review.md">Review findings</a></p>
+<script src="data/review-data.js"></script>
+<script type="module" src="motion-review.js"></script>
+</html>

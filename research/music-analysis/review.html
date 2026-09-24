@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Balfolk rhythm review</title>
+<style>
+:root{font-family:system-ui,sans-serif;color:#202627;background:#f7f7f3;font-size:16px}*{box-sizing:border-box}body{max-width:1120px;margin:32px auto;padding:0 22px}h1{font-size:29px;margin-bottom:8px}h2{font-size:20px;margin:24px 0 8px}p{line-height:1.5;margin:8px 0 16px}.muted{color:#626c6d;font-size:14px}.row{display:flex;gap:16px;align-items:end;flex-wrap:wrap}label{display:block;font-size:14px}select,input,button{font:inherit;margin-top:5px;max-width:100%}select,button{padding:7px 10px;border:1px solid #bac3c3;border-radius:5px;background:white}button{cursor:pointer}#track{width:680px}.panel{background:white;padding:18px;margin:18px 0;border:1px solid #dfe3e1;border-radius:8px}canvas{width:100%;height:270px;display:block}#profile{height:220px}#stability{height:220px}#seek{width:100%}.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;margin:8px 0}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px}.pill{display:inline-block;background:#edf1ef;padding:3px 7px;border-radius:4px;margin-right:5px;font-size:12px}audio{width:100%;margin-top:12px}a{color:#165c76}.numbers{font-variant-numeric:tabular-nums}#file{width:340px}.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.split .panel{min-width:0;margin-top:0}#profile-note,#stability-note{min-height:44px}@media(max-width:720px){body{padding:0 12px;margin:20px auto}.split{display:block}#track{width:100%}.panel{padding:12px}h1{font-size:25px}}
+</style>
+<h1>Balfolk rhythm review</h1>
+<p>Inspect the measurements behind the <a href="README.md">research notes</a>. Musical attacks and predicted beats are different from foot contacts.</p>
+<div class="row"><label>Dance family<select id="dance"><option value="">All analysed families</option></select></label><label>Recording<select id="track"></select></label></div>
+<h2 id="name"></h2><div id="tags"></div><p id="metadata" class="muted numbers"></p><p id="note" class="muted"></p>
+<div class="panel">
+  <div class="row"><label>Start, seconds<input id="start" type="number" min="0" step="0.1" value="20" style="width:95px"></label><label>View<select id="span"><option value="8">8 seconds</option><option value="16" selected>16 seconds</option><option value="32">32 seconds</option></select></label><button id="back">← Previous</button><button id="next">Next →</button><label>Inspect<select id="checkpoint"><option value="">Choose a passage</option></select></label></div>
+  <input id="seek" type="range" min="0" value="20" step="0.1" aria-label="Passage start">
+  <canvas id="timeline" role="img" aria-label="Attack envelopes and two beat predictions over time"></canvas>
+  <div class="legend"><span><i class="dot" style="background:#24718b"></i>Bass attacks</span><span><i class="dot" style="background:#c67929"></i>Bright attacks</span><span><i class="dot" style="background:#76817e"></i>All attacks</span><span>Thicker beat lines = predicted group starts</span></div>
+  <p class="muted">Each attack band has its own scale. Height is neither foot force nor comparable loudness across bands. The display is reduced to 20 samples/second; calculations used the original features.</p>
+  <label>Optional: open the matching audio file on this computer<input id="file" type="file" accept="audio/*"></label>
+  <audio id="audio" controls></audio><p id="audio-note" class="muted">Audio stays on your computer. Match the recording/version yourself; no music is bundled. Scrubbing the graph does not start playback.</p>
+</div>
+<div class="row"><label>Inferred group size<select id="meter"></select></label><label>Section comparison<select id="band"><option value="bass">Bass attacks</option><option value="high">Bright attacks</option><option value="broad">All attacks</option></select></label></div>
+<div class="split">
+  <div class="panel"><h2>Average pattern</h2><canvas id="profile" role="img" aria-label="Relative attack strengths at each position in inferred groups"></canvas><p id="profile-note" class="muted"></p></div>
+  <div class="panel"><h2>Changes through the recording</h2><canvas id="stability" role="img" aria-label="Attack pattern changes in successive groups of eight inferred bars"></canvas><p id="stability-note" class="muted"></p></div>
+</div>
+<p class="muted">Groups come from regular portions of Model A’s predictions. Their numbering is conditional on its phase and pulse interpretation. A group of six may be doubled counting. Previews are too short to establish whole-song consistency. Models A and B are Beat This! final0 and small0, trained within the same model family.</p>
+<script src="data/review-data.js"></script>
+<script src="review.js"></script>
+</html>

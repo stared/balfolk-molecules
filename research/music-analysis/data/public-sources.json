@@ -1,0 +1,666 @@
+[
+  {
+    "id": "401714cc08923dd5",
+    "name": "stary-olsa — Drumul Draculi",
+    "seconds": 253.86675,
+    "source": "https://staryolsa.bandcamp.com/track/drumul-draculi-2",
+    "collection": "public-full",
+    "labels": [
+      "drumul"
+    ],
+    "label_status": "source-labelled"
+  },
+  {
+    "id": "930ea8d366e7d765",
+    "name": "zniwa — Drumul Draculi",
+    "seconds": 157.5,
+    "source": "https://zniwaband.bandcamp.com/album/dwa-ywio-y",
+    "collection": "public-full",
+    "labels": [
+      "drumul"
+    ],
+    "label_status": "source-labelled"
+  },
+  {
+    "id": "dea4f0794d1ae8de",
+    "name": "Szikra 2016 — Ördög útja",
+    "seconds": 143.59512,
+    "source": "https://tiszaensemble.org/szikra.html",
+    "collection": "public-full",
+    "labels": [
+      "drumul"
+    ],
+    "label_status": "source-labelled"
+  },
+  {
+    "id": "c5abdfa2378452ed",
+    "name": "Szikra 2023 — Ördög útja",
+    "seconds": 215.976,
+    "source": "https://tiszaensemble.org/szikra.html",
+    "collection": "public-full",
+    "labels": [
+      "drumul"
+    ],
+    "label_status": "source-labelled"
+  },
+  {
+    "id": "9df55aca5da6ab0e",
+    "name": "ba.fnu — Zabili",
+    "seconds": 407.24,
+    "source": "https://bafnu.bandcamp.com/track/zabili-mazurka",
+    "collection": "public-full",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled"
+  },
+  {
+    "id": "8d7a87938921a702",
+    "name": "Naragonia — Alio (Boom bal compilation)",
+    "seconds": 179.42675,
+    "source": "https://homerecordsbe.bandcamp.com/track/alio",
+    "collection": "public-full",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled"
+  },
+  {
+    "id": "8486d0aa1ce21a10",
+    "name": "Jonathan Gabay — Tzadik Katamar",
+    "seconds": 119.66675,
+    "source": "https://musicfromisrael.bandcamp.com/track/tzadik-katamar",
+    "collection": "public-full",
+    "labels": [
+      "tzadik"
+    ],
+    "label_status": "source-labelled"
+  },
+  {
+    "id": "6e8f6ceee2b374b7",
+    "name": "17 Hippies — Bourrée d Aurore Sand",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "bourree"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 7370,
+    "database_dances": [
+      "Bourrée in 2"
+    ],
+    "album": "YouTube - Balfolk",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "0055d1e7c13276e5",
+    "name": "DiaTon — Cecile / La Charge (bourrées 2 temps)",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "bourree"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 16832,
+    "database_dances": [
+      "Bourrée in 2"
+    ],
+    "album": "Strange Atmosphere",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "b793b2e830231ceb",
+    "name": "Kadril — Bourée La belle Inconnue (bourrée 2t)",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "bourree"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 7391,
+    "database_dances": [
+      "Bourrée in 2"
+    ],
+    "album": "Boombal Vol. 1",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "1788085fd8789688",
+    "name": "Loogaroo — Baobab",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "cercle"
+    ],
+    "label_status": "multiple-dance-labels",
+    "database_tid": 5244,
+    "database_dances": [
+      "Jig",
+      "Rondeau",
+      "Rondeau en couple",
+      "Tovercirkel"
+    ],
+    "album": "Nautilus",
+    "label_note": "Database lists multiple dance uses: Jig, Rondeau, Rondeau en couple, Tovercirkel. Excluded from ordinary single-dance aggregates."
+  },
+  {
+    "id": "ef4fca2beace3acd",
+    "name": "SnaarmaarWaar — Kadril van Mechelen - Colonne de la Gavre",
+    "seconds": 20.01087,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "cercle"
+    ],
+    "label_status": "multiple-dance-labels",
+    "database_tid": 12,
+    "database_dances": [
+      "Contradans",
+      "Jig",
+      "Tovercirkel"
+    ],
+    "album": "SnaarmaarWaar",
+    "label_note": "Database lists multiple dance uses: Contradans, Jig, Tovercirkel. Excluded from ordinary single-dance aggregates."
+  },
+  {
+    "id": "a6f23799c00e5e69",
+    "name": "TocTocToc — L'ombre du hibou / Kuma (Cercles circassiens)",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "cercle"
+    ],
+    "label_status": "multiple-dance-labels",
+    "database_tid": 17142,
+    "database_dances": [
+      "Rondeau en chaîne",
+      "Tovercirkel"
+    ],
+    "album": "L'OMBRE ET LA LUMIÈRE",
+    "label_note": "Database lists multiple dance uses: Rondeau en chaîne, Tovercirkel. Excluded from ordinary single-dance aggregates."
+  },
+  {
+    "id": "da0c797877009e08",
+    "name": "Bargainatt — Branle Des Chevaliers (branle de Noirmoutier)",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "noirmoutier"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 1269,
+    "database_dances": [
+      "Branle de Noirmoutier"
+    ],
+    "album": "C'est Pas Banane !",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "d8d222c4d7fcc952",
+    "name": "Ciac Boum — Suite de Bransles (S. Bertrand - C. Pacher)",
+    "seconds": 20.01087,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "noirmoutier"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 766,
+    "database_dances": [
+      "Branle de Noirmoutier"
+    ],
+    "album": "Ciac Boum - Volume 2",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "bb43d80da524346b",
+    "name": "Duo Coffineau - Guerbigny — Branles de Noirmoutier",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "noirmoutier"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 2381,
+    "database_dances": [
+      "Branle de Noirmoutier"
+    ],
+    "album": "Mettez le pied là !",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "894c454d6d9d0103",
+    "name": "Duo Bibonne-Raibaud — Rondeau d'après Marcel Lagardère",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "waltz"
+    ],
+    "label_status": "multiple-dance-labels",
+    "database_tid": 16448,
+    "database_dances": [
+      "Rondeau en chaîne",
+      "Rondeau en couple",
+      "Wals"
+    ],
+    "album": "En Cadència",
+    "label_note": "Database lists multiple dance uses: Rondeau en chaîne, Rondeau en couple, Wals. Excluded from ordinary single-dance aggregates."
+  },
+  {
+    "id": "a591eefb5e5199f8",
+    "name": "La Machine — Le Français et l'Allemande / Main pleine (chanson / mazurka)",
+    "seconds": 20.01087,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "mazurka",
+      "waltz"
+    ],
+    "label_status": "multiple-dance-labels",
+    "database_tid": 137,
+    "database_dances": [
+      "Mazurka",
+      "Traditionele Mazurka",
+      "Wals"
+    ],
+    "album": "Les Couleurs",
+    "label_note": "Database lists multiple dance uses: Mazurka, Traditionele Mazurka, Wals. Excluded from ordinary single-dance aggregates."
+  },
+  {
+    "id": "f36a63e8c97cd782",
+    "name": "Accordzéam — Valse Tatin",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "waltz"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 4799,
+    "database_dances": [
+      "Wals"
+    ],
+    "album": "Accordzéâm Symphonique",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "54679dc043c99512",
+    "name": "Naragonia — Hellebore - Too late to sleep",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "schottische"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 2754,
+    "database_dances": [
+      "Scottish"
+    ],
+    "album": null,
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "41d1fd7dc4afe761",
+    "name": "Naragonia — Hellebore - Too late to sleep [Live] (scottish)",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "schottische"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 14574,
+    "database_dances": [
+      "Scottish"
+    ],
+    "album": "Bal Digital - Naragonia Trio",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "1b140dccf89f3ae7",
+    "name": "Naragonia — Dansen in de keuken - Koffie en Chocolat (scottish)",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "schottische"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 3550,
+    "database_dances": [
+      "Scottish"
+    ],
+    "album": "Carabel",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "4addbdaa63ccfa8b",
+    "name": "Naragonia Quartet — Hellebore / Too Late to Sleep",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "schottische"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 1129,
+    "database_dances": [
+      "Scottish"
+    ],
+    "album": "Idili",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "c440ab4482dca941",
+    "name": "Les Bottines Artistiques — LBA",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "schottische",
+      "an-dro"
+    ],
+    "label_status": "multiple-dance-labels",
+    "database_tid": 1066,
+    "database_dances": [
+      "Scottish",
+      "Andro"
+    ],
+    "album": "Summertime",
+    "label_note": "Database lists multiple dance uses: Scottish, Andro. Excluded from ordinary single-dance aggregates."
+  },
+  {
+    "id": "f1e6cd7be8bd5823",
+    "name": "Bargainatt — Au Bord De L'eau (Mazurka)",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 1280,
+    "database_dances": [
+      "Mazurka"
+    ],
+    "album": "Omic",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "f07f969fce4242bf",
+    "name": "Blowzabella — The Rose of Raby - The Wars Of The Roses",
+    "seconds": 29.71275,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 10489,
+    "database_dances": [
+      "Mazurka"
+    ],
+    "album": "A Richer Dust",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "e5e5ac8a2295901c",
+    "name": "Brotto-Lopez — Lo Pichon trin - Mazurkà",
+    "seconds": 20.00988,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 5259,
+    "database_dances": [
+      "Mazurka"
+    ],
+    "album": "Le Bal Brotto-Lopez",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "e1305127c88d8b8a",
+    "name": "Philippe Plard — L'inconnu de Limoise (mazurka)",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 15686,
+    "database_dances": [
+      "Mazurka"
+    ],
+    "album": "La Valse Magnétique",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "2fc15739b15235f6",
+    "name": "Rémi Geffroy — Au bord de l'eau (mazurka)",
+    "seconds": 20.00988,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 5535,
+    "database_dances": [
+      "Mazurka"
+    ],
+    "album": "Dose de Bal",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "075afa25a68b91fb",
+    "name": "Naragonia — Calimero [live] (hanterdro)",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "hanter-dro"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 6850,
+    "database_dances": [
+      "Hanterdro"
+    ],
+    "album": "Bal Digital - Naragonia Trio",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "c701371bc53ecfa5",
+    "name": "Naragonia — Calimero (Hanterdro)",
+    "seconds": 20.01087,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "hanter-dro"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 654,
+    "database_dances": [
+      "Hanterdro"
+    ],
+    "album": "Boom Bal Vol. 2",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "ff3a9335ad36fe26",
+    "name": "Loogaroo — Simo",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "hanter-dro"
+    ],
+    "label_status": "multiple-dance-labels",
+    "database_tid": 5249,
+    "database_dances": [
+      "Rondeau en couple",
+      "Hanterdro"
+    ],
+    "album": "Nautilus",
+    "label_note": "Database lists multiple dance uses: Rondeau en couple, Hanterdro. Excluded from ordinary single-dance aggregates."
+  },
+  {
+    "id": "bf00c567e05d8b65",
+    "name": "Aurélien Claranbaux — Black Balsam - Du gras et du whisky",
+    "seconds": 20.01087,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "hanter-dro"
+    ],
+    "label_status": "multiple-dance-labels",
+    "database_tid": 251,
+    "database_dances": [
+      "Hanterdro",
+      "Scottish impaire"
+    ],
+    "album": "é uma ilha",
+    "label_note": "Database lists multiple dance uses: Hanterdro, Scottish impaire. Excluded from ordinary single-dance aggregates."
+  },
+  {
+    "id": "3ed03ba369712ec3",
+    "name": "Plantec — A-raok (andro)",
+    "seconds": 29.71275,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "an-dro"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 10845,
+    "database_dances": [
+      "Andro"
+    ],
+    "album": "A-raok",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "83b92c0de34f29d0",
+    "name": "Duo De Schepper-Sanczuk — Bemol",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "schottische"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 1826,
+    "database_dances": [
+      "Scottish"
+    ],
+    "album": "Port De Taipana",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "ae210037d03c9ace",
+    "name": "Jam.PT — Drumul Dracului (Romenia)",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "drumul"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 4946,
+    "database_dances": [
+      "Drumul Dracului"
+    ],
+    "album": "Jam.PT",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "b648c19c651a8db7",
+    "name": "Banda Brisca — Chapelloise: Zelda / Jump at the sun",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "chapelloise"
+    ],
+    "label_status": "compatible-rhythm",
+    "database_tid": 3430,
+    "database_dances": [
+      "Jig"
+    ],
+    "album": "io ballo brisco (live)",
+    "label_note": "Source identifies a jig; suitable rhythm is not evidence for one particular mixer choreography."
+  },
+  {
+    "id": "c06196180e25e2c0",
+    "name": "Effi Netzer and his band — Tzadik Katamar",
+    "seconds": 117.16787,
+    "source": "https://music-from-israel.bandcamp.com/track/tzadik-katamar",
+    "collection": "public-full",
+    "labels": [
+      "tzadik"
+    ],
+    "label_status": "source-labelled"
+  },
+  {
+    "id": "7980930878b1ac6b",
+    "name": "Naragonia — Alio (mazurka)",
+    "seconds": 20.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 4693,
+    "database_dances": [
+      "Mazurka"
+    ],
+    "album": "Tandem",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "64afb2a5479a45eb",
+    "name": "Naragonia — Alio [Live] (mazurka)",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 6861,
+    "database_dances": [
+      "Mazurka"
+    ],
+    "album": "Naragonia Live Stream 2020",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  },
+  {
+    "id": "fc7f8102e2857320",
+    "name": "Duo L-Hêtre Heureux ft David Häggi — Alio (Naragonia)",
+    "seconds": 30.0,
+    "source": "https://balfolk-db.eu/view/",
+    "collection": "public-preview",
+    "labels": [
+      "mazurka"
+    ],
+    "label_status": "source-labelled",
+    "database_tid": 7344,
+    "database_dances": [
+      "Mazurka"
+    ],
+    "album": "YouTube - Balfolk",
+    "label_note": "Artist/title/album metadata match; not audio identification."
+  }
+]

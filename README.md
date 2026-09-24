@@ -19,6 +19,9 @@ The animations show selected variants with schematic movement. References for
 individual dances and interpretation choices are recorded in the
 [dance audit](docs/dance-audit.md) and [dance review](docs/dance-review.md).
 
+Recording choices and animation checks: [shortlist](docs/recording-shortlist.md),
+[movement review](docs/movement-review.md), and [audio analysis](research/music-analysis/README.md).
+
 ## Development
 
 Use Node.js 24.12 or newer and the pnpm version pinned in `package.json`.

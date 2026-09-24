@@ -1,0 +1,63 @@
+{
+  "recordings": 428,
+  "hours": 29.51478,
+  "duration_basis": "Decoded audio; metadata estimates retained separately in CSV.",
+  "collections": {
+    "media-unknown": 47,
+    "balfolk": 340,
+    "public-full": 8,
+    "public-preview": 33
+  },
+  "labelled": 172,
+  "likely_transcoded_duplicates": 10,
+  "full_feature_analyses": 428,
+  "final_model": 428,
+  "small_model": 428,
+  "texture_analyses": 173,
+  "labels": {
+    "an-dro": {
+      "balfolk": 7,
+      "public-preview": 2
+    },
+    "bourree": {
+      "balfolk": 23,
+      "public-preview": 3
+    },
+    "cercle": {
+      "balfolk": 14,
+      "public-preview": 3
+    },
+    "chapelloise": {
+      "balfolk": 7,
+      "public-preview": 1
+    },
+    "drumul": {
+      "public-full": 4,
+      "public-preview": 1
+    },
+    "hanter-dro": {
+      "balfolk": 7,
+      "public-preview": 4
+    },
+    "mazurka": {
+      "balfolk": 22,
+      "public-full": 2,
+      "public-preview": 9
+    },
+    "noirmoutier": {
+      "balfolk": 1,
+      "public-preview": 3
+    },
+    "schottische": {
+      "balfolk": 29,
+      "public-preview": 6
+    },
+    "tzadik": {
+      "public-full": 2
+    },
+    "waltz": {
+      "balfolk": 24,
+      "public-preview": 3
+    }
+  }
+}

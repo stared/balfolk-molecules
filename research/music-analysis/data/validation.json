@@ -1,0 +1,31 @@
+{
+  "audio_items": 428,
+  "feature_arrays_checked": 2568,
+  "models_checked": 856,
+  "csv_rows": 428,
+  "finite_nonnegative_features": true,
+  "expected_frame_counts": true,
+  "monotonic_predictions": true,
+  "maximum_metadata_vs_decoded_duration_difference_seconds": 39.8621768707483,
+  "exported_durations_match_decoded_audio": true,
+  "damaged_audio_sources_flagged": [
+    "859a153f6ed4db9b",
+    "24ea73474a21d406",
+    "67b4b16409521b9a",
+    "eedea48c2578a76d"
+  ],
+  "maximum_prediction_overrun_seconds": 0.0,
+  "normalized_profiles": true,
+  "python_scripts_parse": true,
+  "viewer_javascript_parse": true,
+  "app_files_unchanged": true,
+  "viewer": {
+    "tracks": 170,
+    "all_profiles_rendered": true,
+    "errors": [],
+    "external_requests": [],
+    "audio_time": 50.264447,
+    "mobile_overflow": false
+  },
+  "scope": "Integrity and consistency only; not a test against human beat annotations."
+}

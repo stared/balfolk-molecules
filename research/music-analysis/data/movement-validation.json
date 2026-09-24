@@ -1,0 +1,68 @@
+{
+  "drumul": [
+    {
+      "artist": "Żniwa",
+      "counts": 384,
+      "stampCounts": 84,
+      "holdCounts": 36,
+      "seekInvariant": true
+    },
+    {
+      "artist": "Stary Olsa",
+      "counts": 320,
+      "stampCounts": 70,
+      "holdCounts": 30,
+      "seekInvariant": true
+    }
+  ],
+  "dances": [
+    {
+      "dance": "bourree",
+      "maxLean": 3
+    },
+    {
+      "dance": "chapelloise",
+      "maxLean": 3
+    },
+    {
+      "dance": "cercle",
+      "maxLean": 3
+    },
+    {
+      "dance": "branle-de-noirmoutier",
+      "maxLean": 3
+    },
+    {
+      "dance": "waltz",
+      "maxLean": 3
+    },
+    {
+      "dance": "schottische",
+      "maxLean": 2
+    },
+    {
+      "dance": "mazurka",
+      "maxLean": 3
+    },
+    {
+      "dance": "hanter-dro",
+      "maxLean": 3
+    },
+    {
+      "dance": "an-dro",
+      "maxLean": 3
+    },
+    {
+      "dance": "tzadik-katamar",
+      "maxLean": 3
+    },
+    {
+      "dance": "drumul-dracului",
+      "maxLean": 5
+    }
+  ],
+  "viewerTracks": 5,
+  "localAudio": true,
+  "mobileOverflow": false,
+  "errors": []
+}
