@@ -143,6 +143,7 @@ a { color: inherit; text-underline-offset: 3px; }
 #settings-panel input { accent-color: #237c80; margin: 0; }
 #source-reference { display: block; padding: 9px 5px; font-size: 12px; }
 #dancers.hide-support .support { display: none; }
+#dancers.hide-support .lean { transform: none; }
 .dance-reference { max-width: 1000px; margin: 24px auto 0; padding-bottom: 12px; }
 .reference-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
 #dance-names { margin: 0; font-size: 15px; font-weight: 500; color: #363c39; }
