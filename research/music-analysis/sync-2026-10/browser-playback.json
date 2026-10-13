@@ -1,0 +1,197 @@
+{
+  "date": "2026-10-13",
+  "initial": [
+    {
+      "dance": "bourree",
+      "id": "CtXFR4k0hCg",
+      "title": "Modelina’s Advice / Mitora",
+      "state": 1,
+      "seconds": 33.624346047683716,
+      "error": null,
+      "progress": 0.174,
+      "status": ""
+    },
+    {
+      "dance": "hanter-dro",
+      "id": "t9A3Gqhr7sw",
+      "title": "Calimero",
+      "state": 1,
+      "seconds": 1.111779912261963,
+      "error": null,
+      "progress": 0.312,
+      "status": ""
+    },
+    {
+      "dance": "hanter-dro",
+      "id": "9eSaBX8N58o",
+      "title": "Noctivagate",
+      "state": 1,
+      "seconds": 1.0999829961853027,
+      "error": null,
+      "progress": 0.309,
+      "status": ""
+    },
+    {
+      "dance": "an-dro",
+      "id": "589u7ofebU8",
+      "title": "Café Coiffeur",
+      "state": -1,
+      "seconds": 0,
+      "error": 150,
+      "progress": 0,
+      "status": "This video cannot be embedded. Choose another recording or No music."
+    },
+    {
+      "dance": "an-dro",
+      "id": "nsaP4H9ryyk",
+      "title": "Burning Andro",
+      "state": 1,
+      "seconds": 0.9707759752044678,
+      "error": null,
+      "progress": 0.369,
+      "status": ""
+    },
+    {
+      "dance": "chapelloise",
+      "id": "WRsnS1X_giw",
+      "title": "Jopelloise",
+      "state": 1,
+      "seconds": 2.386438192642212,
+      "error": null,
+      "progress": 0.362,
+      "status": ""
+    },
+    {
+      "dance": "chapelloise",
+      "id": "NqeNjJuqVLQ",
+      "title": "Jsem já synek",
+      "state": 1,
+      "seconds": 21.371118053405763,
+      "error": null,
+      "progress": 0.347,
+      "status": ""
+    },
+    {
+      "dance": "cercle",
+      "id": "JsT6Mz4lbEY",
+      "title": "Starwars",
+      "state": 1,
+      "seconds": 1.003854057220459,
+      "error": null,
+      "progress": 0.374,
+      "status": ""
+    },
+    {
+      "dance": "branle-de-noirmoutier",
+      "id": "n6ryuNSjmHo",
+      "title": "Branle des chevaliers",
+      "state": 1,
+      "seconds": 1.4541700267028808,
+      "error": null,
+      "progress": 0.367,
+      "status": ""
+    },
+    {
+      "dance": "waltz",
+      "id": "MXPl6iM2t4k",
+      "title": "Lora Luna",
+      "state": -1,
+      "seconds": 0,
+      "error": 150,
+      "progress": 0,
+      "status": "This video cannot be embedded. Choose another recording or No music."
+    },
+    {
+      "dance": "waltz",
+      "id": "9X1NAyDcNlw",
+      "title": "Po powrocie do domu",
+      "state": 1,
+      "seconds": 6.7202839904632565,
+      "error": null,
+      "progress": 0.655,
+      "status": ""
+    },
+    {
+      "dance": "schottische",
+      "id": "NJUhZDllgc0",
+      "title": "Scottish (YFK~2016)",
+      "state": 1,
+      "seconds": 42.70878498092652,
+      "error": null,
+      "progress": 0.598,
+      "status": ""
+    },
+    {
+      "dance": "schottische",
+      "id": "Xr9g4gRTl7c",
+      "title": "Jottish",
+      "state": 1,
+      "seconds": 1.5374880171661376,
+      "error": null,
+      "progress": 0.542,
+      "status": ""
+    },
+    {
+      "dance": "schottische",
+      "id": "8ehWd9yc1k0",
+      "title": "Dina and her musical house / Thanks, Pien!",
+      "state": 1,
+      "seconds": 152.69823888746643,
+      "error": null,
+      "progress": 0.643,
+      "status": ""
+    },
+    {
+      "dance": "mazurka",
+      "id": "_Zj8kWGUxp0",
+      "title": "Alio (Tandem)",
+      "state": 1,
+      "seconds": 2.107106942779541,
+      "error": null,
+      "progress": 0.455,
+      "status": ""
+    },
+    {
+      "dance": "mazurka",
+      "id": "DLb8aH3CSAY",
+      "title": "Šapito perdu",
+      "state": 1,
+      "seconds": 1.090598963760376,
+      "error": null,
+      "progress": 0.407,
+      "status": ""
+    },
+    {
+      "dance": "tzadik-katamar",
+      "id": "uzdj1hUiTV4",
+      "title": "Tzadik Katamar",
+      "state": -1,
+      "seconds": 0,
+      "error": 150,
+      "progress": 0,
+      "status": "This video cannot be embedded. Choose another recording or No music."
+    }
+  ],
+  "replacements": [
+    {
+      "dance": "waltz",
+      "id": "WdZhlntuf3s",
+      "title": "Lora Luna",
+      "state": 1,
+      "seconds": 3.491800015258789,
+      "error": null,
+      "progress": 0.567,
+      "status": ""
+    },
+    {
+      "dance": "tzadik-katamar",
+      "id": "DTiK8DishCM",
+      "title": "Tzadik Katamar",
+      "state": 1,
+      "seconds": 10.861027146865844,
+      "error": null,
+      "progress": 0.319,
+      "status": ""
+    }
+  ]
+}

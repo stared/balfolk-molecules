@@ -4,6 +4,32 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {beatAtTime,timeAtBeat,musicPosition,tempoAtTime,timeAtMusicPosition} from '../src/engine/music-time.ts';
 import {bourreeRecordings,recordingsByDance} from '../src/music/recordings.ts';
+import {repertoireMaps} from '../src/music/repertoire-beats.ts';
+
+test('new maps preserve the main count through detector subdivision changes',()=>{
+  // Exact-upload audio audit: these passages contain false half-count detections.
+  // Bounds deliberately allow expressive timing, but reject doubling/halving.
+  for(const [key,start,end,min,max] of [
+    ['alio',119,123,8,9],
+    ['calimero',29,39,14,16],
+    ['folk-hanter',56,60,5,6],
+  ] as const) {
+    const beats=repertoireMaps[key].beats;
+    const counts=beatAtTime(end,beats)-beatAtTime(start,beats);
+    assert.ok(counts>min&&counts<max,`${key}: ${counts} counts`);
+  }
+  const yfk=repertoireMaps.yfk.beats;
+  assert.ok(Math.abs((timeAtBeat(8,yfk)-yfk[0]!)-480/95)<0.00001);
+});
+
+test('Tzadik starts with the repeated melody after its introduction',()=>{
+  // Chroma matching against the notated opening motif rejects the earlier
+  // regular downbeat at 3.22 s; the motif begins at 10.12 s in this upload.
+  const beats=repertoireMaps['tzadik-dance'].beats;
+  assert.equal(beats[0],10.12);
+  assert.equal(beatAtTime(3.22,beats),0);
+  assert.equal(beats.length-1,3*48);
+});
 
 test('music clock interpolates variable beat intervals and clamps intro/outro',()=>{
   const beats=[2,2.5,3.1,3.8];
@@ -45,7 +71,7 @@ test('recording intros stay outside the dance cycle',()=>{
       assert.deepEqual(musicPosition(seconds,track.beats,64,8),{cycle:0,progress:0});
     }
     assert.deepEqual(musicPosition(start,track.beats,64,8),{cycle:0,progress:0});
-    assert.ok(Math.abs(musicPosition(start+60/track.bpm,track.beats,64,8).progress-0.125)<1e-10);
+    assert.ok(Math.abs(musicPosition(track.beats[1]!,track.beats,64,8).progress-0.125)<1e-10);
   }
 });
 
@@ -111,9 +137,9 @@ test('Barray uses three fast pulses per step pattern, rather than six',()=>{
 
 test('Drumul recordings keep 64-count cycles while the tempo accelerates',()=>{
   const [zniwa,olsa]=recordingsByDance['drumul-dracului']!;
-  assert.equal(zniwa!.beats[0],0.44);
+  assert.equal(zniwa!.beats[0],15.92);
   assert.equal(olsa!.beats[0],44.86);
-  assert.equal((zniwa!.beats.length-1)/64,6);
+  assert.equal((zniwa!.beats.length-1)/64,5);
   assert.equal((olsa!.beats.length-1)/64,5);
   for(const track of [zniwa!,olsa!]) {
     assert.ok(tempoAtTime(track.beats.at(-5)!,track.beats)>tempoAtTime(0,track.beats)+20);
@@ -133,19 +159,25 @@ test('tempo display follows the local count duration, including paused seeks',()
 });
 
 
-test('Żniwa starts on Crossing and swaps figures without changing the beat clock',()=>{
+test('Żniwa opens and restarts on Travel while retaining the established musical figure phase',()=>{
   const track=recordingsByDance['drumul-dracului']![0]!;
-  assert.equal(track.danceOffset,32);
+  assert.equal(track.danceOffset,undefined);
+  assert.equal(track.beats[0],15.92);
+  assert.equal(track.beats.at(-1),142.28);
   const at=(beat:number)=>musicPosition(timeAtBeat(beat,track.beats),track.beats,64,4,track.danceOffset);
-  assert.deepEqual(at(0),{cycle:0,progress:8});
-  assert.deepEqual(at(32),{cycle:1,progress:0});
-  assert.deepEqual(at(64),{cycle:1,progress:8});
-  assert.deepEqual(at(96),{cycle:2,progress:0});
-  for(const beat of [0,12.5,32,48,64,128.5,350]) {
+  assert.deepEqual(at(0),{cycle:0,progress:0});
+  assert.deepEqual(at(32),{cycle:0,progress:8});
+  assert.deepEqual(at(64),{cycle:1,progress:0});
+  assert.deepEqual(at(96),{cycle:1,progress:8});
+  // Native seeks into the omitted opening still hold at the first figure.
+  assert.deepEqual(musicPosition(.44,track.beats,64,4),{cycle:0,progress:0});
+  // Crossing remains at the same recording time as before the passage trim.
+  assert.equal(timeAtMusicPosition(0,8,track.beats,64,4),30.86);
+  for(const beat of [0,12.5,32,48,64,128.5,310]) {
     const pos=at(beat);
     assert.ok(Math.abs(timeAtMusicPosition(pos.cycle,pos.progress,track.beats,64,4,track.danceOffset)-timeAtBeat(beat,track.beats))<1e-9);
   }
-  // The opening travel figure is absent; clicking it seeks the next available one.
+  // Restart and a click on the first Travel figure share the selected entry.
   assert.equal(timeAtMusicPosition(0,0,track.beats,64,4,track.danceOffset),15.92);
   assert.equal(recordingsByDance['drumul-dracului']![1]!.danceOffset,undefined);
 });

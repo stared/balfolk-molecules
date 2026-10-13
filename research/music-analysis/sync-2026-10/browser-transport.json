@@ -1,0 +1,14 @@
+{
+  "recordings": 23,
+  "seekChecks": 138,
+  "transport": [
+    "restart",
+    "play",
+    "pause",
+    "rate",
+    "end",
+    "no music"
+  ],
+  "finiteGeometry": true,
+  "mobileOverflow": false
+}
