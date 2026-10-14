@@ -32,7 +32,7 @@ if __name__=='__main__':
  # All candidate data is retained in audit.json below.
 
  # Constant grids independently checked across 45-second windows.
- for name,bpm,start,n,cycle,bar in [('yfk',95,41.95081,400,8,4),('jopelloise',130,1.715415,512,32,4),('synek',110,20.61,288,32,4),('burning',132,.298,448,16,4)]:
+ for name,bpm,start,n,cycle,bar in [('yfk',95,41.95081,400,8,4),('jopelloise',130,1.715415,512,32,4),('synek',110,20.61,288,32,4),('burning',132,.298,448,16,4),('mazurska',114,24.294303,468,12,3)]:
   beats=start+np.arange(n+1)*60/bpm
   b=np.array(raw[name]['final0']['beats']);s=np.array(raw[name]['small0']['beats'])
   errors=np.minimum(np.min(abs(beats[:,None]-b),axis=1),np.min(abs(beats[:,None]-s),axis=1))

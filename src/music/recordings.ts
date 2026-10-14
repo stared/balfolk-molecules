@@ -78,6 +78,7 @@ export const recordingsByDance: Readonly<Record<string, readonly Recording[]>> =
   ],
   mazurka: [
     {videoId:'_Zj8kWGUxp0',title:'Alio (Tandem)',artist:'Naragonia',...repertoireMaps.alio},
+    {videoId:'OkT2h14eO6A',title:'Mazurská',artist:'ba.fnu',...repertoireMaps.mazurska},
     {videoId:'DLb8aH3CSAY',title:'Šapito perdu',artist:'Folk Knock',...repertoireMaps['folk-mazurka']},
   ],
   'tzadik-katamar': [

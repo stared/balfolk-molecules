@@ -158,6 +158,18 @@
   {
     "dance": "Mazurka",
     "id": "mazurka",
+    "artist": "ba.fnu",
+    "title": "Mazurská",
+    "videoId": "OkT2h14eO6A",
+    "bpm": 114,
+    "start": 24.294303,
+    "end": 270.610092,
+    "counts": 468,
+    "cycles": 39
+  },
+  {
+    "dance": "Mazurka",
+    "id": "mazurka",
     "artist": "Folk Knock",
     "title": "Šapito perdu",
     "videoId": "DLb8aH3CSAY",

@@ -1,0 +1,31 @@
+{
+  "bpm": 114,
+  "start": 24.294303,
+  "end": 270.61009247368423,
+  "counts": 468,
+  "cycles": 39,
+  "within60ms": 0.9914712153518124,
+  "p95ms": 20.433842105262556,
+  "modelDisagreements": [
+    {
+      "seconds": 86.92588194736842,
+      "nearestModelMs": 245.8819473684173,
+      "strongestFluxOffsetMs": -24.94331065759637
+    },
+    {
+      "seconds": 87.9785135263158,
+      "nearestModelMs": 198.5135263157929,
+      "strongestFluxOffsetMs": -24.94331065759637
+    },
+    {
+      "seconds": 88.50482931578948,
+      "nearestModelMs": 264.8293157894841,
+      "strongestFluxOffsetMs": -69.84126984126985
+    },
+    {
+      "seconds": 89.03114510526316,
+      "nearestModelMs": 251.1451052631628,
+      "strongestFluxOffsetMs": -4.988662131519274
+    }
+  ]
+}

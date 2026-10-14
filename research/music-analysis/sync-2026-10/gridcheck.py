@@ -3,7 +3,7 @@ import numpy as np,json
 from pathlib import Path
 base=Path(os.environ.get('BALFOLK_SYNC_WORK', '/tmp/balfolk-sync'))
 results={}
-for name,bpm,start,n in [('yfk',95,41.95081,400),('jopelloise',130,1.715415,512),('synek',110,20.61,288),('burning',132,.298,448),('zabili',95,6.98,540)]:
+for name,bpm,start,n in [('yfk',95,41.95081,400),('jopelloise',130,1.715415,512),('synek',110,20.61,288),('burning',132,.298,448),('zabili',95,6.98,540),('mazurska',114,24.294303,468)]:
  t=start+np.arange(n+1)*60/bpm;f=np.load(base/(name+'-features.npz'));fps=float(f['fps']);b=np.array(json.loads((base/(name+'-final0.json')).read_text())['beats']);s=np.array(json.loads((base/(name+'-small0.json')).read_text())['beats']);print(name,'end',t[-1])
  results[name]=[]
  # Compare each main beat against both neural models and peak spectral flux within 60 ms.

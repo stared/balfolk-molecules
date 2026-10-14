@@ -211,5 +211,49 @@
       "modelP90Ms": 27.05263157901072,
       "fluxMedianAbsMs": 37.414965986394556
     }
+  ],
+  "mazurska": [
+    {
+      "from": 24.294303,
+      "beats": 86,
+      "modelWithin60ms": 1.0,
+      "modelP90Ms": 15.88194736841686,
+      "fluxMedianAbsMs": 24.94331065759637
+    },
+    {
+      "from": 69.294303,
+      "beats": 85,
+      "modelWithin60ms": 0.9529411764705882,
+      "modelP90Ms": 20.433842105262556,
+      "fluxMedianAbsMs": 24.94331065759637
+    },
+    {
+      "from": 114.294303,
+      "beats": 86,
+      "modelWithin60ms": 1.0,
+      "modelP90Ms": 13.157894736835374,
+      "fluxMedianAbsMs": 24.94331065759637
+    },
+    {
+      "from": 159.294303,
+      "beats": 85,
+      "modelWithin60ms": 1.0,
+      "modelP90Ms": 12.644368421069894,
+      "fluxMedianAbsMs": 24.94331065759637
+    },
+    {
+      "from": 204.294303,
+      "beats": 86,
+      "modelWithin60ms": 1.0,
+      "modelP90Ms": 13.250368421040548,
+      "fluxMedianAbsMs": 24.94331065759637
+    },
+    {
+      "from": 249.294303,
+      "beats": 41,
+      "modelWithin60ms": 1.0,
+      "modelP90Ms": 15.170684210488616,
+      "fluxMedianAbsMs": 19.954648526077097
+    }
   ]
 }

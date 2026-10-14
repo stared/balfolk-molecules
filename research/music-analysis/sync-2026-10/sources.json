@@ -152,5 +152,12 @@
     "channel": "Bill Woodgate - Topic",
     "mediaSha256": "2f2108ae541fea4fe18af8891c9566c3f65d11446d71a9aaab68f12c07b94c77",
     "decodedSeconds": 118.72657596371882
+  },
+  "mazurska": {
+    "url": "https://www.youtube.com/watch?v=OkT2h14eO6A",
+    "title": "Mazurská (mazurka)",
+    "channel": "ba.fnu - Topic",
+    "mediaSha256": "b245675ab62b20d3836464a0a1bfa1a4f81fa2ffe50752d13cb256c34b239b00",
+    "decodedSeconds": 291.24
   }
 }
