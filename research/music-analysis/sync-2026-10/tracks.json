@@ -1,0 +1,404 @@
+{
+  "alio": {
+    "mapping": {
+      "method": "measured",
+      "start": 1.44,
+      "end": 182,
+      "period": 0.49,
+      "cycle": 12,
+      "bar": 3
+    },
+    "publish": true,
+    "browserCheck": {
+      "dance": "mazurka",
+      "seconds": [
+        2,
+        118,
+        123,
+        170,
+        40
+      ]
+    }
+  },
+  "balsam-bourree": {
+    "mapping": {
+      "method": "measured",
+      "start": 32.94,
+      "end": 267,
+      "period": 0.5,
+      "cycle": 64,
+      "bar": 4
+    },
+    "publish": true,
+    "structureReview": true
+  },
+  "balsam-waltz": {
+    "mapping": {
+      "method": "measured",
+      "start": 5.96,
+      "end": 175,
+      "period": 0.39,
+      "cycle": 6,
+      "bar": 3
+    },
+    "publish": true
+  },
+  "branle": {
+    "mapping": {
+      "method": "measured",
+      "start": 0.78,
+      "end": 256,
+      "period": 0.44,
+      "cycle": 32,
+      "bar": 4
+    },
+    "publish": true,
+    "structureReview": true
+  },
+  "folk-hanter": {
+    "mapping": {
+      "method": "measured",
+      "start": 0.42,
+      "end": 210,
+      "period": 0.73,
+      "cycle": 12,
+      "bar": 3
+    },
+    "publish": true
+  },
+  "folk-scottish": {
+    "mapping": {
+      "method": "measured",
+      "start": 151.94,
+      "end": 268,
+      "period": 0.585,
+      "cycle": 8,
+      "bar": 4
+    },
+    "publish": true
+  },
+  "folk-mazurka": {
+    "mapping": {
+      "method": "measured",
+      "start": 0.42,
+      "end": 277,
+      "period": 0.55,
+      "cycle": 12,
+      "bar": 3
+    },
+    "publish": true
+  },
+  "jottish": {
+    "mapping": {
+      "method": "measured",
+      "start": 0.86,
+      "end": 64,
+      "period": 0.62,
+      "cycle": 8,
+      "bar": 4
+    },
+    "publish": true
+  },
+  "starwars": {
+    "mapping": {
+      "method": "measured",
+      "start": 0.34,
+      "end": 112,
+      "period": 0.44,
+      "cycle": 64,
+      "bar": 4
+    },
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "cercle",
+      "seconds": [
+        1,
+        30,
+        57,
+        84,
+        12
+      ]
+    }
+  },
+  "tzadik": {
+    "mapping": {
+      "method": "measured",
+      "start": 10.36,
+      "end": 114,
+      "period": 0.58,
+      "cycle": 48,
+      "bar": 4
+    },
+    "publish": false,
+    "structureReview": true,
+    "repeatContrast": {
+      "unitCounts": 16,
+      "phaseStep": 4
+    }
+  },
+  "tzadik-dance": {
+    "mapping": {
+      "method": "measured",
+      "start": 10.12,
+      "end": 114,
+      "period": 0.58,
+      "cycle": 48,
+      "bar": 4
+    },
+    "publish": true,
+    "score": {
+      "source": "https://ifdo.ca/~seymour/midipage/tzadick_katamar.pdf",
+      "description": "Opening four score bars, played twice; pitch classes relative to C. Empty lists represent rests.",
+      "subdivisions": 2,
+      "motif": [
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          9
+        ],
+        [
+          9
+        ],
+        [],
+        [],
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          9
+        ],
+        [
+          9
+        ],
+        [],
+        []
+      ]
+    },
+    "browserCheck": {
+      "dance": "tzadik-katamar",
+      "seconds": [
+        11,
+        37,
+        64,
+        86,
+        14
+      ]
+    }
+  },
+  "calimero": {
+    "mapping": {
+      "method": "measured",
+      "start": 0.44,
+      "end": 171,
+      "period": 0.7,
+      "cycle": 12,
+      "bar": 3
+    },
+    "publish": true
+  },
+  "cafe": {
+    "mapping": {
+      "method": "measured",
+      "start": 6.18,
+      "end": 297,
+      "period": 0.638,
+      "cycle": 16,
+      "bar": 4
+    },
+    "publish": false
+  },
+  "lora-alt": {
+    "mapping": {
+      "method": "measured",
+      "start": 2.82,
+      "end": 60,
+      "period": 0.4,
+      "cycle": 6,
+      "bar": 3
+    },
+    "publish": true
+  },
+  "yfk": {
+    "mapping": {
+      "method": "grid",
+      "bpm": 95,
+      "start": 41.95081,
+      "counts": 400,
+      "cycle": 8,
+      "bar": 4
+    },
+    "publish": true,
+    "includeInAudit": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "schottische",
+      "seconds": [
+        42,
+        95,
+        120,
+        173,
+        251,
+        70
+      ]
+    }
+  },
+  "jopelloise": {
+    "mapping": {
+      "method": "grid",
+      "bpm": 130,
+      "start": 1.715415,
+      "counts": 512,
+      "cycle": 32,
+      "bar": 4
+    },
+    "publish": true,
+    "includeInAudit": true,
+    "structureReview": true
+  },
+  "synek": {
+    "mapping": {
+      "method": "grid",
+      "bpm": 110,
+      "start": 20.61,
+      "counts": 288,
+      "cycle": 32,
+      "bar": 4
+    },
+    "publish": true,
+    "includeInAudit": true,
+    "structureReview": true
+  },
+  "burning": {
+    "mapping": {
+      "method": "grid",
+      "bpm": 132,
+      "start": 0.298,
+      "counts": 448,
+      "cycle": 16,
+      "bar": 4
+    },
+    "publish": true,
+    "includeInAudit": true
+  },
+  "mazurska": {
+    "mapping": {
+      "method": "grid",
+      "bpm": 114,
+      "start": 24.294303,
+      "counts": 468,
+      "cycle": 12,
+      "bar": 3
+    },
+    "publish": true,
+    "includeInAudit": true,
+    "tempoFit": {
+      "window": [
+        30,
+        250
+      ],
+      "bpmRange": [
+        110,
+        118
+      ],
+      "candidates": 3201
+    },
+    "browserCheck": {
+      "dance": "mazurka",
+      "seconds": [
+        25,
+        87,
+        89,
+        140,
+        250,
+        269,
+        30
+      ]
+    }
+  },
+  "zabili": {
+    "mapping": {
+      "method": "grid",
+      "bpm": 95,
+      "start": 6.98,
+      "counts": 540,
+      "cycle": 12,
+      "bar": 3
+    },
+    "publish": false,
+    "includeInAudit": false
+  }
+}

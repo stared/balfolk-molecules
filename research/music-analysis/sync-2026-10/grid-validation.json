@@ -1,0 +1,474 @@
+{
+  "yfk": {
+    "bpm": 95,
+    "start": 41.95081,
+    "end": 294.58238894736843,
+    "counts": 400,
+    "cycles": 50,
+    "within60ms": 1.0,
+    "p95ms": 25.54684210525693,
+    "modelDisagreements": [],
+    "tempoFit": {
+      "window": [
+        41.95081,
+        294.58238894736843
+      ],
+      "bpm": 95.007125,
+      "coherence": 0.7406436312575808,
+      "configuredGridPhase": 0.2634229538388303
+    },
+    "barPhaseVotes": {
+      "final0": [
+        19,
+        24,
+        99,
+        12
+      ],
+      "small0": [
+        27,
+        26,
+        94,
+        12
+      ]
+    },
+    "windows": [
+      {
+        "from": 41.95081,
+        "beats": 72,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 12.858526315788765,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 86.95080999999999,
+        "beats": 71,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 27.084736842098778,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 131.95081,
+        "beats": 71,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 27.08473684211299,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 176.95081,
+        "beats": 71,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 18.17842105262457,
+        "fluxMedianAbsMs": 39.909297052154194
+      },
+      {
+        "from": 221.95080999999996,
+        "beats": 72,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 13.862631578953708,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 266.95080999999993,
+        "beats": 44,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 9.757368421048795,
+        "fluxMedianAbsMs": 29.931972789115644
+      }
+    ]
+  },
+  "jopelloise": {
+    "bpm": 130,
+    "start": 1.715415,
+    "end": 238.02310730769233,
+    "counts": 512,
+    "cycles": 16,
+    "within60ms": 1.0,
+    "p95ms": 12.338076923072094,
+    "modelDisagreements": [],
+    "tempoFit": {
+      "window": [
+        1.715415,
+        238.02310730769233
+      ],
+      "bpm": 130.0,
+      "coherence": 0.9938241942318671,
+      "configuredGridPhase": 0.3306392791396796
+    },
+    "barPhaseVotes": {
+      "final0": [
+        0,
+        1,
+        0,
+        136
+      ],
+      "small0": [
+        0,
+        0,
+        0,
+        136
+      ]
+    },
+    "windows": [
+      {
+        "from": 1.715415,
+        "beats": 98,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 10.799615384615358,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 46.715415,
+        "beats": 98,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 9.261153846154002,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 91.715415,
+        "beats": 98,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 9.261153846154002,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 136.715415,
+        "beats": 97,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 12.301615384609477,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 181.715415,
+        "beats": 98,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 11.242923076929397,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 226.715415,
+        "beats": 25,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 9.261153846154002,
+        "fluxMedianAbsMs": 29.931972789115644
+      }
+    ]
+  },
+  "synek": {
+    "bpm": 110,
+    "start": 20.61,
+    "end": 177.70090909090908,
+    "counts": 288,
+    "cycles": 9,
+    "within60ms": 1.0,
+    "p95ms": 13.636363636365445,
+    "modelDisagreements": [],
+    "tempoFit": {
+      "window": [
+        20.61,
+        177.70090909090908
+      ],
+      "bpm": 110.00274999999999,
+      "coherence": 0.9926016244103502,
+      "configuredGridPhase": 0.42840910536698795
+    },
+    "barPhaseVotes": {
+      "final0": [
+        13,
+        81,
+        0,
+        5
+      ],
+      "small0": [
+        0,
+        84,
+        1,
+        5
+      ]
+    },
+    "windows": [
+      {
+        "from": 20.61,
+        "beats": 83,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 11.818181818178175,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 65.61,
+        "beats": 82,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 15.272727272727604,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 110.61,
+        "beats": 83,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 10.000000000002274,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 155.61,
+        "beats": 41,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 9.999999999990905,
+        "fluxMedianAbsMs": 24.94331065759637
+      }
+    ]
+  },
+  "burning": {
+    "bpm": 132,
+    "start": 0.298,
+    "end": 203.93436363636363,
+    "counts": 448,
+    "cycles": 28,
+    "within60ms": 1.0,
+    "p95ms": 25.27272727272134,
+    "modelDisagreements": [],
+    "tempoFit": {
+      "window": [
+        0.298,
+        203.93436363636363
+      ],
+      "bpm": 132.0099,
+      "coherence": 0.9812220573402909,
+      "configuredGridPhase": 0.29713980273086926
+    },
+    "barPhaseVotes": {
+      "final0": [
+        113,
+        0,
+        1,
+        0
+      ],
+      "small0": [
+        113,
+        0,
+        0,
+        0
+      ]
+    },
+    "windows": [
+      {
+        "from": 0.298,
+        "beats": 99,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 22.000000000000064,
+        "fluxMedianAbsMs": 19.954648526077097
+      },
+      {
+        "from": 45.298,
+        "beats": 99,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 12.545454545460188,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 90.298,
+        "beats": 99,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 18.36363636364524,
+        "fluxMedianAbsMs": 14.965986394557822
+      },
+      {
+        "from": 135.298,
+        "beats": 99,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 16.181818181820518,
+        "fluxMedianAbsMs": 19.954648526077097
+      },
+      {
+        "from": 180.298,
+        "beats": 53,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 25.27272727272134,
+        "fluxMedianAbsMs": 24.94331065759637
+      }
+    ]
+  },
+  "mazurska": {
+    "bpm": 114,
+    "start": 24.294303,
+    "end": 270.61009247368423,
+    "counts": 468,
+    "cycles": 39,
+    "within60ms": 0.9914712153518124,
+    "p95ms": 20.433842105262556,
+    "modelDisagreements": [
+      {
+        "seconds": 86.92588194736842,
+        "nearestModelMs": 245.8819473684173,
+        "strongestFluxOffsetMs": -24.94331065759637
+      },
+      {
+        "seconds": 87.9785135263158,
+        "nearestModelMs": 198.5135263157929,
+        "strongestFluxOffsetMs": -24.94331065759637
+      },
+      {
+        "seconds": 88.50482931578948,
+        "nearestModelMs": 264.8293157894841,
+        "strongestFluxOffsetMs": -69.84126984126985
+      },
+      {
+        "seconds": 89.03114510526316,
+        "nearestModelMs": 251.1451052631628,
+        "strongestFluxOffsetMs": -4.988662131519274
+      }
+    ],
+    "tempoFit": {
+      "window": [
+        30,
+        250
+      ],
+      "bpm": 114.0,
+      "coherence": 0.776349934188411,
+      "configuredGridPhase": 0.08377649235788578
+    },
+    "barPhaseVotes": {
+      "final0": [
+        2,
+        115,
+        2
+      ],
+      "small0": [
+        15,
+        126,
+        11
+      ]
+    },
+    "windows": [
+      {
+        "from": 24.294303,
+        "beats": 86,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 15.88194736841686,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 69.294303,
+        "beats": 85,
+        "modelWithin60ms": 0.9529411764705882,
+        "modelP90Ms": 20.433842105262556,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 114.294303,
+        "beats": 86,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 13.157894736835374,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 159.294303,
+        "beats": 85,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 12.644368421069894,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 204.294303,
+        "beats": 86,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 13.250368421040548,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 249.294303,
+        "beats": 41,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 15.170684210488616,
+        "fluxMedianAbsMs": 19.954648526077097
+      }
+    ]
+  },
+  "zabili": {
+    "bpm": 95,
+    "start": 6.98,
+    "end": 348.03263157894736,
+    "counts": 540,
+    "cycles": 45,
+    "within60ms": 1.0,
+    "p95ms": 36.842105263190206,
+    "modelDisagreements": [],
+    "tempoFit": {
+      "window": [
+        6.98,
+        348.03263157894736
+      ],
+      "bpm": 95.007125,
+      "coherence": 0.9874259601183177,
+      "configuredGridPhase": 0.02212464641221531
+    },
+    "barPhaseVotes": {
+      "final0": [
+        1,
+        0,
+        190
+      ],
+      "small0": [
+        4,
+        2,
+        192
+      ]
+    },
+    "windows": [
+      {
+        "from": 6.98,
+        "beats": 72,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 14.736842105264714,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 51.980000000000004,
+        "beats": 71,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 23.15789473684049,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 96.98,
+        "beats": 71,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 13.684210526321294,
+        "fluxMedianAbsMs": 9.977324263038549
+      },
+      {
+        "from": 141.98,
+        "beats": 71,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 20.000000000010232,
+        "fluxMedianAbsMs": 14.965986394557822
+      },
+      {
+        "from": 186.98,
+        "beats": 72,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 32.631578947359685,
+        "fluxMedianAbsMs": 39.909297052154194
+      },
+      {
+        "from": 231.98,
+        "beats": 71,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 42.105263157964146,
+        "fluxMedianAbsMs": 39.909297052154194
+      },
+      {
+        "from": 276.98,
+        "beats": 71,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 36.842105263190206,
+        "fluxMedianAbsMs": 44.897959183673464
+      },
+      {
+        "from": 321.98,
+        "beats": 42,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 27.05263157901072,
+        "fluxMedianAbsMs": 37.414965986394556
+      }
+    ]
+  }
+}
