@@ -17,6 +17,7 @@ interface YouTubeAPI {
       onReady(): void;
       onStateChange(event: {data: number}): void;
       onError(event: {data: number}): void;
+      onAutoplayBlocked(): void;
     };
   }) => YouTubePlayer;
 }
@@ -40,12 +41,22 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
   let ready = false;
   let loading = false;
   let currentId = '';
+  // Commands cross an iframe boundary. Keep the latest intent until the
+  // corresponding state arrives; buffering is not a request to stop.
+  let pending: boolean | undefined;
+  let active = false;
+  // The iframe clock can keep advancing after pauseVideo(). Freeze the clock
+  // exposed to the dancers at the last observed time, including through the
+  // delayed PAUSED notification. Explicit seeks still update the held time.
+  let heldTime: number | undefined;
+  let lastTime = 0;
   let generation = 0;
   return {
     async load(videoId: string, startSeconds = 0) {
       if (videoId === currentId && (ready || loading)) return;
       const request = ++generation;
-      ready = false; loading = true;
+      ready = false; loading = true; pending = undefined; active = false;
+      heldTime = undefined; lastTime = startSeconds;
       player?.destroy(); player = undefined;
       currentId = videoId;
       try {
@@ -58,10 +69,33 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
           playerVars: {origin: location.origin, playsinline: 1, controls: 1, autoplay: 0, start: Math.max(0, Math.floor(startSeconds))},
           events: {
             onReady() { if (request !== generation) return; ready = true; loading = false; changed(); },
-            onStateChange() { if (request === generation) changed(); },
+            onStateChange(event) {
+              if (request !== generation) return;
+              const state = event.data;
+              if (pending === false && (state === 1 || state === 3)) {
+                // A late PLAYING/BUFFERING notification must not undo Pause.
+                player?.pauseVideo();
+              } else if (state === 1) {
+                heldTime = undefined;
+                active = true; pending = undefined;
+              } else if ([0,2,5].includes(state) && pending !== true) {
+                if (pending !== false && (active || state !== 2)) heldTime = undefined;
+                active = false; pending = undefined;
+              } else if (state === 3 && pending === undefined) {
+                heldTime = undefined;
+                active = true;
+              }
+              changed();
+            },
+            onAutoplayBlocked() {
+              if (request !== generation) return;
+              pending = undefined; active = false;
+              failed('Playback was blocked. Press Play in the video player.');
+              changed();
+            },
             onError(event) {
               if (request !== generation) return;
-              ready = false; loading = false;
+              ready = false; loading = false; pending = undefined; active = false;
               failed([101,150].includes(event.data) ? 'This video cannot be embedded. Choose another recording or No music.' : 'YouTube playback is unavailable. Choose No music to practise.');
               changed();
             },
@@ -70,11 +104,35 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
       } catch (error) { if (request !== generation) return; loading = false; failed(error instanceof Error ? error.message : 'YouTube is unavailable.'); changed(); }
     },
     get ready() { return ready; },
+    get playing() { return ready && (pending ?? active); },
     get state() { return ready ? player!.getPlayerState() : -1; },
-    get time() { const time = ready ? player!.getCurrentTime() : 0; return Number.isFinite(time) ? time : 0; },
+    get time() {
+      if (heldTime !== undefined) return heldTime;
+      const time = ready ? player!.getCurrentTime() : 0;
+      lastTime = Number.isFinite(time) ? time : 0;
+      return lastTime;
+    },
     get rate() { const rate = ready ? player!.getPlaybackRate() : 1; return Number.isFinite(rate) && rate > 0 ? rate : 1; },
-    play() { if (ready) player!.playVideo(); },
-    pause() { if (ready) player!.pauseVideo(); },
-    seek(seconds: number) { if (ready) player!.seekTo(seconds, true); },
+    play() {
+      if (!ready) return;
+      heldTime = undefined;
+      pending = pending === false || player!.getPlayerState() !== 1 ? true : undefined;
+      active = true;
+      player!.playVideo();
+    },
+    pause() {
+      if (!ready) return;
+      heldTime = lastTime;
+      // Pausing an already stopped player may emit no acknowledgement. Do not
+      // leave a stale cancellation that would block its own embedded controls.
+      pending = pending === true || active || [1,3].includes(player!.getPlayerState()) ? false : undefined;
+      active = false;
+      player!.pauseVideo();
+    },
+    seek(seconds: number) {
+      if (!ready) return;
+      if (heldTime !== undefined) heldTime = lastTime = seconds;
+      player!.seekTo(seconds, true);
+    },
   };
 }

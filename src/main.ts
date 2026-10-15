@@ -22,6 +22,7 @@ const recordingSelect = $<HTMLSelectElement>('#music-recording');
 let recording = itemAt(bourreeRecordings, 0);
 let musicError = '';
 let musicEnded = false;
+let awaitingMusicRestart = false;
 let loadingRecording = false;
 const youtube = createYouTubePlayer($('#youtube-player'), musicChanged, message => { musicError = message; });
 const selectedRecordings = new Map<string, string>();
@@ -34,7 +35,7 @@ function setupMusic() {
   for (const track of tracks) recordingSelect.add(new Option(`${track.artist} — ${track.title}`, track.videoId));
   recordingSelect.value = selectedRecordings.get(dance.id) ?? tracks[0]?.videoId ?? '';
   recording = tracks.find(track => track.videoId === recordingSelect.value) ?? recording;
-  musicError = ''; musicEnded = false;
+  musicError = ''; musicEnded = false; awaitingMusicRestart = false;
   $('#music-panel').hidden = tracks.length === 0;
 }
 function withMusic() { return !!recordingsByDance[dance.id]?.some(track => track.videoId === recordingSelect.value); }
@@ -45,24 +46,38 @@ function updateMusicStatus() {
   status.hidden = !message;
   $('#youtube-player').hidden = !withMusic();
   tempoSlider.disabled = withMusic();
-  $<HTMLButtonElement>('#play').disabled = withMusic() && !youtube.ready;
+  $<HTMLButtonElement>('#play').disabled = withMusic() && !rearrangement && !youtube.ready;
 }
 function musicChanged() {
   // A video must not keep playing after its dance has been hidden.
   if (!withMusic()) { if (youtube.state === 1 || youtube.state === 3) youtube.pause(); return; }
   if (withMusic() && !rearrangement && !loadingRecording) {
-    playing = youtube.state === 1;
-    if (playing && musicEnded && youtube.time >= recording.beats.at(-1)!) youtube.seek(recording.beats[0]!);
-    if (playing) musicEnded = false;
+    playing = youtube.playing && youtube.state === 1;
+    if (playing && musicEnded && youtube.time >= recording.beats.at(-1)!) restartMusicClock();
+    if (playing) { musicEnded = false; musicError = ''; }
     followMusic(); render();
+  } else if (rearrangement) {
+    render();
   }
   updateMusicStatus();
 }
+function restartMusicClock() {
+  // seekTo is asynchronous: the old end timestamp may remain visible even
+  // after PLAYING arrives. Do not immediately stop that new Play request.
+  awaitingMusicRestart = youtube.time >= recording.beats.at(-1)!;
+  progress = 0; cycle = 0;
+  youtube.seek(recording.beats[0]!);
+}
 function followMusic() {
+  if (awaitingMusicRestart) {
+    if (youtube.time >= recording.beats.at(-1)!) return;
+    awaitingMusicRestart = false;
+  }
   const position = musicPosition(youtube.time, recording.beats, dance.duration * musicalBeatsPerPhrase(dance), musicalBeatsPerPhrase(dance), recording.danceOffset);
   progress = position.progress; cycle = position.cycle;
 }
 function seekDance(time: number) {
+  awaitingMusicRestart = false;
   if (withMusic()) {
     youtube.pause();
     youtube.seek(timeAtMusicPosition(cycle,time,recording.beats,dance.duration*musicalBeatsPerPhrase(dance),musicalBeatsPerPhrase(dance),recording.danceOffset));
@@ -157,7 +172,9 @@ function render() {
   scrub.value = String(progress);
   const position=Math.min(progress,dance.duration-1e-9),section=sectionAt(position);
   scrub.setAttribute('aria-valuetext', `${section.name}, phrase ${Math.floor(position-section.start)+1}, beat ${Math.floor(position*musicalBeatsPerPhrase(dance))+1}`);
-  $('#play').textContent = playing ? 'Pause' : 'Play';
+  const pauseAction = withMusic() ? youtube.playing || (!!rearrangement && playing) : playing;
+  $('#play').textContent = pauseAction ? 'Pause' : 'Play';
+  $('#play').dataset.action = pauseAction ? 'pause' : 'play';
   $('#pair-count').textContent = String(live.count);
   $<HTMLButtonElement>('#add-pair').disabled = live.count >= maxPairCount;
   $<HTMLButtonElement>('#remove-pair').disabled = live.count === 0;
@@ -167,13 +184,17 @@ $('#sections').addEventListener('click', event => {
   if (button) seekDance(itemAt(dance.sections, Number(button.dataset.section)).start);
 });
 $('#play').addEventListener('click', () => {
-  if (withMusic() && !rearrangement) {
-    if (youtube.state === 1) { youtube.pause(); playing = false; }
-    else {
-      if (musicEnded || youtube.time < recording.beats[0]! || youtube.time >= recording.beats.at(-1)!) { youtube.seek(recording.beats[0]!); musicEnded = false; }
-      youtube.play();
-    }
-  } else playing = !playing;
+  // Honour the action displayed on the button. Pause stops both channels,
+  // including video started with its own controls during a formation change.
+  if ($('#play').dataset.action === 'pause') {
+    youtube.pause();
+    playing = false;
+    if (withMusic() && !rearrangement) followMusic();
+  } else if (withMusic() && !rearrangement) {
+    if (musicEnded || youtube.time < recording.beats[0]! || youtube.time >= recording.beats.at(-1)!) { restartMusicClock(); musicEnded = false; }
+    musicError = '';
+    youtube.play();
+  } else playing = true;
   render();
 });
 $('#reset').addEventListener('click', () => { if (withMusic()) { youtube.pause(); youtube.seek(recording.beats[0]!); playing = false; musicEnded = false; } progress = 0; cycle = 0; chaos.reset(); live.restart(); if(withMusic()) followMusic(); if(rearrangement && displayed)rearrangement=new FormationChange(displayed,danceFrame()); render(); });
@@ -211,7 +232,7 @@ recordingSelect.addEventListener('change', async () => {
   selectedRecordings.set(dance.id, recordingSelect.value);
   const selected = recordingsByDance[dance.id]?.find(track => track.videoId === recordingSelect.value);
   if (selected) recording = selected;
-  musicError = ''; musicEnded = false; progress = 0; cycle = 0; chaos.reset();
+  musicError = ''; musicEnded = false; awaitingMusicRestart = false; progress = 0; cycle = 0; chaos.reset();
   updateMusicStatus(); showTempo(); render();
   if (selected) await youtube.load(recording.videoId, recording.beats[0]!);
   loadingRecording = false; updateMusicStatus(); showTempo(); render();
@@ -228,10 +249,10 @@ tempoSlider.addEventListener('input', () => {
 });
 function animate(time: number) {
   if (withMusic() && !rearrangement) {
-    playing = youtube.ready && youtube.state === 1;
+    playing = youtube.playing && youtube.state === 1;
     if (youtube.ready) {
       followMusic();
-      if (playing && youtube.time >= recording.beats.at(-1)!) {
+      if (playing && !awaitingMusicRestart && youtube.time >= recording.beats.at(-1)!) {
         youtube.pause(); playing = false; musicEnded = true;
       }
     }
