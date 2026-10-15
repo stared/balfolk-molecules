@@ -32,13 +32,14 @@ const circle = sequence('Circle',action('In',4),action('Out',4));
 const mazurkaHalf = (first: string, other: string) => sequence(`${first} lead`,
   action('Lower',2,`Small weight shift onto ${first.toLowerCase()}; soften without travelling.`),
   action('Transfer',1,`Transfer to ${other.toLowerCase()} on three.`),...[first,other,first].map(foot=>action(foot,1,`Small walking step on ${foot.toLowerCase()}.`)));
-const tzadikWalk = sequence('Procession',walk('Walk',['Right','Left','Right','Left']),
+const tzadikWalk = sequence('Travel',walk('Walk',['Right','Left','Right','Left']),
   walk('Sway',['Right','Left','Right','Left']));
-const tzadikFigure = sequence('Figure',
-  sequence('Grapevine',action('Side',1),action('Cross',1),action('Side',1),action('Behind',1)),
-  action('Turn',2,'Full clockwise turn on right, left.'),
-  sequence('Rock',action('Side',1),action('Cross',1),action('Recover',1)),
-  sequence('Rock',action('Side',1),action('Cross',1),action('Recover',1)),
+const tzadikFigure = sequence('Crossing',
+  sequence('Forward',action('Right',1),action('Left',1)),
+  sequence('Back',action('Right',1,'Continue anticlockwise, walking backwards.'),action('Left',1,'Continue anticlockwise, walking backwards.')),
+  action('Turn',2,'Turn right on right, left, travelling anticlockwise; finish facing inward.'),
+  sequence('Lean R',action('Side',1,'Right opens right.'),action('Lean',1,'Left crosses; incline inward over the support.'),action('Recover',1,'Recover onto right.')),
+  sequence('Lean L',action('Side',1,'Left opens left.'),action('Lean',1,'Right crosses; incline inward over the support.'),action('Recover',1,'Recover onto left.')),
   walk('Sway',['Right','Left','Right','Left']));
 const drumulSide = (name: string): Phrase => sequence(name,
   sequence('Travel',action('Side',1),action('Close',1),action('Side',1),action('Close',1),action('Side',1)),

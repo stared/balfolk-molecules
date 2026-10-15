@@ -1,5 +1,47 @@
 # Dance review — 18 September 2026
 
+## Tzadik follow-up — 14 October 2026
+
+Research into the second figure, prompted by the missing forward/backward quality and travelling turn. This follow-up records the research and the subsequent correction.
+
+The important distinction is **walking backwards versus reversing travel**. In the forward/backward version, all four opening steps continue anticlockwise around the circle. The body changes its facing. Moving the whole ring forwards and then back would misread this version.
+
+### Evidence compared
+
+| Source | Relevant evidence |
+| --- | --- |
+| [Phyllis S. Weikart, *Teaching Folk Dance: Successful Steps* (1997), printed pp. 504–505](https://files.eric.ed.gov/fulltext/ED429050.pdf#page=483) | Explicitly gives two forward steps followed by two backward steps, both travelling counterclockwise, then two turning steps. This resolves the ambiguity in shorter forward/backward descriptions. |
+| [Teme Kernerman collection, OFDA, PDF p. 15](https://ofda.ca/wp/wp-content/uploads/2016/01/Kernerman-Israeli-Dance-Notes-M-Z.pdf#page=15) | Forward R–L, backward R–L, right turn R–L, two mirrored side/cross/recover groups, four sways; repeat. It does not specify the path during the backward steps as clearly as Weikart. OFDA credits Kernerman as the collection donor, not necessarily the author of each sheet. |
+| [Gadi Bitton teaching demonstration](https://www.youtube.com/watch?v=rsYtGF61dy0&t=79s) | Frame inspection of approximately 79–83 s shows the changing torso orientation through the opening crossing steps while travel continues in the same direction. Approximately 34–37 s and 48–51 s show a turn with substantial displacement, followed by a crossing rock. These are visual observations, not motion-capture measurements. |
+| [Teresa Cook, Rejoice in Dance teaching demonstration](https://www.youtube.com/watch?v=P4NS0ulC2gI&t=98s) | Frames around 98–107 s show the travelling turn; around 108–125 s show separate crossing weight transfers with body inclination. Useful corroboration of movement quality, not authority for every count or handhold in the Israeli version. |
+| [Evansville Folk Dancers](https://www.evansvillefolkdancers.com/resources/Notes/T/Tzadik%20Katamar%20DN.pdf) | The current catalogue source: side, cross in front, side, cross behind; a two-count clockwise turn; mirrored rocks and sways. It does not explicitly require travel during the turn. The existing grapevine label therefore has a source, even though the animation loses the forward/backward body orientation. |
+| [Dina and Shlomo Bachar, *Back from Israel / Hadarim III*, booklet transcription](https://doczz.net/doc/3613863/back-from-israel---hadarim-iii) | Describes the grapevine lead-in and explicitly travelling clockwise turn to the right. The available page is a mirror of the booklet. |
+| [California Folk Dance Federation, October 1973, printed p. 18](https://www.folkdance.com/LDArchive/1973October.pdf#page=20) | Records a three-step travelling turn, R–L–R, before the L crossing step. Also specifies light walking with easy knee flexion. The third step differs from the two-step-turn notation; neither changes the 16-count figure length. |
+| [Lutz Pietschker's learned version](https://flyhi.de/dances/tanz-tzadik.html) | Explicitly describes the two-step turn in place. This is evidence of a variant, so an in-place turn is not universally invalid. It is unsuitable for the travelling version requested here. |
+
+### Proposed movement and counts
+
+Counts below restart at the beginning of each 16-count figure (whole-cycle counts 17 and 33).
+
+| Counts | Movement |
+| --- | --- |
+| 1–2 | R–L forward along the circle, anticlockwise. |
+| 3–4 | R–L backward along the same anticlockwise path, changing body orientation through the lead-in. |
+| 5–6 | Rightward travelling turn on R–L; finish facing the centre. |
+| 7–9 | R opens right, L crosses in front, recover onto R. |
+| 10–12 | L opens left, R crosses in front, recover onto L. |
+| 13–16 | Four alternating sways, R–L–R–L. |
+
+The crossing/grapevine and forward/backward descriptions overlap in practice: turning the torso makes the front and behind crossings read as forward and backward walking. They should not automatically be treated as two completely different floor paths. Precise facing angles and turn completion vary; the videos do not establish fixed angles per beat.
+
+### Implementation findings
+
+In `src/dances/folk-circles.ts`, the four lead-in poses all face inward. Both turn steps have zero travel along the circle. Direct sampling shows only a 4-unit radial return from the preceding behind-crossing pose, with no advance around the ring. The current test asserts an absolute 360-degree angle change but never checks travelling displacement, so it preserves that defect for the requested version.
+
+The six rocking counts already have the correct alternating support order and inward/recovery excursions. Their torso remains inward throughout, making the diagonal crossing quality less legible. The correction should add restrained body orientation and inclination to those transfers, rather than larger travel or extra impact effects.
+
+Recommended implementation: keep the 48-count cycle and existing music alignment; express forward/backward orientation during continuous anticlockwise travel, carry the two turning supports along that path, and retain two distinct mirrored rocks. Test turn rotation relative to the changing circle tangent, positive travel on both turning steps, rock recovery and continuity. A global angle difference alone cannot validate a travelling turn. Exact distances, facing angles, speed curves and lean amplitudes remain animation choices requiring visual review.
+
 Review of all eleven implemented dances: source descriptions, animation scores, hierarchy data, names, origins, materials and rendered timelines. This is a review of the selected versions, not certification of every regional form. No choreography or interface changes were made in this review.
 
 ## Findings, in priority order
@@ -134,3 +176,17 @@ Each origin string was checked against at least one source beyond the step sheet
 | Hanter-dro, An dro | Pays vannetais (Morbihan), Brittany, France | French Wikipedia on [hanter-dro](https://fr.wikipedia.org/wiki/Hanter-dro) and [an-dro](https://fr.wikipedia.org/wiki/An-dro): “danse bretonne originaire du pays vannetais”. | Made more precise; Morbihan was correct. |
 | Tzadik Katamar | Israel | [Folkdance Footnotes](https://folkdancefootnotes.org/dance/a-real-folk-dance-what-is-it/2nd-generation-dances/tzadik-katamar-israel/): choreographed by Yonatan Gabay in 1965 (one listing says 1969) to a melody by Amitai Ne'eman, Psalm 92:13. | Supported. |
 | Drumul Dracului | Moldavia, Romania (Hungarian Csángó tradition) | [SoCal notes](https://socalfolkdance.org/dances/D/Drumul_Dracului.pdf): “Moldvai-Csángó, Rumania”, a Hungarian-speaking group around Bacău; sources Zoltan Farkas and Ferenc Sára; closed circle. [Hardwick](https://duramecho.com/Dance/BEECIIFolkDance/Drumul_Dracului.html): Csángó, of Hungarian origin. | Made more precise; the earlier string was correct. |
+
+### Tzadik correction implemented
+
+The lead-in now swivels from forward to backward orientation while all four steps advance anticlockwise. Both turning supports advance along the circle and finish facing inward; the turn includes alignment from the backward-facing lead-in. The two crossing rocks have small mirrored torso turns. Forward and Backward are separate timeline groups, with the continuing anticlockwise direction explained in the backward-step details. The source list now includes Weikart.
+
+Movement checks cover travel on each of the six steps, forward/backward facing, turn completion relative to the circle tangent, and recovery after both rocks. The 48-count cycle and recording maps are unchanged. Angles and distances remain illustrative.
+
+### Lean and hierarchy follow-up
+
+Tzadik now uses three hierarchy levels, keeping movement groups visible when individual supporting-foot labels cannot fit. Its broad groups are Walk & sway and Travel, turn & lean. The crossing supports stay on the ring: inward expression comes from a small torso offset and foreshortening that recover smoothly. Drumul retains small crossing/opening steps, with most expression in the visible torso and hip twist. Previously hipAngle affected only normally hidden stamp marks. Tests distinguish torso lean from floor travel and check recovery on both sides.
+
+### Tzadik labels — 15 October 2026
+
+The horizontal, beat-aligned diagram retains its existing layout. The chosen visible hierarchy is Travel → Walk / Sway and Crossing → Fwd / Back / Turn / Lean R / Lean L / Sway, with both repetitions expanded along the ruler. Forward remains spelled out in the tooltip and accessible name. Both visible rows use 12 px text. Supporting-foot detail stays in tooltips; narrow screens scroll the same diagram rather than shrink labels. Desktop and mobile screenshots confirm consistent font sizes without text overflowing its cells.

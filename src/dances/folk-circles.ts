@@ -4,7 +4,7 @@ import type { Dancer, HandReach } from '../model.ts';
 
 // Counted body-centre sketches, not foot-placement notation. Distances are
 // illustrative; each entry ends one musical count. Positive travel = own right.
-interface Pose { travel: number; depth: number; facing: number; weight: -1 | 1 }
+interface Pose { travel: number; depth: number; facing: number; weight: -1 | 1; leanX?:number; leanY?:number }
 interface Count extends Pose { stamp?: -1 | 1 }
 const start: Pose = {travel:0,depth:0,facing:0,weight:-1};
 const repeat = <T>(items: readonly T[], times: number): T[] => Array.from({length:times},()=>items).flat();
@@ -12,8 +12,8 @@ const repeat = <T>(items: readonly T[], times: number): T[] => Array.from({lengt
 function tzadikScore(): Count[] {
   const score: Count[]=[];
   let pose: Pose={...start,facing:90};
-  const step=(distance:number,depth:number,facing:number,weight:-1|1)=>{
-    pose={travel:pose.travel+distance,depth,facing,weight}; score.push(pose);
+  const step=(distance:number,depth:number,facing:number,weight:-1|1,leanX=0,leanY=0)=>{
+    pose={travel:pose.travel+distance,depth,facing,weight,leanX,leanY}; score.push(pose);
   };
   for(let r=0;r<2;r++) {
     for(let i=0;i<4;i++)step(11,0,i===3?0:90,i%2===0?1:-1);
@@ -21,13 +21,16 @@ function tzadikScore(): Count[] {
   }
   for(let r=0;r<2;r++) {
     const base=r*360;
-    // Side, cross in front, side, cross behind (open mayim).
-    step(8,0,base,1); step(8,4,base,-1); step(8,0,base,1); step(8,-4,base,-1);
-    // Two-step clockwise turn, then side and cross/rock toward centre.
-    step(0,0,base+180,1); step(0,0,base+360,-1);
-    step(8,0,base+360,1); step(4,10,base+360,-1);
-    step(-4,0,base+360,1); step(-8,0,base+360,-1);
-    step(-4,10,base+360,1); step(4,0,base+360,-1);
+    // Forward then backward steps keep travelling anticlockwise.
+    // The torso swivels through the crossings; angles are illustrative.
+    step(8,0,base+75,1); step(8,4,base+45,-1);
+    step(8,0,base-60,1); step(8,-4,base-45,-1);
+    // Travel on both turning supports, finishing inward. The extra quarter-ish
+    // rotation aligns the backward-facing lead-in with the crossing rocks.
+    step(10,0,base+135,1); step(10,0,base+360,-1);
+    step(8,0,base+360,1); step(0,0,base+378,-1,2,-5);
+    step(0,0,base+360,1); step(-8,0,base+360,-1);
+    step(0,0,base+342,1,-2,-5); step(0,0,base+360,-1);
     for(let i=0;i<4;i++)step(i%2===0?5:-5,0,base+360+(r===1&&i===3?90:0),i%2===0?1:-1);
   }
   return score;
@@ -36,7 +39,8 @@ function drumulScore(): Count[] {
   const score:Count[]=[];
   let pose:Pose={...start};
   const add=(distance:number,depth:number,weight:-1|1,stamp?:-1|1,facing=0)=>{
-    pose={travel:pose.travel+distance,depth,facing,weight};
+    pose={travel:pose.travel+distance,depth,facing,weight,
+      leanX:facing/6,leanY:facing<0?-4:facing>0?2.5:0};
     score.push(stamp===undefined?pose:{...pose,stamp});
   };
   for(let r=0;r<2;r++)for(const direction of [1,-1] as const) {
@@ -49,8 +53,8 @@ function drumulScore(): Count[] {
       // Cross R in front toward the left diagonal, recover on L;
       // open R to the side/back, recover on L. Small centre travel, visible twist.
       // Twist magnitude is illustrative, not a measured hip angle.
-      add(-6,6,1,undefined,-18); add(6,0,-1);
-      add(6,-4,1,undefined,18); add(-6,0,-1);
+      add(-2,1,1,undefined,-18); add(2,0,-1);
+      add(2,-1,1,undefined,18); add(-2,0,-1);
     }
     for(let stamp=0;stamp<3;stamp++)add(0,0,-1,1);
     add(0,0,-1);
@@ -80,12 +84,15 @@ function countedFrame(kind:'tzadik'|'drumul',time:number,cycle:number) {
   const radius=145-mix(a.depth,b.depth);
   const weight=a.weight+(b.weight-a.weight)*blend(phase/0.28);
   const facing=mix(a.facing,b.facing);
+  const leanPhase=blend(phase);
+  const bodyLean={x:(a.leanX??0)+((b.leanX??0)-(a.leanX??0))*leanPhase,
+    y:(a.leanY??0)+((b.leanY??0)-(a.leanY??0))*leanPhase};
   const stamp=b.stamp===undefined?0:blend(phase/0.12)*(1-blend((phase-0.18)/0.25));
   const dancers:Dancer[]=Array.from({length:10},(_,i)=>{
     // Both selected variants form a closed ring with equal neighbour spacing.
     const spacing=2*Math.PI/10;
     const theta=Math.PI*1.15-i*spacing-travel/145;
-    return {id:String.fromCharCode(65+i),slot:i,x:radius*Math.cos(theta),y:radius*Math.sin(theta),angle:theta*180/Math.PI-90+facing,weight,hipAngle:kind==='drumul'?facing*1.5:0,
+    return {id:String.fromCharCode(65+i),slot:i,x:radius*Math.cos(theta),y:radius*Math.sin(theta),angle:theta*180/Math.PI-90+facing,weight,bodyLean,hipAngle:kind==='drumul'?facing*1.5:0,
       stampLeft:b.stamp===-1?stamp:0,stampRight:b.stamp===1?stamp:0};
   });
   let reach=1;
@@ -101,5 +108,5 @@ function countedFrame(kind:'tzadik'|'drumul',time:number,cycle:number) {
 }
 export const tzadikFrame=(time:number,cycle=0)=>countedFrame('tzadik',time,cycle);
 export const drumulFrame=(time:number,cycle=0)=>countedFrame('drumul',time,cycle);
-export const tzadikPhrases=['Walk R L R L','Sway R L R L','Walk R L R L','Sway R L R L',...repeat(['Side · cross · side · behind','Right turn · side · cross','Rock back · side · cross · back','Sway R L R L'],2)];
+export const tzadikPhrases=['Walk R L R L','Sway R L R L','Walk R L R L','Sway R L R L',...repeat(['Forward · forward · backward · backward','Right turn · side · cross','Rock back · side · cross · back','Sway R L R L'],2)];
 export const drumulPhrases=[...repeat(['Right · close · right · close','Right · stamp · stamp · hold','Left · close · left · close','Left · stamp · stamp · hold'],2),...repeat(['Cross + twist · recover · open + twist · recover','Cross + twist · recover · open + twist · recover','Cross + twist · recover · open + twist · recover','Stamp · stamp · stamp · hold'],2)];

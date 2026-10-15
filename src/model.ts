@@ -9,6 +9,8 @@ export interface Dancer extends Position {
   sink?: number;
   /** Lower-body rotation relative to the facing direction, in degrees. */
   hipAngle?: number;
+  /** Torso displacement over the support, in local right/forward SVG axes. */
+  bodyLean?: Position;
   stampLeft?: number;
   stampRight?: number;
   role?: 'leader' | 'follower';

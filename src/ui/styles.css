@@ -228,3 +228,6 @@ a { color: inherit; text-underline-offset: 3px; }
 .phrase-grouped.phrase-overview .phrase-edges { height: 88px; }
 .has-structure.phrase-grouped:not(.hide-structure) #playhead { top: -88px; }
 .has-structure.phrase-grouped.phrase-overview:not(.hide-structure) #playhead { top: -56px; }
+
+/* Preserve readable movement labels on the same horizontal beat axis. */
+.readable-movements #timeline-scroll { overflow-x: auto; }

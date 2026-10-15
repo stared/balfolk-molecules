@@ -9,8 +9,25 @@ export function createPhraseStructure(seek: (time: number) => void) {
   const score = $('#phrase-score');
   let buttons: HTMLButtonElement[] = [];
   let wasDisabled = false;
+  let readableMovements = false;
   const measure = document.createElement('canvas').getContext('2d')!;
   const fitLabels = () => {
+    if (readableMovements) {
+      // Keep the chosen two tiers readable on the existing beat axis. Foot
+      // details remain in tooltips; narrow screens scroll rather than shrink.
+      let minimumWidth = 0;
+      for (const button of buttons) {
+        button.style.fontSize = '12px';
+        if (button.matches('.phrase-action')) continue;
+        measure.font = `12px ${getComputedStyle(button).fontFamily}`;
+        const fraction = parseFloat(button.style.width)/100;
+        minimumWidth = Math.max(minimumWidth,(measure.measureText(button.textContent ?? '').width+8)/fraction);
+      }
+      $('#timeline').style.minWidth = `${Math.ceil(minimumWidth)}px`;
+      score.classList.add('phrase-overview');
+      document.body.classList.add('phrase-overview');
+      return;
+    }
     const fitRow = (selector: string): number => {
       let size = 12;
       for (const button of buttons.filter(button => button.matches(selector))) {
@@ -36,6 +53,8 @@ export function createPhraseStructure(seek: (time: number) => void) {
   return {
     setup(dance: Dance) {
       buttons = []; wasDisabled = false;
+      readableMovements = dance.id === 'tzadik-katamar';
+      document.body.classList.toggle('readable-movements',readableMovements);
       score.replaceChildren();
       panel.hidden = !dance.structure;
       panel.title = dance.structure?.note ?? '';
@@ -43,7 +62,7 @@ export function createPhraseStructure(seek: (time: number) => void) {
       $('#timeline').style.minWidth = '';
       if (!dance.structure) return;
       // Nested scores expose figure, movement and action; Bourrée groups repeats.
-      const nested = dance.id === 'chapelloise' || dance.id === 'drumul-dracului';
+      const nested = dance.id === 'chapelloise' || dance.id === 'drumul-dracului' || dance.id === 'tzadik-katamar';
       const grouped = dance.id === 'bourree' || nested;
       const offset = grouped ? 24 : 0;
       score.classList.toggle('phrase-grouped', grouped);
@@ -104,9 +123,10 @@ export function createPhraseStructure(seek: (time: number) => void) {
         const label = document.createElement('button');
         label.type = 'button'; label.className = 'phrase-section';
         label.style.left = `${start * 100}%`; label.style.width = `${(end-start) * 100}%`;
-        label.textContent = section.name;
+        label.textContent = readableMovements && section.name === 'Forward' ? 'Fwd' : section.name;
+        label.setAttribute('aria-label',section.name);
         label.style.color = color;
-        label.title = section.detail;
+        label.title = `${section.name}: ${section.detail}`;
         label.addEventListener('click', () => seek(section.start / beatsPerPhrase));
         score.append(label); buttons.push(label);
       }

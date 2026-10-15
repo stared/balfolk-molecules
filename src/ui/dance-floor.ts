@@ -39,7 +39,9 @@ export function renderFloor(state: LiveFrame, danceId: string, showContacts = tr
     // Rock around the lower body: a circle alone cannot show rotation about
     // its centre. Eyes follow the lean; facing, hands and travel stay intact.
     const amplitude = danceId === 'drumul-dracului' ? 5 : danceId === 'schottische' ? 2 : 3;
-    element.lean.setAttribute('transform', `rotate(${showContacts ? weight * amplitude : 0} 0 12)`);
+    const lean = d.bodyLean ?? {x:0,y:0};
+    const compression = Math.min(0.06, Math.hypot(lean.x,lean.y)*0.01);
+    element.lean.setAttribute('transform', `translate(${lean.x} ${lean.y}) rotate(${(showContacts ? weight * amplitude : 0)+(d.hipAngle??0)*0.18} 0 12) scale(1 ${1-compression})`);
     // Sample the choreography itself: stamps stay on the same foot without
     // transferring weight, and pause/seek/frame skips cannot invent a contact.
     element.feet.setAttribute('transform', `rotate(${d.hipAngle ?? 0})`);

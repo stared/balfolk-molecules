@@ -40,8 +40,28 @@ test('Drumul stamps the free foot without travel or weight transfer; holds are q
 test('Tzadik travels anticlockwise, makes a complete clockwise turn with hands released',()=>{
   const a=itemAt(tzadikFrame(0).dancers,0), b=itemAt(tzadikFrame(0.75).dancers,0);
   assert.ok(a.x*b.y-a.y*b.x<0);
-  const before=itemAt(tzadikFrame(5).dancers,0), after=itemAt(tzadikFrame(5.5).dancers,0);
-  assert.ok(Math.abs(after.angle-before.angle-360)<1e-8);
+  const pose=(beat:number)=>itemAt(tzadikFrame(beat/4).dancers,0);
+  const facing=(d:ReturnType<typeof pose>)=>d.angle-(Math.atan2(d.y,d.x)*180/Math.PI-90);
+  for(const start of [16,32]) {
+    for(let count=0;count<6;count++) {
+      const a=pose(start+count),b=pose(start+count+1);
+      assert.ok(a.x*b.y-a.y*b.x<0,'Every lead-in and turning step advances anticlockwise');
+    }
+    // Positive facing has a forward component along the path; negative has
+    // a backward component. Both retain the same direction of body travel.
+    for(const count of [1,2])assert.ok(Math.sin(facing(pose(start+count))*Math.PI/180)>0.5);
+    for(const count of [3,4])assert.ok(Math.sin(facing(pose(start+count))*Math.PI/180)<-0.5);
+    const turn=facing(pose(start+6))-facing(pose(start+4));
+    assert.ok(turn>=360 && turn<=450,'Right turn includes alignment from backward to inward');
+    assert.ok(Math.abs(Math.sin(facing(pose(start+6))*Math.PI/180))<1e-8);
+    for(const [open,cross,recover] of [[7,8,9],[10,11,12]] as const) {
+      const a=pose(start+open),b=pose(start+cross),c=pose(start+recover);
+      assert.ok(Math.hypot(b.x-a.x,b.y-a.y)<1e-8,'Lean over the support without travelling inward');
+      assert.ok(b.bodyLean!.y<-4,'Torso inclines inward');
+      assert.equal(c.bodyLean!.y,0,'Torso recovers');
+      assert.ok(Math.hypot(a.x-c.x,a.y-c.y)<1e-8,'Recover to supporting foot');
+    }
+  }
   assert.ok(tzadikFrame(5.25).hands.every(h=>h.reach===0));
   assert.ok(tzadikFrame(6).hands.every(h=>h.reach===1));
   assert.equal(tzadikPhrases.length,12);assert.equal(drumulPhrases.length,16);
@@ -56,11 +76,15 @@ test('Drumul crosses and opens on opposite diagonals, twisting the hips more tha
     assert.ok(normalized(twist(cross))<0);
     assert.ok(normalized(twist(open))>0);
     assert.ok((cross.hipAngle??0)<-20 && (open.hipAngle??0)>20);
+    assert.ok(cross.bodyLean!.x<0 && cross.bodyLean!.y<0);
+    assert.ok(open.bodyLean!.x>0 && open.bodyLean!.y>0);
+    assert.ok(Math.hypot(cross.x-home.x,cross.y-home.y)<3,'Hip emphasis uses little floor travel');
     assert.ok(home.x*cross.y-home.y*cross.x>0,'Cross toward own left');
     assert.ok(home.x*open.y-home.y*open.x<0,'Open toward own right');
     for(const d of [recover,end]) {
       assert.ok(Math.hypot(d.x-home.x,d.y-home.y)<1e-8);
       assert.equal(d.hipAngle,0);
+      assert.deepEqual(d.bodyLean,{x:0,y:0});
     }
   }
 });

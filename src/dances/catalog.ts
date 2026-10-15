@@ -71,10 +71,10 @@ const catalog: Dance[] = [
   {
     id:'tzadik-katamar',category:'circle',title:'Tzadik Katamar',origin:'Israel',description:'A circle walks, sways, crosses and turns together, without partners.',duration:12,
     millisecondsPerPhrase:2000,
-    sections:[{name:'Procession',start:0,duration:4,detail:'Four walking counts anticlockwise, four sways; twice.'},{name:'Figure',start:4,duration:8,detail:'Open mayim, right turn, crossing rocks, four sways; twice.'}],
+    sections:[{name:'Travel',start:0,duration:4,detail:'Four walking counts anticlockwise, four sways; twice.'},{name:'Crossing',start:4,duration:8,detail:'Forward/backward travel, travelling right turn, crossing rocks, four sways; twice.'}],
     phrases:tzadikPhrases,guides:'<circle class="guide" r="145"/>',
     note:'48 counts · Walk/sway × 2 + crossing sequence × 2.',
-    sources:'<a href="https://www.evansvillefolkdancers.com/resources/Notes/T/Tzadik%20Katamar%20DN.pdf" target="_blank" rel="noreferrer">48-count step notes: Evansville Folk Dancers</a> · Yonatan Gabay choreography. Body travel and turning speed are schematic. Right hand reaches to the left shoulder of the dancer ahead when walking; hands open to the sides for sways and release for turns. Arm height, palm orientation and crossed feet remain abstract.',
+    sources:'<a href="https://files.eric.ed.gov/fulltext/ED429050.pdf#page=483" target="_blank" rel="noreferrer">Forward/backward steps: Weikart, pp. 504–505</a> · <a href="https://www.evansvillefolkdancers.com/resources/Notes/T/Tzadik%20Katamar%20DN.pdf" target="_blank" rel="noreferrer">48-count step notes: Evansville Folk Dancers</a> · Yonatan Gabay choreography. Body travel and turning speed are schematic. Right hand reaches to the left shoulder of the dancer ahead when walking; hands open to the sides for sways and release for turns. Arm height, palm orientation and crossed feet remain abstract.',
     frame:tzadikFrame,
   },
   {
