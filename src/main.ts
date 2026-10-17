@@ -21,6 +21,7 @@ const tempos = new Map<string, number>();
 let selectedRecordingId = '';
 const musicToggle = $<HTMLButtonElement>('#music-toggle');
 const musicPanel = $('#music-panel');
+const musicToggleLabel = musicToggle.querySelector<HTMLElement>('.music-label')!;
 let recording = itemAt(bourreeRecordings, 0);
 let musicError = '';
 let musicEnded = false;
@@ -34,13 +35,19 @@ function setupMusic() {
   musicDance = dance.id;
   const tracks = recordingsByDance[dance.id] ?? [];
   selectedRecordingId = selectedRecordings.get(dance.id) ?? '';
-  const choices = [{ id: '', label: 'No music' }, ...tracks.map(track => ({ id: track.videoId, label: `${track.artist}: ${track.title}` }))];
+  const choices = [{ id: '', label: 'No music', description: 'No music' }, ...tracks.map(track => ({ id: track.videoId, label: track.title, description: `${track.title} (${track.artist})` }))];
   $('#music-recordings').replaceChildren(...choices.map(choice => {
     const button = document.createElement('button');
-    button.type = 'button'; button.textContent = choice.label;
+    button.type = 'button';
+    const label = document.createElement('span'); label.className = 'music-label'; label.textContent = choice.label;
+    button.append(label); button.title = choice.description;
     button.dataset.recording = choice.id;
     button.setAttribute('role', 'radio');
-    button.addEventListener('click', () => { void changeRecording(choice.id); });
+    button.setAttribute('aria-label', choice.label);
+    button.addEventListener('click', () => {
+      closeMusic(); musicToggle.focus();
+      void changeRecording(choice.id);
+    });
     return button;
   }));
   recording = tracks.find(track => track.videoId === selectedRecordingId) ?? recording;
@@ -53,16 +60,16 @@ function updateMusicStatus() {
   const message = !withMusic() ? '' : musicError || (!youtube.ready ? 'Loading…' : youtube.state === 3 ? 'Buffering…' : '');
   if (status.textContent !== message) status.textContent = message;
   status.hidden = !message;
-  $('#youtube-player').hidden = !withMusic();
+  status.title = message;
+  $('#music-preview').hidden = !withMusic();
   for (const button of document.querySelectorAll<HTMLButtonElement>('#music-recordings button')) {
     button.setAttribute('aria-checked', String(button.dataset.recording === selectedRecordingId));
   }
   musicToggle.classList.toggle('has-recording', withMusic());
-  const musicLabel = `Music: ${withMusic() ? `${recording.artist}: ${recording.title}` : 'No music'}`;
+  const musicLabel = `Music: ${withMusic() ? `${recording.title} (${recording.artist})` : 'No music'}`;
   musicToggle.setAttribute('aria-label', musicLabel);
   musicToggle.title = musicLabel;
-  const title = withMusic() ? `${recording.title} (${recording.artist})` : 'No music';
-  if (musicToggle.textContent !== title) musicToggle.textContent = title;
+  updateMusicToggleLabel();
   tempoSlider.disabled = withMusic();
   $<HTMLButtonElement>('#play').disabled = withMusic() && !rearrangement && !youtube.ready;
 }
@@ -202,11 +209,52 @@ chaosControl.addEventListener('input', () => {
 });
 function showLetters() { $('#dancers').classList.toggle('hide-letters', !letters.checked); }
 letters.addEventListener('change', showLetters);
-function closeMusic() { musicPanel.hidden = true; musicToggle.setAttribute('aria-expanded', 'false'); }
+function updateMusicToggleLabel() {
+  const label = withMusic() ? recording.title : 'No music';
+  if (musicToggleLabel.textContent !== label) musicToggleLabel.textContent = label;
+}
+function closeMusic() {
+  musicPanel.hidden = true; musicToggle.setAttribute('aria-expanded', 'false');
+  // During initial setup, the dance has already been assigned.
+  updateMusicToggleLabel();
+}
+function positionMusicPanel() {
+  if (musicPanel.hidden) return;
+  const rect = musicToggle.getBoundingClientRect();
+  const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+  const below = Math.max(0, viewportHeight - rect.bottom - 12);
+  const above = Math.max(0, rect.top - 12);
+  musicPanel.style.maxHeight = 'none';
+  const desired = musicPanel.scrollHeight + 2;
+  const upwards = desired > below && above > below;
+  musicPanel.classList.toggle('opens-up', upwards);
+  musicToggle.classList.toggle('opens-up', upwards);
+  musicPanel.style.maxHeight = `${Math.max(38, Math.floor(upwards ? above : below))}px`;
+  musicPanel.scrollTop = 0;
+}
+musicToggle.addEventListener('keydown', event => {
+  if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+  event.preventDefault();
+  closeSettings(); musicPanel.hidden = false; musicToggle.setAttribute('aria-expanded', 'true');
+  updateMusicToggleLabel(); positionMusicPanel();
+  musicPanel.querySelector<HTMLButtonElement>('[aria-checked="true"]')?.focus();
+});
+$('#music-recordings').addEventListener('keydown', event => {
+  if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+  event.preventDefault();
+  const choices = Array.from(musicPanel.querySelectorAll<HTMLButtonElement>('[data-recording]'));
+  const current = choices.indexOf(document.activeElement as HTMLButtonElement);
+  const next = event.key === 'Home' ? 0 : event.key === 'End' ? choices.length - 1 : (current + (event.key === 'ArrowDown' ? 1 : -1) + choices.length) % choices.length;
+  choices[next]?.focus();
+});
+window.addEventListener('resize', positionMusicPanel);
+window.addEventListener('scroll', positionMusicPanel, { passive: true });
+
 musicToggle.addEventListener('click', () => {
   closeSettings();
   musicPanel.hidden = !musicPanel.hidden;
   musicToggle.setAttribute('aria-expanded', String(!musicPanel.hidden));
+  updateMusicToggleLabel(); positionMusicPanel();
 });
 document.addEventListener('click', event => {
   if (event.target instanceof Element && !event.target.closest('.music-picker')) closeMusic();
@@ -238,6 +286,7 @@ $('#show-structure').addEventListener('change', event => {
 scrub.addEventListener('input', () => seekDance(Number(scrub.value)));
 
 async function changeRecording(id: string) {
+  if (id === selectedRecordingId) return;
   selectedRecordingId = id;
   loadingRecording = true; youtube.pause(); playing = false;
   previousTime = undefined; rearrangement = undefined;

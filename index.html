@@ -41,11 +41,13 @@
       </div>
       <div class="player-bottom controls">
         <div class="music-picker">
-          <button id="music-toggle" type="button" aria-expanded="false" aria-controls="music-panel" aria-label="Music: No music" title="Music: No music">No music</button>
+          <button id="music-toggle" type="button" aria-expanded="false" aria-controls="music-panel" aria-label="Music: No music" title="Music: No music" aria-haspopup="true"><span class="music-label">No music</span></button>
           <section id="music-panel" aria-label="Music" hidden>
             <div id="music-recordings" role="radiogroup" aria-label="Recording"></div>
-            <p id="music-status" role="status" hidden></p>
-            <div id="youtube-player" hidden></div>
+            <div id="music-preview" hidden>
+              <div id="youtube-player"></div>
+              <p id="music-status" role="status" hidden></p>
+            </div>
           </section>
         </div>
         <div class="transport">
@@ -63,7 +65,6 @@
           </div>
         </div>
         <div id="chaos-control" hidden><label for="chaos">Chaos <output id="chaos-value" for="chaos">0%</output></label><input id="chaos" type="range" min="0" max="100" step="5" value="0" aria-describedby="chaos-hint" /><span id="chaos-hint">Chance a crossing pair bounces back. Changes apply to new encounters.</span></div>
-        <p id="music-status" role="status" hidden></p>
       </div>
 
       </section>

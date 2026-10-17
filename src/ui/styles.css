@@ -305,7 +305,6 @@ main { padding: 0 28px 24px; }
 #music-panel { position: absolute; bottom: calc(100% + 8px); left: 0; z-index: 12; width: 320px; max-width: calc(100vw - 32px); max-height: min(70dvh, 600px); overflow-y: auto; padding: 8px; background: #fafaf8; border: 1px solid #bcc9c2; border-radius: 5px; box-shadow: 0 4px 16px #293b321a; }
 #music-recordings { display: grid; gap: 3px; }
 .controls #music-recordings button { width: 100%; height: auto; min-height: 38px; padding: 8px 10px; border: 0; text-align: left; line-height: 1.4; }
-#music-recordings button[aria-checked="true"] { background: #dce8e2; color: #1c6468; }
 #music-panel #music-status { position: static; margin: 8px 2px; }
 #music-panel #youtube-player { margin-top: 8px; }
 .tempo-readout { display: inline-flex; align-items: baseline; justify-content: center; flex-wrap: nowrap; gap: 4px; width: 70px; font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -346,3 +345,66 @@ main { padding: 0 28px 24px; }
   .controls #settings-toggle { width: 28px; }
   .tempo-readout { width: 50px; gap: 2px; }
 }
+/* Match the dropdown and its trigger, including the recording label treatment. */
+.controls #music-toggle, .controls #music-recordings button {
+  display: flex; align-items: center; gap: 6px; min-height: 38px; height: 38px;
+  padding: 0 8px; font: inherit; font-size: 12px; line-height: 1.4; text-align: left;
+}
+.controls #music-toggle { padding-right: 24px; }
+.music-label { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#music-toggle::after { content: ''; position: absolute; right: 8px; top: 16px; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid #626b65; }
+#music-toggle.has-recording::after { display: block; background: transparent; border-radius: 0; }
+#music-toggle[aria-expanded="true"]::after { transform: rotate(180deg); }
+#music-panel { width: 100%; max-width: none; top: calc(100% + 4px); bottom: auto; left: 0; padding: 0; overflow: auto; }
+#music-panel.opens-up { top: auto; bottom: calc(100% + 4px); }
+#music-recordings { gap: 0; }
+.controls #music-recordings button { border-radius: 0; background: transparent; color: inherit; }
+#music-recordings button::before { content: ''; width: 10px; flex: none; font-size: 10px; }
+#music-recordings button[aria-checked="true"]::before { content: '▶'; }
+#music-recordings button:hover { background: #e4e9e2; }
+.controls #music-video-toggle { width: 100%; height: 32px; border-top: 1px solid #dfe2de; border-radius: 0; font-size: 11px; text-align: left; padding: 0 8px; }
+#music-panel #youtube-player { margin: 0; }
+#music-panel #youtube-player, #music-panel #youtube-player iframe { height: 150px; }
+#music-panel #music-status { margin: 0; padding: 4px 8px; font-size: 11px; }
+
+#music-toggle.has-recording::after { top: 16px; right: 8px; width: 0; height: 0; }
+#music-recordings { min-width: 0; grid-template-columns: minmax(0, 1fr); }
+.controls #music-recordings button { min-width: 0; overflow: hidden; }
+#music-panel #music-status { position: absolute; bottom: 0; top: auto; left: 0; right: 0; height: 32px; overflow: auto; margin: 0; padding: 6px 8px; background: #fafaf8; z-index: 1; }
+
+.controls #music-toggle { gap: 4px; }
+.controls #music-recordings button { gap: 4px; }
+#music-recordings button::before { width: 6px; font-size: 8px; }
+
+/* Reserve the same video and status area for every recording choice. */
+#music-panel #music-status { position: static; height: 24px; min-height: 24px; padding: 4px 8px; font-size: 11px; line-height: 16px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+#music-panel #youtube-player { position: relative; width: 100%; height: auto; aspect-ratio: 16 / 9; margin: 0; background: #ebeeea; }
+#music-panel #youtube-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+#music-panel #youtube-player.no-recording > * { visibility: hidden; }
+
+/* The selected row replaces the closed control; video stays at the far end. */
+#music-panel { display: flex; flex-direction: column; top: -1px; bottom: auto; }
+#music-panel.opens-up { top: auto; bottom: -1px; }
+#music-recordings { order: 0; flex: none; }
+#music-panel #music-status { order: 1; flex: none; }
+#music-panel #youtube-player { order: 2; flex: none; }
+#music-panel.opens-up #youtube-player { order: 0; }
+#music-panel.opens-up #music-status { order: 1; }
+#music-panel.opens-up #music-recordings { order: 2; }
+
+/* The option list keeps its order; the preview only exists for a recording. */
+#music-panel, #music-panel.opens-up { bottom: auto; }
+#music-recordings button { order: 0; }
+#music-panel #music-status { height: 24px; min-height: 24px; }
+#music-panel #youtube-player { background: transparent; }
+
+/* Feedback overlays the preview instead of reserving an empty text row. */
+#music-preview { position: relative; order: 2; flex: none; width: 100%; }
+#music-panel.opens-up #music-preview { order: 0; }
+#music-preview #music-status { position: absolute; top: auto; bottom: 0; left: 0; right: 0; height: auto; min-height: 0; max-height: 100%; background: #fafaf8; white-space: normal; }
+
+/* Conventional dropdown: fixed button, menu attached to its lower/upper edge. */
+#music-panel { top: calc(100% - 1px); bottom: auto; border-radius: 0 0 4px 4px; }
+#music-panel.opens-up { top: auto; bottom: calc(100% - 1px); border-radius: 4px 4px 0 0; }
+.controls #music-toggle[aria-expanded="true"] { border-radius: 4px 4px 0 0; }
+.controls #music-toggle.opens-up[aria-expanded="true"] { border-radius: 0 0 4px 4px; }
