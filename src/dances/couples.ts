@@ -118,7 +118,7 @@ export const coupleDances: Dance[] = [
   {
     // Origin accounts differ. AccroFolk: “d'origine incertaine, elle serait allemande ou hongroise”
     // (https://www.accrofolk.net/index.php/danses-folks/34-scottish); English Wikipedia: Bohemia, uncited.
-    ...shared, id: 'schottische', title: 'Schottische', origin: 'Central Europe; precise origin disputed',
+    ...shared, id: 'schottische', title: 'Schottische', origin: 'Central Europe',
     description: 'Several couples step sideways and back, then turn together around the floor.',
     duration: 4, countsPerPhrase: 2, millisecondsPerPhrase: 1250, phraseContacts: phraseContacts('schottische', 4, 2),
     sections: [{ name: 'Sideways', start: 0, duration: 2, detail: 'Left–right–left, then right–left–right: 1 & 2, 3 & 4.' }, { name: 'Turn', start: 2, duration: 2, detail: 'Four steps across four main beats (eight half-beat counts). A continuous pivot is shown; this section also admits improvised figures.' }],

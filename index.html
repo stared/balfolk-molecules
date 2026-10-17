@@ -14,6 +14,7 @@
       </div>
       <nav id="dance-navigation" aria-label="Choose a dance"></nav>
     </aside>
+    <button id="navigation-backdrop" type="button" aria-label="Close dance list" hidden></button>
     <main>
       <section class="player" aria-labelledby="dance-title">
       <header class="player-header"><h1 id="dance-title"></h1><div class="formation-controls"><p id="roles" hidden><span class="role-key leader"></span> Leader <span class="role-key follower"></span> Follower</p><div id="pairs-control" hidden><button id="remove-pair" type="button" aria-label="Remove pair">−</button><span><output id="pair-count">5</output> pairs</span><button id="add-pair" type="button" aria-label="Add pair">+</button></div></div></header>
@@ -22,7 +23,7 @@
         <g id="guides"></g>
         <path class="center" d="M -5 0 H 5 M 0 -5 V 5" />
         <g id="hands"></g>
-        <g id="dancers"></g>
+        <g id="dancers" class="hide-letters"></g>
       </svg>
       <p id="dance-status" role="status" hidden>Rearranging…</p>
       </div>
@@ -38,47 +39,33 @@
         </div>
       </div>
       </div>
-      <div class="player-bottom">
-      <div class="dance-tools">
-      <div class="controls">
+      <div class="player-bottom controls">
+        <div class="music-picker">
+          <button id="music-toggle" type="button" aria-expanded="false" aria-controls="music-panel" aria-label="Music: No music" title="Music: No music">No music</button>
+          <section id="music-panel" aria-label="Music" hidden>
+            <div id="music-recordings" role="radiogroup" aria-label="Recording"></div>
+            <p id="music-status" role="status" hidden></p>
+            <div id="youtube-player" hidden></div>
+          </section>
+        </div>
         <div class="transport">
           <button id="play" type="button">Pause</button>
           <button id="reset" type="button" aria-label="Restart" title="Restart">Restart</button>
         </div>
-        <label class="tempo-control"><input id="tempo" type="range" min="0" max="1000" step="1" aria-label="Tempo" /><span><output id="tempo-value" for="tempo">90</output> BPM</span></label>
-        <div class="display-controls">
-
-          <div class="view-settings">
-            <button id="settings-toggle" type="button" aria-expanded="false" aria-controls="settings-panel" aria-label="Settings" title="Settings">⚙</button>
-            <div id="settings-panel" hidden>
-              <label><input id="letters" type="checkbox" /> Dancer labels</label>
-              <label><input id="show-steps" type="checkbox" checked /> Step marks</label>
-              <label><input id="show-structure" type="checkbox" checked /> Phrase detail</label>
-              <a id="source-reference" target="_blank" rel="noreferrer">Source ↗</a>
-            </div>
+        <span class="tempo-readout"><output id="tempo-value">90</output><span>BPM</span></span>
+        <div class="view-settings">
+          <button id="settings-toggle" type="button" aria-expanded="false" aria-controls="settings-panel" aria-label="Settings" title="Settings">⚙</button>
+          <div id="settings-panel" hidden>
+            <label class="tempo-setting" for="tempo">Tempo<input id="tempo" type="range" min="0" max="1000" step="1" aria-label="Tempo" /></label>
+            <label><input id="letters" type="checkbox" /> Dancer labels</label>
+            <label><input id="show-steps" type="checkbox" checked /> Step marks</label>
+            <label><input id="show-structure" type="checkbox" checked /> Phrase detail</label>
           </div>
         </div>
+        <div id="chaos-control" hidden><label for="chaos">Chaos <output id="chaos-value" for="chaos">0%</output></label><input id="chaos" type="range" min="0" max="100" step="5" value="0" aria-describedby="chaos-hint" /><span id="chaos-hint">Chance a crossing pair bounces back. Changes apply to new encounters.</span></div>
+        <p id="music-status" role="status" hidden></p>
       </div>
-      <div id="chaos-control" hidden><label for="chaos">Chaos <output id="chaos-value" for="chaos">0%</output></label><input id="chaos" type="range" min="0" max="100" step="5" value="0" aria-describedby="chaos-hint" /><span id="chaos-hint">Chance a crossing pair bounces back. Changes apply to new encounters.</span></div>
 
-      <footer class="dance-reference">
-        <div class="reference-copy">
-        <div class="reference-heading">
-          <h2 id="dance-names"></h2><p id="dance-aliases"></p>
-        </div>
-        <p id="dance-origin"></p>
-        <nav id="dance-materials" aria-label="Dance references"></nav>
-        </div>
-      </footer>
-      </div>
-        <section id="music-panel" aria-label="Music" hidden>
-          <div class="music-heading">
-            <select id="music-recording" aria-label="Recording"><option value="">No music</option></select>
-          </div>
-          <div id="youtube-player"></div>
-          <p id="music-status" role="status"></p>
-        </section>
-      </div>
       </section>
       </section>
     </main>

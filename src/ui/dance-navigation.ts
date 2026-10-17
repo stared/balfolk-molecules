@@ -6,7 +6,7 @@ export function createDanceNavigation(dances: readonly Dance[], onSelect: (id: s
   const sidebar = $('#sidebar');
   const nav = $('#dance-navigation');
   const toggle = $<HTMLButtonElement>('#sidebar-toggle');
-  const narrow = window.matchMedia('(max-width: 680px)');
+  const narrow = window.matchMedia('(max-width: 900px), (max-height: 500px)');
   const buttons = new Map<string, HTMLButtonElement>();
   const groups = [['chain', 'Chain & line'], ['circle', 'Circle'], ['couple', 'Couple'], ['set', 'Set']] as const;
   for (const [category, title] of groups) {
@@ -36,11 +36,13 @@ export function createDanceNavigation(dances: readonly Dance[], onSelect: (id: s
   function setExpanded(expanded: boolean) {
     document.body.classList.toggle('sidebar-collapsed', !expanded);
     nav.hidden = !expanded;
+    $('#navigation-backdrop').hidden = !expanded || !narrow.matches;
     $('#sidebar-label').hidden = !expanded;
     toggle.setAttribute('aria-expanded', String(expanded));
     toggle.setAttribute('aria-label', expanded ? 'Collapse dance list' : 'Expand dance list');
     toggle.title = expanded ? 'Collapse dance list' : 'Expand dance list';
   }
+  $('#navigation-backdrop').addEventListener('click', () => { setExpanded(false); toggle.focus(); });
   toggle.addEventListener('click', () => setExpanded(toggle.getAttribute('aria-expanded') !== 'true'));
   sidebar.addEventListener('keydown', event => {
     if (event.key === 'Escape') { setExpanded(false); toggle.focus(); }

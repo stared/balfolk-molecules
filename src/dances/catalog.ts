@@ -21,7 +21,7 @@ const catalog: Dance[] = [
   },
   {
     // The Swedish attribution is contested: https://en.wikipedia.org/wiki/Chapelloise#History
-    id: 'chapelloise', category: 'circle', title: 'Chapelloise', origin: 'France; earlier origin disputed', description: 'Couples in a circle: walk, turn, exchange sides, then join the partner behind.', duration: 8,
+    id: 'chapelloise', category: 'circle', title: 'Chapelloise', origin: 'France', description: 'Couples in a circle: walk, turn, exchange sides, then join the partner behind.', duration: 8,
     millisecondsPerPhrase: 2500, roles: true,
     phraseContacts: [[0,1,2,3],[0,1,2,3],[0,1,2,3],[0,1,2,3],[0,0.5,1,2,2.5,3],[0,1,2],[0,0.5,1,2,2.5,3],[0,1,2]],
     sections: [{ name: 'Walking', start: 0, duration: 4, detail: 'Four forward, turn, four backward; repeat back to the start.' }, { name: 'Exchanges', start: 4, duration: 4, detail: 'Together/apart, exchange sides; together/apart, underarm turn to the partner behind.' }],

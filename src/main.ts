@@ -18,7 +18,9 @@ import { DancerAssignment } from './engine/dancer-assignment.ts';
 const scrub = $<HTMLInputElement>('#scrub');
 const tempoSlider = $<HTMLInputElement>('#tempo');
 const tempos = new Map<string, number>();
-const recordingSelect = $<HTMLSelectElement>('#music-recording');
+let selectedRecordingId = '';
+const musicToggle = $<HTMLButtonElement>('#music-toggle');
+const musicPanel = $('#music-panel');
 let recording = itemAt(bourreeRecordings, 0);
 let musicError = '';
 let musicEnded = false;
@@ -31,20 +33,36 @@ function setupMusic() {
   if (musicDance === dance.id) return;
   musicDance = dance.id;
   const tracks = recordingsByDance[dance.id] ?? [];
-  recordingSelect.replaceChildren(new Option('No music', ''));
-  for (const track of tracks) recordingSelect.add(new Option(`${track.artist} — ${track.title}`, track.videoId));
-  recordingSelect.value = selectedRecordings.get(dance.id) ?? tracks[0]?.videoId ?? '';
-  recording = tracks.find(track => track.videoId === recordingSelect.value) ?? recording;
+  selectedRecordingId = selectedRecordings.get(dance.id) ?? '';
+  const choices = [{ id: '', label: 'No music' }, ...tracks.map(track => ({ id: track.videoId, label: `${track.artist}: ${track.title}` }))];
+  $('#music-recordings').replaceChildren(...choices.map(choice => {
+    const button = document.createElement('button');
+    button.type = 'button'; button.textContent = choice.label;
+    button.dataset.recording = choice.id;
+    button.setAttribute('role', 'radio');
+    button.addEventListener('click', () => { void changeRecording(choice.id); });
+    return button;
+  }));
+  recording = tracks.find(track => track.videoId === selectedRecordingId) ?? recording;
   musicError = ''; musicEnded = false; awaitingMusicRestart = false;
-  $('#music-panel').hidden = tracks.length === 0;
+  closeMusic();
 }
-function withMusic() { return !!recordingsByDance[dance.id]?.some(track => track.videoId === recordingSelect.value); }
+function withMusic() { return !!recordingsByDance[dance.id]?.some(track => track.videoId === selectedRecordingId); }
 function updateMusicStatus() {
   const status = $('#music-status');
   const message = !withMusic() ? '' : musicError || (!youtube.ready ? 'Loading…' : youtube.state === 3 ? 'Buffering…' : '');
   if (status.textContent !== message) status.textContent = message;
   status.hidden = !message;
   $('#youtube-player').hidden = !withMusic();
+  for (const button of document.querySelectorAll<HTMLButtonElement>('#music-recordings button')) {
+    button.setAttribute('aria-checked', String(button.dataset.recording === selectedRecordingId));
+  }
+  musicToggle.classList.toggle('has-recording', withMusic());
+  const musicLabel = `Music: ${withMusic() ? `${recording.artist}: ${recording.title}` : 'No music'}`;
+  musicToggle.setAttribute('aria-label', musicLabel);
+  musicToggle.title = musicLabel;
+  const title = withMusic() ? `${recording.title} (${recording.artist})` : 'No music';
+  if (musicToggle.textContent !== title) musicToggle.textContent = title;
   tempoSlider.disabled = withMusic();
   $<HTMLButtonElement>('#play').disabled = withMusic() && !rearrangement && !youtube.ready;
 }
@@ -115,26 +133,6 @@ function setup() {
   $('#dance-floor').setAttribute('aria-label', dance.description);
   tempoSlider.value = String(positionAtBpm(tempos.get(dance.id) ?? defaultBpm(dance)));
   showTempo();
-  $('#dance-names').textContent = dance.title;
-  $('#dance-aliases').textContent = (dance.aliases ?? []).join(', ');
-  $('#dance-aliases').hidden = !dance.aliases?.length;
-  $('#dance-origin').hidden = !dance.origin;
-  $('#dance-origin').textContent = dance.origin ?? '';
-  const sourceDocument = new DOMParser().parseFromString(dance.sources, 'text/html');
-  const materials = $('#dance-materials');
-  materials.replaceChildren();
-  for (const link of sourceDocument.querySelectorAll('a')) {
-    materials.append(link.cloneNode(true));
-  }
-  for (const material of dance.materials ?? []) {
-    const link = document.createElement('a');
-    link.href = material.url; link.textContent = material.name;
-    link.target = '_blank'; link.rel = 'noreferrer'; materials.append(link);
-  }
-  const source = sourceDocument.querySelector('a');
-  const reference = $<HTMLAnchorElement>('#source-reference');
-  reference.hidden = !source;
-  if (source) reference.href = source.href;
   $('#roles').hidden = !dance.roles;
   scrub.max = String(dance.duration);
   $('#guides').innerHTML = dance.guides;
@@ -144,8 +142,8 @@ function setup() {
     `<i class="${tick.kind === 'beat' ? 'step' : tick.kind}" style="left:${tick.beat / totalBeats * 100}%"></i>`
   ).join('');
   scrub.setAttribute('aria-label',`Dance timeline: ${dance.sections.length} sections, ${dance.phrases.length} phrases`);
-  showLetters();
   if (withMusic()) void youtube.load(recording.videoId, recording.beats[0]!);
+  showLetters();
   updateMusicStatus();
 }
 let progress = 0;
@@ -204,10 +202,23 @@ chaosControl.addEventListener('input', () => {
 });
 function showLetters() { $('#dancers').classList.toggle('hide-letters', !letters.checked); }
 letters.addEventListener('change', showLetters);
+function closeMusic() { musicPanel.hidden = true; musicToggle.setAttribute('aria-expanded', 'false'); }
+musicToggle.addEventListener('click', () => {
+  closeSettings();
+  musicPanel.hidden = !musicPanel.hidden;
+  musicToggle.setAttribute('aria-expanded', String(!musicPanel.hidden));
+});
+document.addEventListener('click', event => {
+  if (event.target instanceof Element && !event.target.closest('.music-picker')) closeMusic();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !musicPanel.hidden) { closeMusic(); musicToggle.focus(); }
+});
 const settings = $('#settings-panel');
 const settingsToggle = $('#settings-toggle');
 function closeSettings() { settings.hidden = true; settingsToggle.setAttribute('aria-expanded', 'false'); }
 settingsToggle.addEventListener('click', () => {
+  closeMusic();
   settings.hidden = !settings.hidden;
   settingsToggle.setAttribute('aria-expanded', String(!settings.hidden));
 });
@@ -226,17 +237,18 @@ $('#show-structure').addEventListener('change', event => {
 
 scrub.addEventListener('input', () => seekDance(Number(scrub.value)));
 
-recordingSelect.addEventListener('change', async () => {
+async function changeRecording(id: string) {
+  selectedRecordingId = id;
   loadingRecording = true; youtube.pause(); playing = false;
   previousTime = undefined; rearrangement = undefined;
-  selectedRecordings.set(dance.id, recordingSelect.value);
-  const selected = recordingsByDance[dance.id]?.find(track => track.videoId === recordingSelect.value);
+  selectedRecordings.set(dance.id, selectedRecordingId);
+  const selected = recordingsByDance[dance.id]?.find(track => track.videoId === selectedRecordingId);
   if (selected) recording = selected;
   musicError = ''; musicEnded = false; awaitingMusicRestart = false; progress = 0; cycle = 0; chaos.reset();
   updateMusicStatus(); showTempo(); render();
   if (selected) await youtube.load(recording.videoId, recording.beats[0]!);
   loadingRecording = false; updateMusicStatus(); showTempo(); render();
-});
+}
 function showTempo(): void {
   const bpm = withMusic() ? Math.round((recording.variableTempo ? tempoAtTime(youtube.time, recording.beats) : recording.bpm) * youtube.rate) : tempos.get(dance.id) ?? defaultBpm(dance);
   $('#tempo-value').textContent = String(bpm);
