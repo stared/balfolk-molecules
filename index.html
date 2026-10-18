@@ -58,15 +58,15 @@
         <div class="view-settings">
           <button id="settings-toggle" type="button" aria-expanded="false" aria-controls="settings-panel" aria-label="Settings" title="Settings">⚙</button>
           <div id="settings-panel" hidden>
-            <label class="tempo-setting" for="tempo">Tempo<input id="tempo" type="range" min="0" max="1000" step="1" aria-label="Tempo" /></label>
+            <label class="tempo-setting" for="tempo">Tempo<input id="tempo" type="range" min="0" max="1000" step="1" aria-label="Tempo" /><span class="settings-tempo-readout"><output id="settings-tempo-value" for="tempo">90</output> BPM</span></label>
             <label><input id="letters" type="checkbox" /> Dancer labels</label>
             <label><input id="show-steps" type="checkbox" checked /> Step marks</label>
             <label><input id="show-structure" type="checkbox" checked /> Phrase detail</label>
           </div>
         </div>
-        <div id="chaos-control" hidden><label for="chaos">Chaos <output id="chaos-value" for="chaos">0%</output></label><input id="chaos" type="range" min="0" max="100" step="5" value="0" aria-describedby="chaos-hint" /><span id="chaos-hint">Chance a crossing pair bounces back. Changes apply to new encounters.</span></div>
-      </div>
 
+      </div>
+        <div id="chaos-control" hidden><label for="chaos">Chaos <output id="chaos-value" for="chaos">0%</output></label><input id="chaos" type="range" min="0" max="100" step="5" value="0" aria-describedby="chaos-hint" /><span id="chaos-hint">Chance a crossing pair bounces back.</span></div>
       </section>
       </section>
     </main>
