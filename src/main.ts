@@ -30,20 +30,24 @@ let loadingRecording = false;
 const youtube = createYouTubePlayer($('#youtube-player'), musicChanged, message => { musicError = message; });
 const selectedRecordings = new Map<string, string>();
 let musicDance = '';
+function setMusicLabel(element: HTMLElement, title: string, artist = '') {
+  const label = artist ? `${title} (${artist})` : title;
+  if (element.textContent !== label) element.textContent = label;
+}
 function setupMusic() {
   if (musicDance === dance.id) return;
   musicDance = dance.id;
   const tracks = recordingsByDance[dance.id] ?? [];
   selectedRecordingId = selectedRecordings.get(dance.id) ?? '';
-  const choices = [{ id: '', label: 'No music', description: 'No music' }, ...tracks.map(track => ({ id: track.videoId, label: track.title, description: `${track.title} (${track.artist})` }))];
+  const choices = [{ id: '', label: 'No music', artist: '', description: 'No music' }, ...tracks.map(track => ({ id: track.videoId, label: track.title, artist: track.artist, description: `${track.title} (${track.artist})` }))];
   $('#music-recordings').replaceChildren(...choices.map(choice => {
     const button = document.createElement('button');
     button.type = 'button';
-    const label = document.createElement('span'); label.className = 'music-label'; label.textContent = choice.label;
+    const label = document.createElement('span'); label.className = 'music-label'; setMusicLabel(label, choice.label, choice.artist);
     button.append(label); button.title = choice.description;
     button.dataset.recording = choice.id;
     button.setAttribute('role', 'radio');
-    button.setAttribute('aria-label', choice.label);
+    button.setAttribute('aria-label', choice.description);
     button.addEventListener('click', () => {
       closeMusic(); musicToggle.focus();
       void changeRecording(choice.id);
@@ -210,8 +214,7 @@ chaosControl.addEventListener('input', () => {
 function showLetters() { $('#dancers').classList.toggle('hide-letters', !letters.checked); }
 letters.addEventListener('change', showLetters);
 function updateMusicToggleLabel() {
-  const label = withMusic() ? recording.title : 'No music';
-  if (musicToggleLabel.textContent !== label) musicToggleLabel.textContent = label;
+  setMusicLabel(musicToggleLabel, withMusic() ? recording.title : 'No music', withMusic() ? recording.artist : '');
 }
 function closeMusic() {
   musicPanel.hidden = true; musicToggle.setAttribute('aria-expanded', 'false');

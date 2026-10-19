@@ -115,7 +115,7 @@ test('Chapelloise exposes walking turns and the quiet count after each exchange'
   ]);
 });
 
-test('Drumul stamps and holds remain visible actions at their actual counts',()=>{
+test('Drumul stamps and holds retain their actual counts',()=>{
   const spans=phraseSpans(dances.find(d=>d.id==='drumul-dracului')!.structure!.phrase).filter(s=>s.depth===3);
   assert.deepEqual(spans.filter(s=>s.name==='Stamp').map(s=>s.start),[5,6,13,14,21,22,29,30,44,45,46,60,61,62]);
   assert.deepEqual(spans.filter(s=>s.name==='Hold').map(s=>s.start),[7,15,23,31,47,63]);
@@ -148,14 +148,18 @@ test('Chapelloise has three complete labelled tiers with four-count movement blo
 });
 
 
-test('Drumul groups travelling, rocking and stamps in complete aligned tiers',()=>{
+test('Drumul groups the extra step with stamps while retaining every underlying action',()=>{
   const dance=dances.find(d=>d.id==='drumul-dracului')!;
   assert.equal(dance.category,'circle');
   assert.equal(dance.formation,undefined);
   const spans=phraseSpans(dance.structure!.phrase);
   assert.deepEqual(spans.filter(s=>s.depth===2).map(s=>[s.name,s.start,s.beats]),[
-    ['Right',0,8],['Left',8,8],['Right',16,8],['Left',24,8],
-    ['Rock',32,12],['Stamps',44,4],['Rock',48,12],['Stamps',60,4],
+    ['Right',0,2],['Right',2,2],['Stamps',4,4],
+    ['Left',8,2],['Left',10,2],['Stamps',12,4],
+    ['Right',16,2],['Right',18,2],['Stamps',20,4],
+    ['Left',24,2],['Left',26,2],['Stamps',28,4],
+    ['Hip',32,4],['Hip',36,4],['Hip',40,4],['Stamps',44,4],
+    ['Hip',48,4],['Hip',52,4],['Hip',56,4],['Stamps',60,4],
   ]);
   for(const depth of [1,2,3]) {
     let end=0;

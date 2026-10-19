@@ -45,6 +45,7 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
   // corresponding state arrives; buffering is not a request to stop.
   let pending: boolean | undefined;
   let active = false;
+  let pausedByApp = false;
   // The iframe clock can keep advancing after pauseVideo(). Freeze the clock
   // exposed to the dancers at the last observed time, including through the
   // delayed PAUSED notification. Explicit seeks still update the held time.
@@ -55,7 +56,7 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
     async load(videoId: string, startSeconds = 0) {
       if (videoId === currentId && (ready || loading)) return;
       const request = ++generation;
-      ready = false; loading = true; pending = undefined; active = false;
+      ready = false; loading = true; pending = undefined; active = false; pausedByApp = false;
       heldTime = undefined; lastTime = startSeconds;
       player?.destroy(); player = undefined;
       currentId = videoId;
@@ -72,17 +73,19 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
             onStateChange(event) {
               if (request !== generation) return;
               const state = event.data;
-              if (pending === false && (state === 1 || state === 3)) {
-                // A late PLAYING/BUFFERING notification must not undo Pause.
+              const pausedWhileHidden = pausedByApp && container.getClientRects().length === 0;
+              if ((pending === false || pausedWhileHidden) && (state === 1 || state === 3)) {
+                // Acknowledging Pause does not authorize later hidden playback.
+                // The visible embedded controls can still explicitly start it.
                 player?.pauseVideo();
               } else if (state === 1) {
-                heldTime = undefined;
+                heldTime = undefined; pausedByApp = false;
                 active = true; pending = undefined;
               } else if ([0,2,5].includes(state) && pending !== true) {
-                if (pending !== false && (active || state !== 2)) heldTime = undefined;
+                if (!pausedByApp && pending !== false && (active || state !== 2)) heldTime = undefined;
                 active = false; pending = undefined;
               } else if (state === 3 && pending === undefined) {
-                heldTime = undefined;
+                heldTime = undefined; pausedByApp = false;
                 active = true;
               }
               changed();
@@ -115,6 +118,7 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
     get rate() { const rate = ready ? player!.getPlaybackRate() : 1; return Number.isFinite(rate) && rate > 0 ? rate : 1; },
     play() {
       if (!ready) return;
+      pausedByApp = false;
       heldTime = undefined;
       pending = pending === false || player!.getPlayerState() !== 1 ? true : undefined;
       active = true;
@@ -122,6 +126,7 @@ export function createYouTubePlayer(container: HTMLElement, changed: () => void,
     },
     pause() {
       if (!ready) return;
+      pausedByApp = true;
       heldTime = lastTime;
       // Pausing an already stopped player may emit no acknowledgement. Do not
       // leave a stale cancellation that would block its own embedded controls.

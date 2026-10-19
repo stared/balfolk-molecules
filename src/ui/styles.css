@@ -177,23 +177,17 @@ a { color: inherit; text-underline-offset: 3px; }
   .formation-controls { width: auto; gap: 8px; }
 }
 
-#timeline-scroll { overflow-x: auto; padding: 4px 1px 8px; scrollbar-width: thin; }
-.hide-structure #timeline { min-width: 0 !important; }
+#timeline-scroll { padding: 4px 1px 8px; }
 #ticks i { transform: translateX(-50%); }
 
 
 .phrase-section, .phrase-action { white-space: nowrap; }
 
-/* Complete labelled tiers only; no unnamed repeat brackets or empty cells. */
-.phrase-section, .phrase-action { padding-left: 2px; padding-right: 2px; }
-#timeline-scroll { overflow-x: clip; }
-#phrase-score.phrase-overview { height: 32px; }
-.phrase-overview .phrase-action { display: none; }
-.phrase-overview .phrase-edges { height: 64px; }
-.phrase-overview .phrase-detail-edge { display: none; }
-.phrase-overview .phrase-baseline { transform: translateY(-32px); }
-.has-structure:not(.hide-structure).phrase-overview #playhead { top: -32px; }
-.has-structure:not(.hide-structure).phrase-overview #scrub { top: -8px; height: 24px; }
+/* All tiers keep their beat geometry; label abbreviations fit the available width. */
+.phrase-group, .phrase-section, .phrase-action { padding: 0; }
+.phrase-label { display: block; flex: none; pointer-events: none; white-space: nowrap; }
+.has-structure:not(.hide-structure) #scrub { top: 0; bottom: auto; height: 16px; }
+.phrase-tooltip { position: fixed; z-index: 15; width: max-content; max-width: calc(100vw - 16px); padding: 6px 9px; border: 1px solid #bcc9c2; border-radius: 4px; background: #fafaf8; box-shadow: 0 4px 16px #293b321a; color: #292d32; font-size: 12px; line-height: 1.4; white-space: pre-line; pointer-events: none; }
 
 /* Dance controls and music occupy two stable columns below the floor. */
 .player-bottom { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 16px; }
@@ -221,17 +215,13 @@ a { color: inherit; text-underline-offset: 3px; }
 
 /* Bourrée's two figures sit above their four constituent phrases. */
 #phrase-score.phrase-grouped { height: 88px; }
-.phrase-group { position: absolute; top: 8px; height: 24px; padding: 0 2px; border: 0; border-radius: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+.phrase-group { position: absolute; top: 8px; height: 24px; padding: 0; border: 0; border-radius: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
 .phrase-group:hover:not(:disabled) { background: #ededf2; }
 .phrase-grouped .phrase-section { top: 32px; }
 .phrase-grouped .phrase-action { top: 60px; }
-#phrase-score.phrase-grouped.phrase-overview { height: 56px; }
-.phrase-grouped.phrase-overview .phrase-edges { height: 88px; }
 .has-structure.phrase-grouped:not(.hide-structure) #playhead { top: -88px; }
-.has-structure.phrase-grouped.phrase-overview:not(.hide-structure) #playhead { top: -56px; }
-
-/* Preserve readable movement labels on the same horizontal beat axis. */
-.readable-movements #timeline-scroll { overflow-x: auto; }
+#phrase-score.phrase-details-on-demand { height: 60px; }
+.has-structure.phrase-details-on-demand:not(.hide-structure) #playhead { top: -60px; }
 
 /* Layout experiment: one score and a stable toolbar. */
 main { padding: 0 28px 24px; }
@@ -263,8 +253,6 @@ main { padding: 0 28px 24px; }
 .video-details { margin-top: 12px; font-size: 12px; color: #626b65; }
 .video-details[open] { width: 300px; max-width: 100%; }
 .video-details[open] #youtube-player { margin-top: 8px; }
-.has-structure #timeline-scroll { min-height: 108px; }
-.has-structure.phrase-overview #timeline-scroll { min-height: 76px; }
 #navigation-backdrop { position: fixed; inset: 0; border: 0; border-radius: 0; background: #292d3233; z-index: 20; }
 @media (max-width: 900px), (max-height: 500px) {
   body, body.sidebar-collapsed { display: block; }
@@ -324,9 +312,9 @@ main { padding: 0 28px 24px; }
   .tempo-readout { width: 60px; }
 }
 
-/* Restore separate controls with the original light borders and modest spacing. */
+/* Keep music and transport together; anchor tempo and settings at the far edge. */
 .player-bottom.controls, .player-bottom.controls:has(#music-panel:not([hidden])) {
-  grid-template-columns: minmax(0, 240px) 126px 60px 36px;
+  grid-template-columns: minmax(0, 240px) 126px minmax(60px, 1fr) 36px;
   justify-content: start; gap: 8px;
 }
 .music-picker { min-width: 0; }
@@ -334,7 +322,7 @@ main { padding: 0 28px 24px; }
 #music-toggle.has-recording::after { display: none; }
 .transport { gap: 8px; }
 .controls #play, .controls #reset, .controls #settings-toggle { border-radius: 4px; }
-.tempo-readout { width: 60px; height: 38px; align-items: center; border: 0; }
+.tempo-readout { width: 60px; height: 38px; align-items: center; justify-self: end; border: 0; }
 @media (max-width: 680px) {
   .player-bottom.controls, .player-bottom.controls:has(#music-panel:not([hidden])) { grid-template-columns: minmax(0, 1fr) 126px 60px 36px; }
 }
@@ -423,7 +411,6 @@ main { height: 100dvh; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
 .player { height: 100%; min-height: 0; grid-template-rows: auto minmax(0, 1fr) auto; }
 .floor-area { height: auto; min-height: 0; }
 #dance-floor { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; }
-.hide-structure #timeline-scroll { min-height: 0; }
 @media (max-width: 900px), (max-height: 500px) {
   main { padding-left: 12px; padding-right: 12px; }
 }

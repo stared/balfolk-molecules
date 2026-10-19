@@ -41,13 +41,14 @@ const tzadikFigure = sequence('Crossing',
   sequence('Lean R',action('Side',1,'Right opens right.'),action('Lean',1,'Left crosses; incline inward over the support.'),action('Recover',1,'Recover onto right.')),
   sequence('Lean L',action('Side',1,'Left opens left.'),action('Lean',1,'Right crosses; incline inward over the support.'),action('Recover',1,'Recover onto left.')),
   walk('Sway',['Right','Left','Right','Left']));
-const drumulSide = (name: string): Phrase => sequence(name,
-  sequence('Travel',action('Side',1),action('Close',1),action('Side',1),action('Close',1),action('Side',1)),
-  repeat(2,action('Stamp',1,'Stamp the free foot without transferring weight.')),action('Hold',1));
-const drumulRock = () => sequence('Rock',...Array.from({length:3},()=>[
-  sequence('Cross',action('Cross',1,'Right across left.'),action('Recover',1,'On left.')),
-  sequence('Open',action('Open',1,'Right to the side/back.'),action('Recover',1,'On left.')),
-]).flat());
+const drumulSide = (name: string): Phrase[] => [
+  repeat(2,sequence(name,action('Side',1,`Step ${name.toLowerCase()}.`),action('Close',1))),
+  sequence('Stamps',action('Side',1,`One more step ${name.toLowerCase()}.`),
+    repeat(2,action('Stamp',1,'Stamp the free foot without transferring weight.')),action('Hold',1)),
+];
+const drumulHip = sequence('Hip',
+  action('Cross',1,'Right across left; twist the hips.'),action('Recover',1,'On left.'),
+  action('Open',1,'Right to the side/back; twist the hips.'),action('Recover',1,'On left.'));
 const drumulStamps = () => sequence('Stamps',
   repeat(3,action('Stamp',1,'Free right foot; weight stays on left.')),action('Hold',1));
 
@@ -78,6 +79,6 @@ export const danceStructures: Record<string, Phrase> = {
     ...lateral('Left','Left','Right'),...lateral('In place','Right','Left')))),
   'tzadik-katamar': cycle(repeat(2,tzadikWalk),repeat(2,tzadikFigure)),
   'drumul-dracului': cycle(
-    repeat(2,sequence('Travel',drumulSide('Right'),drumulSide('Left'))),
-    repeat(2,sequence('Crossing',drumulRock(),drumulStamps()))),
+    repeat(2,sequence('Travel',...drumulSide('Right'),...drumulSide('Left'))),
+    repeat(2,sequence('Crossing',repeat(3,drumulHip),drumulStamps()))),
 };

@@ -27,10 +27,23 @@ try {
     }};
   });
   await page.goto(`${process.env.REVIEW_ORIGIN ?? 'http://127.0.0.1:5176'}/?dance=tzadik-katamar`);
+  const selectRecording = async index => {
+    await page.locator('#music-toggle').click();
+    await page.getByRole('radio').nth(index).click();
+    if (index > 0 && !await page.evaluate(()=>window.deferReady)) {
+      await page.waitForFunction(()=>!document.querySelector('#play').disabled);
+    }
+  };
+  await selectRecording(1);
   const button=page.locator('#play');
   await page.waitForFunction(()=>!document.querySelector('#play').disabled);
   const label=async text=>assert.equal(await button.textContent(),text);
   const emit=state=>page.evaluate(state=>window.player.emit(state),state);
+  const embedded = async state => {
+    await page.locator('#music-toggle').click();
+    await emit(state);
+    await page.locator('#music-toggle').click();
+  };
 
   await button.click(); await label('Pause');
   await button.click(); await label('Play');
@@ -48,7 +61,7 @@ try {
   const immediatePose=await page.locator('#dancers').innerHTML();
   const immediateProgress=await page.locator('#scrub').inputValue();
   await button.click();
-  for (const state of [1,3,2,2]) {
+  for (const state of [1,3,2,2,3,1]) {
     await page.evaluate(state=>{window.player.time+=0.5;window.player.emit(state);},state);
     await page.waitForTimeout(50);
     assert.equal(await page.locator('#scrub').inputValue(),immediateProgress,'Pause must hold the timeline before and after acknowledgement');
@@ -64,7 +77,7 @@ try {
   assert.equal(await page.evaluate(()=>window.player.calls.at(-1)),'pause');
   await emit(2);
 
-  await emit(1); await label('Pause'); // Controls inside the video still work.
+  await embedded(1); await label('Pause'); // Controls inside the visible video still work.
   await emit(2); await label('Play');
   await button.click();
   await page.evaluate(()=>window.player.options.events.onAutoplayBlocked());
@@ -85,9 +98,9 @@ try {
   await page.waitForTimeout(50); await label('Pause');
   await page.locator('#reset').click(); await emit(2); await label('Play');
   await page.locator('#reset').click(); // Already paused: YouTube may send no event.
-  await emit(1); await label('Pause'); // Embedded Play must not be suppressed.
+  await embedded(1); await label('Pause'); // Embedded Play must not be suppressed.
   await emit(2);
-  await page.selectOption('#music-recording','');
+  await selectRecording(0);
   await button.click(); await label('Pause');
   const before=Number(await page.locator('#scrub').inputValue());
   await page.waitForTimeout(100);
@@ -97,6 +110,13 @@ try {
   await page.waitForTimeout(100);
   assert.equal(await page.locator('#scrub').inputValue(),paused);
 
+  // Remember a recording for Drumul, then load a different player before
+  // exercising a formation change whose new recording is not ready yet.
+  await page.locator('[data-dance="drumul-dracului"]').click();
+  await selectRecording(1);
+  await page.locator('[data-dance="tzadik-katamar"]').click();
+  await selectRecording(1);
+  await selectRecording(0);
   await page.evaluate(()=>window.deferReady=true);
   await page.locator('[data-dance="drumul-dracului"]').click();
   await label('Pause'); assert.equal(await button.isDisabled(),false);
@@ -108,7 +128,7 @@ try {
   const stopped=await page.locator('#dancers').innerHTML();
   await page.waitForTimeout(100);
   assert.equal(await page.locator('#dancers').innerHTML(),stopped);
-  await emit(1); await label('Pause'); // Video starts while the formation is paused.
+  await embedded(1); await label('Pause'); // Video starts while the formation is paused.
   await button.click(); await emit(2); await label('Play');
   assert.equal(await page.locator('#dancers').innerHTML(),stopped);
   await button.click(); await label('Pause');

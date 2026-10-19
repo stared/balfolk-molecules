@@ -31,7 +31,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-The development app runs at `http://localhost:5173/`.
+The development app runs at `http://127.0.0.1:5199/`. Port 5199 is reserved for this project; if it is already occupied, the command reports an error instead of silently choosing another port.
 
 ```sh
 pnpm test       # choreography, timing, spacing, and transition checks
