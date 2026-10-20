@@ -110,18 +110,18 @@ a { color: inherit; text-underline-offset: 3px; }
 #phrase-structure { margin: 0; }
 .has-structure:not(.hide-structure) #sections { display: none; }
 .hide-structure #phrase-structure { display: none; }
-#phrase-score { position: relative; height: 64px; }
+#phrase-score { position: relative; height: 60px; }
 .phrase-edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .phrase-edges line { stroke-width: 1px; }
-.phrase-section, .phrase-action { position: absolute; border: 0; border-radius: 0; background: transparent; color: #454752; display: flex; align-items: center; justify-content: center; }
-.phrase-section { top: 8px; height: 24px; padding: 0 8px; font-size: 12px; line-height: 1.1; text-align: center; }
-.phrase-action { top: 36px; height: 24px; padding: 0 2px; font-size: 12px; line-height: 1.1; }
+.phrase-group, .phrase-section, .phrase-action { position: absolute; height: 24px; padding: 0; border: 0; border-radius: 0; background: transparent; display: flex; align-items: center; justify-content: center; font-size: 12px; line-height: 1.1; text-align: center; white-space: nowrap; }
+.phrase-section { top: 8px; }
+.phrase-action { top: 32px; }
 .phrase-section:hover:not(:disabled), .phrase-action:hover:not(:disabled) { background: #ededf2; }
 .phrase-repeat { position: absolute; top: 0; height: 8px; }
 .has-structure:not(.hide-structure) #track { background: transparent; }
 .has-structure:not(.hide-structure) #elapsed { background: #e2e3ea; }
 .has-structure:not(.hide-structure) #ticks i { top: 0; bottom: auto; background: #aaaeba; }
-.has-structure:not(.hide-structure) #playhead { top: -64px; background: #505568; }
+.has-structure:not(.hide-structure) #playhead { top: -60px; background: #505568; }
 /* The thumb has explicit equal dimensions in both browser implementations. */
 .controls { display: grid; grid-template-columns: auto minmax(160px, 1fr) auto; align-items: center; gap: 24px; margin-top: 20px; }
 .transport { min-width: 0; flex-wrap: nowrap; gap: 8px; }
@@ -165,8 +165,6 @@ a { color: inherit; text-underline-offset: 3px; }
   .tempo-control span { grid-row: 1; text-align: center; min-width: 0; }
   #tempo { grid-row: 2; height: 20px; }
 
-  .phrase-section { font-size: 11px; padding: 0 3px; }
-  .phrase-action { font-size: 11px; padding: 0; white-space: nowrap; }
   #dance-materials { gap: 8px 16px; margin-top: 12px; }
 }
 
@@ -181,10 +179,7 @@ a { color: inherit; text-underline-offset: 3px; }
 #ticks i { transform: translateX(-50%); }
 
 
-.phrase-section, .phrase-action { white-space: nowrap; }
-
 /* All tiers keep their beat geometry; label abbreviations fit the available width. */
-.phrase-group, .phrase-section, .phrase-action { padding: 0; }
 .phrase-label { display: block; flex: none; pointer-events: none; white-space: nowrap; }
 .has-structure:not(.hide-structure) #scrub { top: 0; bottom: auto; height: 16px; }
 .phrase-tooltip { position: fixed; z-index: 15; width: max-content; max-width: calc(100vw - 16px); padding: 6px 9px; border: 1px solid #bcc9c2; border-radius: 4px; background: #fafaf8; box-shadow: 0 4px 16px #293b321a; color: #292d32; font-size: 12px; line-height: 1.4; white-space: pre-line; pointer-events: none; }
@@ -214,12 +209,12 @@ a { color: inherit; text-underline-offset: 3px; }
 }
 
 /* Bourrée's two figures sit above their four constituent phrases. */
-#phrase-score.phrase-grouped { height: 88px; }
-.phrase-group { position: absolute; top: 8px; height: 24px; padding: 0; border: 0; border-radius: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+#phrase-score.phrase-grouped { height: 84px; }
+.phrase-group { top: 8px; }
 .phrase-group:hover:not(:disabled) { background: #ededf2; }
 .phrase-grouped .phrase-section { top: 32px; }
-.phrase-grouped .phrase-action { top: 60px; }
-.has-structure.phrase-grouped:not(.hide-structure) #playhead { top: -88px; }
+.phrase-grouped .phrase-action { top: 56px; }
+.has-structure.phrase-grouped:not(.hide-structure) #playhead { top: -84px; }
 #phrase-score.phrase-details-on-demand { height: 60px; }
 .has-structure.phrase-details-on-demand:not(.hide-structure) #playhead { top: -60px; }
 

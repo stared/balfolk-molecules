@@ -83,9 +83,8 @@ export function createPhraseStructure(seek: (time: number) => void) {
     for (const selector of ['.phrase-group', '.phrase-section', '.phrase-action']) {
       const row = buttons.filter(button => button.matches(selector));
       if (!row.length) continue;
-      // A modest hierarchy keeps more full movement names legible before shortening.
-      const size = selector === '.phrase-group' ? 12 : selector === '.phrase-action' && score.clientWidth < 480 ? 9 : 11;
-      measure.font = `${size}px ${getComputedStyle(row[0]!).fontFamily}`;
+      const style = getComputedStyle(row[0]!);
+      measure.font = `${style.fontSize} ${style.fontFamily}`;
       const available = (button: HTMLButtonElement) => {
         const width = score.clientWidth * parseFloat(button.style.width) / 100;
         return Math.max(1, width - (width < 12 ? 0.5 : 4));
@@ -108,7 +107,6 @@ export function createPhraseStructure(seek: (time: number) => void) {
         }
       }
       for (const button of row) {
-        button.style.fontSize = `${size}px`;
         const text = button.querySelector<HTMLElement>('.phrase-label')!;
         text.textContent = labels.get(button.dataset.label!)!;
         // At phone widths a 64-count cycle has ~5 px per action. Condense only
@@ -145,7 +143,7 @@ export function createPhraseStructure(seek: (time: number) => void) {
       const actions = spans.filter(span => span.depth === motifDepth + 1);
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.classList.add('phrase-edges');
-      const baseline = detailsOnDemand ? 36 : 64;
+      const baseline = detailsOnDemand ? 36 : 60;
       svg.setAttribute('viewBox', `0 0 1000 ${baseline + offset}`);
       svg.setAttribute('preserveAspectRatio', 'none');
       svg.setAttribute('aria-hidden', 'true');
@@ -156,8 +154,6 @@ export function createPhraseStructure(seek: (time: number) => void) {
         drawn.add(key);
         const line = document.createElementNS(svg.namespaceURI, 'line');
         for (const [key, value] of Object.entries({x1,y1:y1+offset,x2,y2:y2+offset})) line.setAttribute(key, String(value));
-        if (y1 === 32 || y1 === 38 || y1 === 59) line.classList.add('phrase-detail-edge');
-        if (y1 === 64 && y2 === 64) line.classList.add('phrase-baseline');
         line.setAttribute('stroke', color);
         line.setAttribute('vector-effect', 'non-scaling-stroke');
         svg.append(line);
@@ -187,7 +183,7 @@ export function createPhraseStructure(seek: (time: number) => void) {
       }
       for (const section of motifs) {
         if (!motifColors.has(section.name)) motifColors.set(section.name, palette[motifColors.size % palette.length]!);
-        const color = nested ? palette[groups.findIndex(group => section.start >= group.start && section.start < group.start+group.beats) % palette.length]! : motifColors.get(section.name)!;
+        const color = grouped ? palette[groups.findIndex(group => section.start >= group.start && section.start < group.start+group.beats) % palette.length]! : motifColors.get(section.name)!;
         sectionColors.set(section.start, color);
         const start = section.start / total, end = (section.start + section.beats) / total;
         bracket(start * 1000, end * 1000, 8, color);
@@ -210,9 +206,10 @@ export function createPhraseStructure(seek: (time: number) => void) {
         const x = span.start / total;
         const parent = motifs.find(motif => span.start >= motif.start && span.start < motif.start + motif.beats)!;
         bracket(x * 1000, (span.start + span.beats) / total * 1000, 32, sectionColors.get(parent.start)!);
-        edge(x * 1000, 59, x * 1000, 64, '#b6b8c1');
+        edge(x * 1000, baseline - 5, x * 1000, baseline, '#b6b8c1');
         const button = document.createElement('button');
         button.type = 'button'; button.className = 'phrase-action';
+        button.style.color = sectionColors.get(parent.start)!;
         button.style.left = `${x * 100}%`; button.style.width = `${span.beats / total * 100}%`;
         const group = grouped ? groups.find(group => span.start >= group.start && span.start < group.start + group.beats) : undefined;
         describe(button, span.name, [...(group ? [group.name] : []), parent.name], span.start, span.beats);
