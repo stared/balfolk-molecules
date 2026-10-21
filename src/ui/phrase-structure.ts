@@ -14,6 +14,7 @@ export function createPhraseStructure(seek: (time: number) => void) {
   // A single-letter action is read in the context of its movement above it.
   const shortLabels: Record<string, readonly string[]> = {
     Forward: ['Fwd', 'F'], Backward: ['Back', 'B'], Back: ['B'],
+    Grapevine: ['Vine', 'V'],
     Right: ['R'], Left: ['L'], Step: ['S'], Stamps: ['St', 'S'], Stamp: ['St', 'S'],
     Side: ['Sd', 'S'], Close: ['Cl', 'C'], Cross: ['Cr', 'C'], Recover: ['Rec', 'R'],
     Hold: ['H'], Open: ['O'], Walk: ['W'], Sway: ['Sw', 'S'], Turn: ['T'], Hip: ['H'],

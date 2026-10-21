@@ -39,6 +39,18 @@ try {
         assert.equal(await page.locator('.phrase-section').count(),20);
         assert.equal(await page.locator('.phrase-action').count(),0);
       }
+      if (dance==='tzadik-katamar') {
+        for (const row of ['.phrase-group','.phrase-section','.phrase-action']) {
+          const cells=await page.locator(row).evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));
+          const score=await page.locator('#phrase-score').boundingBox();
+          let end=score.x;
+          for (const cell of cells) {
+            assert.ok(Math.abs(cell.x-end)<0.1,`${row}: gap or overlap in Tzadik`);
+            end=cell.right;
+          }
+          assert.ok(Math.abs(end-score.x-score.width)<0.1,`${row}: incomplete Tzadik cycle`);
+        }
+      }
     }
     await page.close();
   }

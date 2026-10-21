@@ -35,9 +35,10 @@ const mazurkaHalf = (first: string, other: string) => sequence(`${first} lead`,
 const tzadikWalk = sequence('Travel',walk('Walk',['Right','Left','Right','Left']),
   walk('Sway',['Right','Left','Right','Left']));
 const tzadikFigure = sequence('Crossing',
-  sequence('Forward',action('Right',1),action('Left',1)),
-  sequence('Back',action('Right',1,'Continue anticlockwise, walking backwards.'),action('Left',1,'Continue anticlockwise, walking backwards.')),
-  action('Turn',2,'Turn right on right, left, travelling anticlockwise; finish facing inward.'),
+  sequence('Grapevine',
+    sequence('Forward',action('Right',1),action('Left',1)),
+    sequence('Back',action('Right',1,'Continue anticlockwise, walking backwards.'),action('Left',1,'Continue anticlockwise, walking backwards.'))),
+  {...walk('Turn',['Right','Left']), detail:'Turn right on right, left, travelling anticlockwise; finish facing inward.'},
   sequence('Lean R',action('Side',1,'Right opens right.'),action('Lean',1,'Left crosses; incline inward over the support.'),action('Recover',1,'Recover onto right.')),
   sequence('Lean L',action('Side',1,'Left opens left.'),action('Lean',1,'Right crosses; incline inward over the support.'),action('Recover',1,'Recover onto left.')),
   walk('Sway',['Right','Left','Right','Left']));

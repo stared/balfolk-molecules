@@ -109,6 +109,35 @@ test('Tzadik labels only the two turning beats as a turn',()=>{
   assert.deepEqual(movements('tzadik-katamar').filter(span=>span.name==='Turn').map(span=>[span.start,span.beats]),[[20,2],[36,2]]);
 });
 
+test('Tzadik groups forward and back under each four-count grapevine',()=>{
+  const phrase=dances.find(d=>d.id==='tzadik-katamar')!.structure!.phrase;
+  const spans=phraseSpans(phrase);
+  assert.deepEqual(spans.filter(s=>s.depth===2&&s.name==='Grapevine').map(s=>[s.start,s.beats]),[[16,4],[32,4]]);
+  assert.deepEqual(spans.filter(s=>s.name==='Forward'||s.name==='Back').map(s=>[s.name,s.depth,s.start,s.beats]),[
+    ['Forward',3,16,2],['Back',3,18,2],['Forward',3,32,2],['Back',3,34,2],
+  ]);
+  for(const start of [16,32]) assert.deepEqual(
+    spans.filter(s=>s.depth===4&&s.start>=start&&s.start<start+4).map(s=>[s.name,s.start,s.beats]),
+    ['Right','Left','Right','Left'].map((name,i)=>[name,start+i,1]),
+  );
+});
+
+test('Tzadik has complete hierarchy rows, including both steps under each turn',()=>{
+  const spans=phraseSpans(dances.find(d=>d.id==='tzadik-katamar')!.structure!.phrase);
+  for(const depth of [1,2,3]) {
+    let end=0;
+    for(const span of spans.filter(s=>s.depth===depth)) {
+      assert.equal(span.start,end,`Gap or overlap at depth ${depth}`);
+      end+=span.beats;
+    }
+    assert.equal(end,48);
+  }
+  for(const start of [20,36]) assert.deepEqual(
+    spans.filter(s=>s.depth===3&&s.start>=start&&s.start<start+2).map(s=>[s.name,s.start,s.beats]),
+    [['Right',start,1],['Left',start+1,1]],
+  );
+});
+
 test('Chapelloise exposes walking turns and the quiet count after each exchange',()=>{
   assert.deepEqual(phraseSpans(dances.find(d=>d.id==='chapelloise')!.structure!.phrase).filter(span=>span.name==='Turn'||span.name==='Settle').map(span=>[span.name,span.start,span.beats]),[
     ['Turn',3,1],['Turn',11,1],['Settle',23,1],['Settle',31,1],
