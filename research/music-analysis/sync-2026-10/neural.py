@@ -6,7 +6,7 @@ from beat_this.inference import Audio2Frames
 from beat_this.model.postprocessor import Postprocessor
 base=Path(os.environ.get('BALFOLK_SYNC_WORK', '/tmp/balfolk-sync'));ff=os.environ.get('FFMPEG_BINARY', 'ffmpeg')
 torch.set_num_threads(3)
-for modelname in ['final0','small0']:
+for modelname in os.environ.get('BALFOLK_BEAT_MODELS','final0,small0').split(','):
  model=Audio2Frames(str(base/(modelname+'.ckpt')),device='cpu');post=Postprocessor(type='minimal')
  for p in sorted((base/'audio').glob('*')):
   if p.suffix not in ['.webm','.m4a','.mp3']:continue

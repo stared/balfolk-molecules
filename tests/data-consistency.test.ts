@@ -44,10 +44,14 @@ test('couple timelines show the contacts that drive the animation',()=>{
 test('every recording belongs to a dance and its tempo flag matches its beat map',()=>{
   const ids = new Set<string>();
   for (const [id, recordings] of Object.entries(recordingsByDance)) {
-    assert.ok(dances.some(dance=>dance.id===id), id);
+    const dance=dances.find(dance=>dance.id===id);
+    assert.ok(dance, id);
+    const cycleBeats=dance.duration*musicalBeatsPerPhrase(dance);
     for (const recording of recordings) {
       assert.ok(!ids.has(recording.videoId)); ids.add(recording.videoId);
       const beats = recording.beats, intervals = beats.slice(1).map((beat,i)=>beat-beats[i]!);
+      assert.ok(intervals.length>=cycleBeats, `${recording.title}: no complete dance cycle`);
+      assert.equal(intervals.length%cycleBeats,0,`${recording.title}: passage cuts a dance cycle short`);
       assert.ok(intervals.every(interval=>interval>0));
       // Four-count blocks, as in the tempo readout.
       const tempos = []; for (let i=0;i+4<beats.length;i+=4) tempos.push(240/(beats[i+4]!-beats[i]!));

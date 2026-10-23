@@ -36,21 +36,23 @@ export const hanterDroRecordings: readonly Recording[] = [
   {videoId:'iMQLYCar4WI',title:'Hanter dro',artist:'ba.fnu',bpm:80,
     beats:grid(25.28,80,360)},
   {videoId:'t9A3Gqhr7sw',title:'Calimero',artist:'Naragonia',...repertoireMaps.calimero},
-  {videoId:'9eSaBX8N58o',title:'Noctivagate',artist:'Folk Knock',...repertoireMaps['folk-hanter']},
 ];
 export const anDroRecordings: readonly Recording[] = [
   {videoId:'sVui_IvFjyQ',title:"The Devil’s Courtship / An Dro",artist:'Battlefield Band',bpm:100,variableTempo:true,
     beats:anDroBeats},
   {videoId:'nsaP4H9ryyk',title:'Burning Andro',artist:'Żniwa',...repertoireMaps.burning},
+  {videoId:'hKk7_49fTTU',title:'Ma flanedenn',artist:'Arvest',...repertoireMaps['arvest-live']},
 ];
-// Recording titles keep the artists' own spelling, “Draculi”.
 export const drumulRecordings: readonly Recording[] = [
+  // These recording titles keep the artists' own spelling, “Draculi”.
   // The recording opens on Crossing. Practice begins at the first Travel
   // figure, preserving its musical phase and five complete 64-count cycles.
   {videoId:'jwQukZnz4BQ',title:'Drumul Draculi',artist:'Żniwa',bpm:154,variableTempo:true,
     beats:zniwaDrumulBeats.slice(32,353)},
   {videoId:'qXdZO2gc_uw',title:'Drumul Draculi',artist:'Stary Olsa',bpm:126,variableTempo:true,
     beats:staryOlsaDrumulBeats},
+  {videoId:'2rXDxHWpjlI',title:'Drumul Dracului / Ördög útja',artist:'ViatoreS',
+    ...repertoireMaps['drumul-viatores']},
 ];
 export const recordingsByDance: Readonly<Record<string, readonly Recording[]>> = {
   bourree: bourreeRecordings,
@@ -60,16 +62,22 @@ export const recordingsByDance: Readonly<Record<string, readonly Recording[]>> =
   chapelloise: [
     {videoId:'WRsnS1X_giw',title:'Jopelloise',artist:'Accordzéâm',...repertoireMaps.jopelloise},
     {videoId:'NqeNjJuqVLQ',title:'Jsem já synek',artist:'ba.fnu feat. Beat Bouet Trio',...repertoireMaps.synek},
+    {videoId:'G_92bfkQbBQ',title:'Ticket Restaurant',artist:'Lyradanz',...repertoireMaps.ticket},
   ],
   cercle: [
     {videoId:'JsT6Mz4lbEY',title:'Starwars',artist:'Accordzéâm',...repertoireMaps.starwars},
+    {videoId:'eEArcahXX8g',title:'Ça Dégénère',artist:'Beat Bouet Trio',...repertoireMaps.degenere},
+    {videoId:'STbN-opaqfE',title:'Un salto nel vuoto / Desgarbuglies!',artist:'Lyradanz',...repertoireMaps['lyra-cercle']},
   ],
   'branle-de-noirmoutier': [
     {videoId:'n6ryuNSjmHo',title:'Branle des chevaliers',artist:'Bargainatt',...repertoireMaps.branle},
+    {videoId:'A5haP6-bPRE',title:'Suite de Bransles',artist:'Ciac Boum',...repertoireMaps.ciac},
+    {videoId:'H_6dl1q4OvY',title:'Les gens qui sont riches',artist:'Arbadétorne',...repertoireMaps.riches},
   ],
   waltz: [
     {videoId:'WdZhlntuf3s',title:'Lora Luna',artist:'AedO',...repertoireMaps['lora-alt']},
     {videoId:'9X1NAyDcNlw',title:'Po powrocie do domu',artist:'Balsam',...repertoireMaps['balsam-waltz']},
+    {videoId:'XxFa31Du6Ws',title:'Valse du port Galland',artist:'Ballsy Swing',...repertoireMaps.galland},
   ],
   schottische: [
     {videoId:'NJUhZDllgc0',title:'Scottish (YFK~2016)',artist:'ba.fnu & Yann-Fañch Kemener',...repertoireMaps.yfk},
@@ -82,6 +90,8 @@ export const recordingsByDance: Readonly<Record<string, readonly Recording[]>> =
     {videoId:'DLb8aH3CSAY',title:'Šapito perdu',artist:'Folk Knock',...repertoireMaps['folk-mazurka']},
   ],
   'tzadik-katamar': [
+    {videoId:'DkSRycdK1b8',title:'Tzadik Katamar (live)',artist:'Muscat',...repertoireMaps['tzadik-muscat-live']},
+    {videoId:'xQsk9nYWm64',title:'Tzadik Katamar',artist:'Cobla La Mitja Lluna',...repertoireMaps['tzadik-cobla']},
     {videoId:'DTiK8DishCM',title:'Tzadik Katamar',artist:'Bill Woodgate',...repertoireMaps['tzadik-dance']},
   ],
 };

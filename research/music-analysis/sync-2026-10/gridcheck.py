@@ -26,7 +26,8 @@ def validate(track, detections, features):
     config = track['mapping']
     bpm, start, counts, cycle, bar = (config[k] for k in ['bpm', 'start', 'counts', 'cycle', 'bar'])
     times = start + np.arange(counts + 1) * 60 / bpm
-    beats = [np.asarray(detections[model]['beats']) for model in ['final0', 'small0']]
+    models = track.get('models', ['final0', 'small0'])
+    beats = [np.asarray(detections[model]['beats']) for model in models]
     error = np.minimum(*(nearest_errors(times, values) for values in beats))
     fps, flux = float(features['fps']), features['logflux']
     report = {
@@ -55,7 +56,7 @@ def validate(track, detections, features):
     report['tempoFit'] = {'window': [low, high], 'bpm': float(60 / periods[best]),
                           'coherence': float(coherence[best]), 'configuredGridPhase': phase}
     report['barPhaseVotes'] = {}
-    for model in ['final0', 'small0']:
+    for model in models:
         downbeats = np.asarray(detections[model]['downbeats'])
         indices = np.round((downbeats - phase) / period).astype(int)
         supported = abs(downbeats - phase - indices * period) < .06

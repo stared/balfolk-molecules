@@ -1,0 +1,1152 @@
+[
+  {
+    "key": "ciac",
+    "id": "A5haP6-bPRE",
+    "dance": "branle-de-noirmoutier",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 3.22,
+        "seconds": 3.22,
+        "actual": 0.526,
+        "expected": 0.5263157894736843
+      },
+      {
+        "requested": 68.99,
+        "seconds": 68.99,
+        "actual": 3.86,
+        "expected": 3.859991039426525
+      },
+      {
+        "requested": 135.77,
+        "seconds": 135.77,
+        "actual": 0.548,
+        "expected": 0.5483785502331529
+      },
+      {
+        "requested": 177,
+        "seconds": 177,
+        "actual": 6.892,
+        "expected": 6.891845122215017
+      },
+      {
+        "requested": 4.22,
+        "seconds": 4.22,
+        "actual": 1.053,
+        "expected": 1.0526315789473684
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "degenere",
+    "id": "eEArcahXX8g",
+    "dance": "cercle",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 11.93,
+        "seconds": 11.93,
+        "actual": 0.583,
+        "expected": 0.583333333333333
+      },
+      {
+        "requested": 106.93,
+        "seconds": 106.93,
+        "actual": 8,
+        "expected": 8
+      },
+      {
+        "requested": 202.93,
+        "seconds": 202.93,
+        "actual": 0,
+        "expected": 0
+      },
+      {
+        "requested": 269.22,
+        "seconds": 269.22,
+        "actual": 6.669,
+        "expected": 6.669166835833522
+      },
+      {
+        "requested": 12.93,
+        "seconds": 12.93,
+        "actual": 1.167,
+        "expected": 1.1666666666666663
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "galland",
+    "id": "XxFa31Du6Ws",
+    "dance": "waltz",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 91.88,
+        "seconds": 91.88,
+        "actual": 0.926,
+        "expected": 0.9259259259259274
+      },
+      {
+        "requested": 163.37,
+        "seconds": 163.37,
+        "actual": 0.087,
+        "expected": 0.08690614136732695
+      },
+      {
+        "requested": 235.86,
+        "seconds": 235.86,
+        "actual": 1.69,
+        "expected": 1.6902614557711597
+      },
+      {
+        "requested": 282,
+        "seconds": 282,
+        "actual": 1.745,
+        "expected": 1.7450980392156907
+      },
+      {
+        "requested": 92.88,
+        "seconds": 92.88,
+        "actual": 1.852,
+        "expected": 1.8518518518518416
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "riches",
+    "id": "H_6dl1q4OvY",
+    "dance": "branle-de-noirmoutier",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 15.55,
+        "seconds": 15.55,
+        "actual": 0.575,
+        "expected": 0.5750000574999485
+      },
+      {
+        "requested": 92.46,
+        "seconds": 92.46,
+        "actual": 4.798,
+        "expected": 4.798249931575057
+      },
+      {
+        "requested": 170.38,
+        "seconds": 170.38,
+        "actual": 1.602,
+        "expected": 1.6022498579751243
+      },
+      {
+        "requested": 221.16,
+        "seconds": 221.16,
+        "actual": 6.801,
+        "expected": 6.800750029324973
+      },
+      {
+        "requested": 16.55,
+        "seconds": 16.55,
+        "actual": 1.15,
+        "expected": 1.150000114999897
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "ticket",
+    "id": "G_92bfkQbBQ",
+    "dance": "chapelloise",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 8.88,
+        "seconds": 8.88,
+        "actual": 0.554,
+        "expected": 0.5542389853137519
+      },
+      {
+        "requested": 88.42,
+        "seconds": 88.42,
+        "actual": 4.657,
+        "expected": 4.65747113676732
+      },
+      {
+        "requested": 168.96,
+        "seconds": 168.96,
+        "actual": 1.273,
+        "expected": 1.2726276572430493
+      },
+      {
+        "requested": 222,
+        "seconds": 222,
+        "actual": 6.672,
+        "expected": 6.672084233261344
+      },
+      {
+        "requested": 9.88,
+        "seconds": 9.88,
+        "actual": 1.112,
+        "expected": 1.1121327651939903
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "lyra-cercle",
+    "id": "STbN-opaqfE",
+    "dance": "cercle",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 2.81,
+        "seconds": 2.81,
+        "actual": 0.548,
+        "expected": 0.5483499983499984
+      },
+      {
+        "requested": 73.09,
+        "seconds": 73.09,
+        "actual": 7.202,
+        "expected": 7.202350152350149
+      },
+      {
+        "requested": 144.36,
+        "seconds": 144.36,
+        "actual": 14.401,
+        "expected": 14.40084996898004
+      },
+      {
+        "requested": 189.45,
+        "seconds": 189.45,
+        "actual": 7.2,
+        "expected": 7.200349909580098
+      },
+      {
+        "requested": 3.81,
+        "seconds": 3.81,
+        "actual": 1.098,
+        "expected": 1.0983499983499982
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "arvest-live",
+    "id": "hKk7_49fTTU",
+    "dance": "an-dro",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 122.96,
+        "seconds": 122.96,
+        "actual": 0.393,
+        "expected": 0.3928178099433569
+      },
+      {
+        "requested": 212.27,
+        "seconds": 212.27,
+        "actual": 3.652,
+        "expected": 3.6521298174442194
+      },
+      {
+        "requested": 302.59,
+        "seconds": 302.59,
+        "actual": 3.413,
+        "expected": 3.412901215331871
+      },
+      {
+        "requested": 364,
+        "seconds": 364,
+        "actual": 3.882,
+        "expected": 3.8817966903073255
+      },
+      {
+        "requested": 123.96,
+        "seconds": 123.96,
+        "actual": 0.787,
+        "expected": 0.786763544463747
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "tzadik-muscat-live",
+    "id": "DkSRycdK1b8",
+    "dance": "tzadik-katamar",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 5.24,
+        "seconds": 5.24,
+        "actual": 0.193,
+        "expected": 0.19290123456790131
+      },
+      {
+        "requested": 54.56,
+        "seconds": 54.56,
+        "actual": 4,
+        "expected": 4
+      },
+      {
+        "requested": 85.42,
+        "seconds": 85.42,
+        "actual": 8,
+        "expected": 8
+      },
+      {
+        "requested": 110.78,
+        "seconds": 110.78,
+        "actual": 10.78,
+        "expected": 10.780004888780248
+      },
+      {
+        "requested": 7.24,
+        "seconds": 7.24,
+        "actual": 0.586,
+        "expected": 0.586437555074902
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "tzadik-cobla",
+    "id": "xQsk9nYWm64",
+    "dance": "tzadik-katamar",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 49.86,
+        "seconds": 49.86,
+        "actual": 0.364,
+        "expected": 0.3636563231850121
+      },
+      {
+        "requested": 79.7,
+        "seconds": 79.7,
+        "actual": 0,
+        "expected": 0
+      },
+      {
+        "requested": 106.94,
+        "seconds": 106.94,
+        "actual": 0,
+        "expected": 0
+      },
+      {
+        "requested": 131.6,
+        "seconds": 131.6,
+        "actual": 11.268,
+        "expected": 11.268112089914943
+      },
+      {
+        "requested": 51.86,
+        "seconds": 51.86,
+        "actual": 1.106,
+        "expected": 1.1055329413538373
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "drumul-viatores",
+    "id": "2rXDxHWpjlI",
+    "dance": "drumul-dracului",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 1.52,
+        "seconds": 1.52,
+        "actual": 0.5,
+        "expected": 0.5
+      },
+      {
+        "requested": 84.359,
+        "seconds": 84.359,
+        "actual": 10.75,
+        "expected": 10.749945545632755
+      },
+      {
+        "requested": 160.46,
+        "seconds": 160.46,
+        "actual": 5.5,
+        "expected": 5.5
+      },
+      {
+        "requested": 227.72,
+        "seconds": 227.72,
+        "actual": 14.75,
+        "expected": 14.7496869521663
+      },
+      {
+        "requested": 3.52,
+        "seconds": 3.52,
+        "actual": 1.5,
+        "expected": 1.5
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  }
+]

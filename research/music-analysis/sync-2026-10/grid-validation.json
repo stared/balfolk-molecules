@@ -470,5 +470,257 @@
         "fluxMedianAbsMs": 37.414965986394556
       }
     ]
+  },
+  "degenere": {
+    "bpm": 140,
+    "start": 10.93,
+    "end": 285.2157142857143,
+    "counts": 640,
+    "cycles": 10,
+    "within60ms": 0.9984399375975039,
+    "p95ms": 27.14285714287712,
+    "modelDisagreements": [
+      {
+        "seconds": 158.78714285714287,
+        "nearestModelMs": 187.1428571428737,
+        "strongestFluxOffsetMs": -64.85260770975056
+      }
+    ],
+    "tempoFit": {
+      "window": [
+        10.93,
+        285.2157142857143
+      ],
+      "bpm": 139.9965,
+      "coherence": 0.9368763742141313,
+      "configuredGridPhase": 0.2212533698271039
+    },
+    "barPhaseVotes": {
+      "final0": [
+        1,
+        173,
+        0,
+        0
+      ],
+      "final1": [
+        0,
+        163,
+        4,
+        0
+      ]
+    },
+    "windows": [
+      {
+        "from": 10.93,
+        "beats": 105,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 18.57142857143046,
+        "fluxMedianAbsMs": 19.954648526077097
+      },
+      {
+        "from": 55.93,
+        "beats": 105,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 20.285714285716974,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 100.93,
+        "beats": 105,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 29.999999999986926,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 145.93,
+        "beats": 105,
+        "modelWithin60ms": 0.9904761904761905,
+        "modelP90Ms": 21.42857142857224,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 190.93,
+        "beats": 105,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 15.714285714267362,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 235.93,
+        "beats": 105,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 27.142857142848698,
+        "fluxMedianAbsMs": 19.954648526077097
+      },
+      {
+        "from": 280.93,
+        "beats": 11,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 32.857142857153576,
+        "fluxMedianAbsMs": 19.954648526077097
+      }
+    ]
+  },
+  "riches": {
+    "bpm": 138,
+    "start": 14.55,
+    "end": 237.15869565217392,
+    "counts": 512,
+    "cycles": 16,
+    "within60ms": 0.9941520467836257,
+    "p95ms": 41.652173913053026,
+    "modelDisagreements": [
+      {
+        "seconds": 119.76739130434783,
+        "nearestModelMs": 67.39130434782226,
+        "strongestFluxOffsetMs": 64.85260770975056
+      },
+      {
+        "seconds": 120.63695652173912,
+        "nearestModelMs": 76.95652173912038,
+        "strongestFluxOffsetMs": -49.88662131519274
+      },
+      {
+        "seconds": 236.2891304347826,
+        "nearestModelMs": 69.13043478260761,
+        "strongestFluxOffsetMs": -64.85260770975056
+      }
+    ],
+    "tempoFit": {
+      "window": [
+        14.55,
+        237.15869565217392
+      ],
+      "bpm": 138.0069,
+      "coherence": 0.934987097560211,
+      "configuredGridPhase": 0.19473833404939916
+    },
+    "barPhaseVotes": {
+      "final0": [
+        14,
+        85,
+        9,
+        40
+      ],
+      "final1": [
+        25,
+        86,
+        15,
+        43
+      ]
+    },
+    "windows": [
+      {
+        "from": 14.55,
+        "beats": 104,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 17.91304347825929,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 59.55,
+        "beats": 103,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 32.60869565217206,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 104.55,
+        "beats": 104,
+        "modelWithin60ms": 0.9807692307692307,
+        "modelP90Ms": 41.91304347826872,
+        "fluxMedianAbsMs": 34.920634920634924
+      },
+      {
+        "from": 149.55,
+        "beats": 103,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 27.21739130433889,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 194.55,
+        "beats": 99,
+        "modelWithin60ms": 0.98989898989899,
+        "modelP90Ms": 37.826086956528115,
+        "fluxMedianAbsMs": 34.920634920634924
+      }
+    ]
+  },
+  "lyra-cercle": {
+    "bpm": 132,
+    "start": 1.813,
+    "end": 205.4493636363636,
+    "counts": 448,
+    "cycles": 7,
+    "within60ms": 0.9977728285077951,
+    "p95ms": 32.999999999995566,
+    "modelDisagreements": [
+      {
+        "seconds": 186.813,
+        "nearestModelMs": 127.00000000000955,
+        "strongestFluxOffsetMs": -59.86394557823129
+      }
+    ],
+    "tempoFit": {
+      "window": [
+        1.813,
+        205.4493636363636
+      ],
+      "bpm": 132.0066,
+      "coherence": 0.8677573339992277,
+      "configuredGridPhase": 0.4472319871401988
+    },
+    "barPhaseVotes": {
+      "final0": [
+        5,
+        28,
+        6,
+        123
+      ],
+      "final1": [
+        1,
+        18,
+        6,
+        127
+      ]
+    },
+    "windows": [
+      {
+        "from": 1.813,
+        "beats": 99,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 25.181818181817484,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 46.813,
+        "beats": 99,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 27.545454545455073,
+        "fluxMedianAbsMs": 24.94331065759637
+      },
+      {
+        "from": 91.813,
+        "beats": 99,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 30.636363636361352,
+        "fluxMedianAbsMs": 34.920634920634924
+      },
+      {
+        "from": 136.813,
+        "beats": 99,
+        "modelWithin60ms": 1.0,
+        "modelP90Ms": 23.727272727268204,
+        "fluxMedianAbsMs": 29.931972789115644
+      },
+      {
+        "from": 181.813,
+        "beats": 53,
+        "modelWithin60ms": 0.9811320754716981,
+        "modelP90Ms": 41.72727272725184,
+        "fluxMedianAbsMs": 54.87528344671201
+      }
+    ]
   }
 }

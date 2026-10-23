@@ -400,5 +400,475 @@
     },
     "publish": false,
     "includeInAudit": false
+  },
+  "ciac": {
+    "mapping": {
+      "method": "measured",
+      "start": 2.22,
+      "end": 193,
+      "period": 0.47,
+      "cycle": 32,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "branle-de-noirmoutier",
+      "seconds": [
+        3.22,
+        68.99,
+        135.77,
+        177,
+        4.22
+      ]
+    }
+  },
+  "degenere": {
+    "mapping": {
+      "method": "grid",
+      "bpm": 140,
+      "start": 10.93,
+      "counts": 640,
+      "cycle": 64,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "cercle",
+      "seconds": [
+        11.93,
+        106.93,
+        202.93,
+        269.22,
+        12.93
+      ]
+    }
+  },
+  "galland": {
+    "mapping": {
+      "method": "measured",
+      "start": 90.88,
+      "end": 298,
+      "period": 0.36,
+      "cycle": 6,
+      "bar": 3
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "waltz",
+      "seconds": [
+        91.88,
+        163.37,
+        235.86,
+        282,
+        92.88
+      ]
+    }
+  },
+  "riches": {
+    "mapping": {
+      "method": "grid",
+      "bpm": 138,
+      "start": 14.55,
+      "counts": 512,
+      "cycle": 32,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "branle-de-noirmoutier",
+      "seconds": [
+        15.55,
+        92.46,
+        170.38,
+        221.16,
+        16.55
+      ]
+    }
+  },
+  "ticket": {
+    "mapping": {
+      "method": "measured",
+      "start": 7.88,
+      "end": 238,
+      "period": 0.45112781954887216,
+      "cycle": 32,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "chapelloise",
+      "seconds": [
+        8.88,
+        88.42,
+        168.96,
+        222,
+        9.88
+      ]
+    }
+  },
+  "lyra-cercle": {
+    "mapping": {
+      "method": "grid",
+      "bpm": 132,
+      "start": 1.813,
+      "counts": 448,
+      "cycle": 64,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "cercle",
+      "seconds": [
+        2.81,
+        73.09,
+        144.36,
+        189.45,
+        3.81
+      ]
+    }
+  },
+  "arvest-live": {
+    "mapping": {
+      "method": "measured",
+      "start": 121.96,
+      "end": 380,
+      "period": 0.64,
+      "cycle": 16,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "an-dro",
+      "seconds": [
+        122.96,
+        212.27,
+        302.59,
+        364,
+        123.96
+      ]
+    }
+  },
+  "tzadik-muscat-live": {
+    "mapping": {
+      "method": "measured",
+      "start": 4.24,
+      "end": 128,
+      "period": 1.28,
+      "cycle": 48,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "tzadik-katamar",
+      "seconds": [
+        5.24,
+        54.56,
+        85.42,
+        110.78,
+        7.24
+      ]
+    },
+    "score": {
+      "source": "https://ifdo.ca/~seymour/midipage/tzadick_katamar.pdf",
+      "description": "Opening four score bars, played twice; pitch classes relative to C. Empty lists represent rests.",
+      "subdivisions": 2,
+      "motif": [
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          9
+        ],
+        [
+          9
+        ],
+        [],
+        [],
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          9
+        ],
+        [
+          9
+        ],
+        [],
+        []
+      ]
+    },
+    "repeatContrast": {
+      "unitCounts": 16,
+      "phaseStep": 4
+    }
+  },
+  "tzadik-cobla": {
+    "mapping": {
+      "method": "measured",
+      "start": 48.86,
+      "end": 166,
+      "period": 0.7,
+      "cycle": 48,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "tzadik-katamar",
+      "seconds": [
+        49.86,
+        79.7,
+        106.94,
+        131.6,
+        51.86
+      ]
+    },
+    "score": {
+      "source": "https://ifdo.ca/~seymour/midipage/tzadick_katamar.pdf",
+      "description": "Opening four score bars, played twice; pitch classes relative to C. Empty lists represent rests.",
+      "subdivisions": 2,
+      "motif": [
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          9
+        ],
+        [
+          9
+        ],
+        [],
+        [],
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          4
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          9
+        ],
+        [
+          9
+        ],
+        [],
+        []
+      ]
+    },
+    "repeatContrast": {
+      "unitCounts": 16,
+      "phaseStep": 4
+    }
+  },
+  "drumul-viatores": {
+    "mapping": {
+      "method": "measured",
+      "start": 0.52,
+      "end": 233,
+      "period": 0.5,
+      "cycle": 64,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "drumul-dracului",
+      "seconds": [
+        1.52,
+        84.359,
+        160.46,
+        227.72,
+        3.52
+      ]
+    }
   }
 }

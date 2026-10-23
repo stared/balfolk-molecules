@@ -188,3 +188,7 @@ The exact upload has a stable **114 BPM** pulse. The selected fuller entry is **
 At four counts around 86.93–89.03 s, both models temporarily follow offbeats. Nearby spectral flux peaks and the unchanged grid phase before and after that passage support retaining the continuous pulse. These four timestamps are inferred from the stable grid, not independently observed by the beat models; one nearby flux peak is 70 ms early. `gridcheck.py --track mazurska` reproduces the tempo search, exceptions and separate time-window checks in the shared `grid-validation.json` report. No gesture or stamp is inferred simply from a loud audio attack.
 
 Mazurská verification: the real iframe played successfully and seven paused seeks at 25, 87, 89, 140, 250, 269 and 30 seconds agreed with the dance clock. Results are in the shared `browser-late.json`, keyed by video ID. The reusable `browser-late.mjs` now accepts `SYNC_CASES` as a JSON array of `[danceId, videoId, seconds[]]`. All 126 tests and the production build pass.
+
+## October 21 additions
+
+[Ten additions and the three-per-dance selection](music-additions.md) bring the catalogue to 33 recordings. The review records exact uploads, selected passages, timing evidence, replacement choices, and the candidates that could not be published reliably.

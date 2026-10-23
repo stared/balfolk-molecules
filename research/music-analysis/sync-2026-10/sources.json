@@ -159,5 +159,75 @@
     "channel": "ba.fnu - Topic",
     "mediaSha256": "b245675ab62b20d3836464a0a1bfa1a4f81fa2ffe50752d13cb256c34b239b00",
     "decodedSeconds": 291.24
+  },
+  "ciac": {
+    "url": "https://www.youtube.com/watch?v=A5haP6-bPRE",
+    "title": "Suite de Bransles",
+    "channel": "Ciac Boum - Topic",
+    "mediaSha256": "4670c183e14cf02badbdc2841a6e68577b8ccf363c59ffecc95e819f56c5dae1",
+    "decodedSeconds": 197.3208163265306
+  },
+  "degenere": {
+    "url": "https://www.youtube.com/watch?v=eEArcahXX8g",
+    "title": "Ça Dégénère (Cercle Circassien)",
+    "channel": "Beat Bouet Trio - Topic",
+    "mediaSha256": "aee22a73b5174428842af10fc120cf5c28f1e338e2fb2cba04a4f6f664ad5514",
+    "decodedSeconds": 294.61333333333334
+  },
+  "galland": {
+    "url": "https://www.youtube.com/watch?v=XxFa31Du6Ws",
+    "title": "Valse du port Galland",
+    "channel": "Ballsy Swing - Topic",
+    "mediaSha256": "2fbe58aeefad71f29101fd03ccc27f443a121d6a57655f7b5c7e62a31470a193",
+    "decodedSeconds": 335.0133333333333
+  },
+  "riches": {
+    "url": "https://www.youtube.com/watch?v=H_6dl1q4OvY",
+    "title": "Les gens qui sont riches (Branles de l’Epine)",
+    "channel": "Arbadétorne - Topic",
+    "mediaSha256": "605a6b319a9f7dc5809ab58978ee3a4d477e168ecfc728f03df9a2087c06b42e",
+    "decodedSeconds": 250.84
+  },
+  "ticket": {
+    "url": "https://www.youtube.com/watch?v=G_92bfkQbBQ",
+    "title": "Ticket Restaurant",
+    "channel": "LyraDanz - Topic",
+    "mediaSha256": "443e9ba12e1297755c9132246b22ec38451cc760d8bd36e984b3c58cc6de1f01",
+    "decodedSeconds": 243.45333333333335
+  },
+  "lyra-cercle": {
+    "url": "https://www.youtube.com/watch?v=STbN-opaqfE",
+    "title": "Un salto nel vuoto - Desgarbuglies!",
+    "channel": "LyraDanz - Topic",
+    "mediaSha256": "20b58ef19d77af792bc680cbaa98f12d91cc7bf76b147d723c31b71037f56606",
+    "decodedSeconds": 241.81333333333333
+  },
+  "arvest-live": {
+    "url": "https://www.youtube.com/watch?v=hKk7_49fTTU",
+    "title": "Arvest - Andro Ma flanedenn",
+    "channel": "pyc44240",
+    "mediaSha256": "1853a052952753b1c81da462618b9fb638ba2e23679b8c4f7dae6aaf7a39f896",
+    "decodedSeconds": 390.443537414966
+  },
+  "tzadik-muscat-live": {
+    "url": "https://www.youtube.com/watch?v=DkSRycdK1b8",
+    "title": "Tzadik katamar • Treure ball de Terrassa, 8 de març 2020",
+    "channel": "Muscat Grup de folk",
+    "mediaSha256": "061fe2acf36fbd5c88338596e4530d72638b7259e6e2b3182272851e4dfa57c3",
+    "decodedSeconds": 172.03664399092972
+  },
+  "tzadik-cobla": {
+    "url": "https://www.youtube.com/watch?v=xQsk9nYWm64",
+    "title": "Tzadik Katamar - Ball Folk de la Cobla la Mitja Lluna",
+    "channel": "Cobla La Mitja Lluna",
+    "mediaSha256": "8566957622246d916ea1d39048bdda2bea318bbdabbe8d3deca257f03f03c3d8",
+    "decodedSeconds": 228.3682993197279
+  },
+  "drumul-viatores": {
+    "url": "https://www.youtube.com/watch?v=2rXDxHWpjlI",
+    "title": "ViatoreS - Drumul Dracului | Ördög útja",
+    "channel": "ViatoreS",
+    "mediaSha256": "de4ea97e6ff6d7b8c121dd4688fba3a48d30bff0fbe1992ed7fd0d230825660c",
+    "decodedSeconds": 295.8454875283447
   }
 }

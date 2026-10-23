@@ -4,8 +4,10 @@ from scipy.interpolate import PchipInterpolator
 base=Path(__file__).resolve().parent
 raw=json.loads((base/'detections.json').read_text())
 def get(name,model):return raw[name][model]
+def models(name):return tracks[name].get('models',['final0','small0'])
 def follow(name,start,end,period,reverse=False):
- b=np.array(get(name,'final0')['beats']);s=np.array(get(name,'small0')['beats']);pool=np.unique(np.r_[b,s]);result=[start];recent=[period]*8;direction=-1 if reverse else 1;ambiguities=[]
+ first,second=models(name)
+ b=np.array(get(name,first)['beats']);s=np.array(get(name,second)['beats']);pool=np.unique(np.r_[b,s]);result=[start];recent=[period]*8;direction=-1 if reverse else 1;ambiguities=[]
  while direction*(end-result[-1])>np.median(recent)*.7:
   p=np.median(recent[-8:]);prediction=result[-1]+direction*p;candidate=pool[abs(pool-prediction)<p*.24]
   if not len(candidate): raise ValueError((name,'unsupported gap',result[-1],p))
@@ -27,9 +29,14 @@ if __name__=='__main__':
   assert max(abs(a-back))<.121, f'{name}: ambiguous beat phase'
   # Four/three-count anchor interpolation suppresses model's 20 ms interval jitter.
   ix=np.arange(0,len(a),bar);smooth=PchipInterpolator(ix,a[ix])(np.arange(len(a)))
-  b=np.array(get(name,'final0')['beats']);s=np.array(get(name,'small0')['beats']);db=np.array(get(name,'final0')['downbeats']);ds=np.array(get(name,'small0')['downbeats']);bounds=smooth[::bar]
+  first,second=models(name)
+  b=np.array(get(name,first)['beats']);s=np.array(get(name,second)['beats']);db=np.array(get(name,first)['downbeats']);ds=np.array(get(name,second)['downbeats']);bounds=smooth[::bar]
   period=np.diff(smooth);metrics={'counts':len(a)-1,'cycles':(len(a)-1)//cycle,'start':float(smooth[0]),'end':float(smooth[-1]),'nominalBpm':round(60/np.median(period),1),'minBpm':round(60/max(period),1),'maxBpm':round(60/min(period),1),'backwardCount':len(back)-1,'forwardBackwardMedianMs':round(float(np.median(abs(a-back)))*1000,1) if len(a)==len(back) else None,'forwardBackwardMaxMs':round(float(np.max(abs(a-back)))*1000,1) if len(a)==len(back) else None,'smoothingP95Ms':round(float(np.percentile(abs(smooth-a),95))*1000,1),'finalWithin60ms':round(float(np.mean(np.min(abs(smooth[:,None]-b),axis=1)<.06)),3),'smallWithin60ms':round(float(np.mean(np.min(abs(smooth[:,None]-s),axis=1)<.06)),3),'barFinalWithin80ms':round(float(np.mean(np.min(abs(bounds[:,None]-db),axis=1)<.08)),3),'barSmallWithin80ms':round(float(np.mean(np.min(abs(bounds[:,None]-ds),axis=1)<.08)),3)}
   print(name, metrics['counts'], 'counts; forward/backward max', metrics['forwardBackwardMaxMs'], 'ms')
+  if models(name)!=['final0','small0']:
+   metrics['models']=models(name)
+   metrics['secondWithin60ms']=metrics.pop('smallWithin60ms')
+   metrics['barSecondWithin80ms']=metrics.pop('barSmallWithin80ms')
   maps[name]={'beats':smooth.round(4).tolist(),'observations':a.tolist(),'metrics':metrics,'cycle':cycle,'bar':bar}
  # All candidate data is retained in audit.json below.
 
@@ -39,7 +46,8 @@ if __name__=='__main__':
   if config['method']!='grid' or not track.get('includeInAudit',True):continue
   bpm,start,n,cycle,bar=(config[key] for key in ['bpm','start','counts','cycle','bar'])
   beats=start+np.arange(n+1)*60/bpm
-  b=np.array(raw[name]['final0']['beats']);s=np.array(raw[name]['small0']['beats'])
+  first,second=models(name)
+  b=np.array(raw[name][first]['beats']);s=np.array(raw[name][second]['beats'])
   errors=np.minimum(np.min(abs(beats[:,None]-b),axis=1),np.min(abs(beats[:,None]-s),axis=1))
   maps[name]={'beats':beats.tolist(),'cycle':cycle,'bar':bar,'metrics':{'counts':n,'cycles':n//cycle,'start':start,'end':float(beats[-1]),'nominalBpm':bpm,'combinedModelP95Ms':round(float(np.percentile(errors,95))*1000,1),'combinedModelMaxMs':round(float(max(errors))*1000,1)}}
  for data in maps.values():
