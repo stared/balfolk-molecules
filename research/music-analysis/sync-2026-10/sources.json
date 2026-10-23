@@ -229,5 +229,26 @@
     "channel": "ViatoreS",
     "mediaSha256": "de4ea97e6ff6d7b8c121dd4688fba3a48d30bff0fbe1992ed7fd0d230825660c",
     "decodedSeconds": 295.8454875283447
+  },
+  "congo-bargainatt": {
+    "url": "https://www.youtube.com/watch?v=Rhf-BfRGURE",
+    "title": "Pris entre Captieux",
+    "channel": "Bargainatt - Topic",
+    "mediaSha256": "7cd348f4d6782760abc7f1e4d8df24be1f017278b4ecf01bc916bee7f840229e",
+    "decodedSeconds": 239.75619047619048
+  },
+  "congo-trencadit-album": {
+    "url": "https://www.youtube.com/watch?v=iROwlBHoAyU",
+    "title": "Congò de M. Lagardère",
+    "channel": "Release - Topic",
+    "mediaSha256": "697831b5696aaceaa370e4b80b73dce0073159da51c3309a1eed25c830233c3d",
+    "decodedSeconds": 203.53306122448978
+  },
+  "congo-brotto-lopez": {
+    "url": "https://www.youtube.com/watch?v=FqqQUn081W0",
+    "title": "Duo Brotto Lopez : Congo de Captieux",
+    "channel": "stefanopoulosos",
+    "mediaSha256": "9757ce4cd6c4a95f4fd37fd9c11af3ec4c16fea2e281c543e0d1754d33051516",
+    "decodedSeconds": 181.53360544217688
   }
 }

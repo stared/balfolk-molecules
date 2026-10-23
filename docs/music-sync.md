@@ -2,7 +2,7 @@
 
 The [24 September movement review](movement-review.md) checks stamp/hold rendering against both existing Drumul maps and provides an experimental schottische comparison page. It changes visual cues, not recording timestamps or count-rate interpretations. The [recording shortlist](recording-shortlist.md) distinguishes practice candidates from synchronized presets.
 
-All eleven dances have recordings. The October expansion below adds sixteen choices; older mapping notes remain relevant to the original recordings. `tests/data-consistency.test.ts` checks that every map is increasing, belongs to a dance, has a nominal BPM within 3% of its median interval, and is flagged `variableTempo` exactly when its four-count tempo varies by more than 2%.
+All twelve dances have three recordings each. The October expansion below adds sixteen choices; older mapping notes remain relevant to the original recordings. `tests/data-consistency.test.ts` checks that every map is increasing, belongs to a dance, has a nominal BPM within 3% of its median interval, and is flagged `variableTempo` exactly when its four-count tempo varies by more than 2%.
 
 ## Bourrée bancale
 
@@ -192,3 +192,30 @@ Mazurská verification: the real iframe played successfully and seven paused see
 ## October 21 additions
 
 [Ten additions and the three-per-dance selection](music-additions.md) bring the catalogue to 33 recordings. The review records exact uploads, selected passages, timing evidence, replacement choices, and the candidates that could not be published reliably.
+
+## Congo de Captieux
+
+The dance has sixteen four-count steps, hence 64 counts per cycle. All three presets use measured variable-tempo maps. They exclude introductions and incomplete closing cycles; the existing player stops at the selected passage end.
+
+| Recording | Passage (seconds) | Counts / cycles | Nominal BPM |
+| --- | --- | --- | --- |
+| [Bargainatt: Pris entre Captieux](https://www.youtube.com/watch?v=Rhf-BfRGURE) | 2.50–232.04 | 448 / 7 | 116.8 |
+| [Trencadit: Congò de M. Lagardère](https://www.youtube.com/watch?v=iROwlBHoAyU) | 19.22–187.60 | 320 / 5 | 114.3 |
+| [Duo Brotto Lopez: Congo de Captieux, Eurre 2012](https://www.youtube.com/watch?v=FqqQUn081W0) | 13.88–136.88 | 256 / 4 | 125.0 |
+
+Bargainatt identifies the dance and composer on its [track page](https://bargainatt.bandcamp.com/track/pris-entre-captieux-congo). Trencadit's [album page](https://trencadit.bandcamp.com/track/congo-de-m-lagarde-re) confirms the title and source album. The Brotto Lopez upload documents the Eurre performance of 10 November 2012. The official *Suite de congos* upload was considered but rejected after the actual embedded player returned error 150; it is not offered as a working preset.
+
+**Pulse evidence.** Beat This final0 and final1 detections follow the exact uploads in both directions. Forward/backward counting agrees for every passage; the largest timestamp differences are respectively 20, 40 and 20 ms. Shape-preserving interpolation between four-count anchors removes detector quantization without imposing a fixed BPM. The resulting maps agree within 60 ms with final0 for every mapped count. These agreement figures concern pulse detection, not independent proof of choreographic phase. Brotto Lopez's second model sometimes follows double-time subdivisions; the main-count follower and a regression test retain the approximately 125 BPM pulse.
+
+**Phrase origins.** Bargainatt's repeated 16-count sections give their strongest AABB contrast at 2.50 s, after four pickup counts. Trencadit and Brotto Lopez use the traditional melody in a 32-count form, repeated twice per dance cycle. Comparing the first four bars of [Marc Flamion's transcription](https://fabriqueamusique.fr/le-congo-de-captieux/) against audio chroma across all count origins and transpositions favours 19.22 s and 13.88 s respectively. Those are also the strongest origins from the independent eight-count AABB repetition comparison. The transcription comparison supports the chosen starts; it is not a manually listened-through transcription of every ornament or arrangement change.
+
+**Reproducibility.** The shared `sources.json` retains exact-upload hashes; `detections.json` retains both pulse estimates; `tracks.json` retains mapping bounds and the reference motif. `build_maps.py` produces the published maps and metrics in `audit.json`. With the decoded features in the analysis work directory, run:
+
+```sh
+python congo_structure.py --work-dir "$BALFOLK_SYNC_WORK"
+python score_phase.py --track congo-trencadit-album --track congo-brotto-lopez --work-dir "$BALFOLK_SYNC_WORK"
+```
+
+These scripts live in `research/music-analysis/sync-2026-10`. Their results are retained in `congo-structure.json` and `score-phase.json`. Models were downloaded from `oulianov/beat_this`: final0 SHA-256 `8c328b45f59d8dd3dff219253ff6a8d6482be57d0133a29140e2febbf8eb8331`, final1 `365b553f43750717c907f32fbc42910f3b264d616654583df6e44472c93ead80`. Analysis media and Python dependencies remain outside the app.
+
+**Playback verification.** All three selected uploads reached the playing state in the actual iframe. For each, app Pause froze both pose and progress, Restart returned to the mapped start, and four native seeks (including a backward seek) agreed with the animation clock. Opening/closing the selector preserved control and floor geometry at 1440, 390 and 320 px; the video remained visible, without page overflow. Results are in `congo-browser.json`. Screenshots also covered the choreography at 1440×900, 768×1024, 390×844, 320×568 and 844×390. The full suite passes 140 tests and the production build passes.

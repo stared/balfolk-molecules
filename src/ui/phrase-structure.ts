@@ -30,6 +30,8 @@ export function createPhraseStructure(seek: (time: number) => void) {
     Turning: ['Turn', 'T'], Sideways: ['Side', 'S'], Transfer: ['Trans', 'T'],
     Lower: ['Low', 'L'], Circle: ['Circ', 'C'], Swing: ['Sw', 'S'],
     Lines: ['Ln', 'L'], Meet: ['M'], In: ['I'], Out: ['O'],
+    Counterpartners: ['Counterpart', 'Counter', 'C'], Pastourelle: ['Past', 'P'],
+    Tiroir: ['Tir', 'T'], Chase: ['Ch', 'C'], Home: ['H'], Play: ['P'], Reunite: ['Reun', 'R'],
   };
   const tooltip = document.createElement('div');
   tooltip.className = 'phrase-tooltip';
@@ -127,9 +129,9 @@ export function createPhraseStructure(seek: (time: number) => void) {
       document.body.classList.toggle('has-structure', !!dance.structure);
       if (!dance.structure) return;
       // Nested scores expose figure, movement and action; Bourrée groups repeats.
-      const nested = dance.id === 'chapelloise' || dance.id === 'drumul-dracului' || dance.id === 'tzadik-katamar';
+      const nested = ['chapelloise','drumul-dracului','tzadik-katamar','congo-de-captieux'].includes(dance.id);
       const grouped = dance.id === 'bourree' || nested;
-      const detailsOnDemand = dance.id === 'drumul-dracului';
+      const detailsOnDemand = dance.id === 'drumul-dracului' || dance.id === 'congo-de-captieux';
       const offset = grouped ? 24 : 0;
       score.classList.toggle('phrase-grouped', grouped);
       document.body.classList.toggle('phrase-grouped', grouped);
@@ -195,7 +197,7 @@ export function createPhraseStructure(seek: (time: number) => void) {
         const group = grouped ? groups.find(group => section.start >= group.start && section.start < group.start + group.beats) : undefined;
         describe(label, section.name, group ? [group.name] : [], section.start, section.beats);
         if (detailsOnDemand) {
-          const detail = actions.filter(action => action.start >= section.start && action.start < section.start + section.beats)
+          const detail = dance.id === 'congo-de-captieux' ? section.detail : actions.filter(action => action.start >= section.start && action.start < section.start + section.beats)
             .map(action => action.name).join(' · ');
           label.dataset.description += `\n${detail}`;
           label.setAttribute('aria-label', label.dataset.description!);

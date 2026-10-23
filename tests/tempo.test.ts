@@ -12,5 +12,6 @@ test('logarithmic tempo slider doubles BPM over equal distances', () => {
 });
 test('each dance uses musical beats, including the two-beat bourrée step', () => {
   const expected: Record<string,number>={'branle-de-noirmoutier':96,bourree:96,chapelloise:96,cercle:96,'hanter-dro':90,'an-dro':96,waltz:100,schottische:96,mazurka:90,'tzadik-katamar':120,'drumul-dracului':160};
+  expected['congo-de-captieux']=120;
   for(const dance of dances)assert.equal(defaultBpm(dance),expected[dance.id],dance.id);
 });

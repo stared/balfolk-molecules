@@ -1,0 +1,162 @@
+[
+  {
+    "phase": 0,
+    "seconds": 2.5,
+    "contrast": 0.3970944881439209
+  },
+  {
+    "phase": 1,
+    "seconds": 3.02,
+    "contrast": 0.382283478975296
+  },
+  {
+    "phase": 31,
+    "seconds": 18.4403,
+    "contrast": 0.35049986839294434
+  },
+  {
+    "phase": 2,
+    "seconds": 3.54,
+    "contrast": 0.34593507647514343
+  },
+  {
+    "phase": 30,
+    "seconds": 17.9113,
+    "contrast": 0.33278360962867737
+  },
+  {
+    "phase": 3,
+    "seconds": 4.06,
+    "contrast": 0.32738542556762695
+  },
+  {
+    "phase": 4,
+    "seconds": 4.58,
+    "contrast": 0.31117674708366394
+  },
+  {
+    "phase": 29,
+    "seconds": 17.3817,
+    "contrast": 0.296202152967453
+  },
+  {
+    "phase": 5,
+    "seconds": 5.1014,
+    "contrast": 0.2915140986442566
+  },
+  {
+    "phase": 6,
+    "seconds": 5.6238,
+    "contrast": 0.27663329243659973
+  },
+  {
+    "phase": 28,
+    "seconds": 16.86,
+    "contrast": 0.2695602476596832
+  },
+  {
+    "phase": 27,
+    "seconds": 16.3504,
+    "contrast": 0.2420332431793213
+  },
+  {
+    "phase": 7,
+    "seconds": 6.1443,
+    "contrast": 0.2407502382993698
+  },
+  {
+    "phase": 26,
+    "seconds": 15.8476,
+    "contrast": 0.23459511995315552
+  },
+  {
+    "phase": 25,
+    "seconds": 15.3459,
+    "contrast": 0.20721030235290527
+  },
+  {
+    "phase": 8,
+    "seconds": 6.66,
+    "contrast": 0.19067583978176117
+  },
+  {
+    "phase": 24,
+    "seconds": 14.84,
+    "contrast": 0.18678869307041168
+  },
+  {
+    "phase": 9,
+    "seconds": 7.1682,
+    "contrast": 0.16567657887935638
+  },
+  {
+    "phase": 23,
+    "seconds": 14.3274,
+    "contrast": 0.13996179401874542
+  },
+  {
+    "phase": 10,
+    "seconds": 7.6712,
+    "contrast": 0.13028031587600708
+  },
+  {
+    "phase": 11,
+    "seconds": 8.1736,
+    "contrast": 0.12433809041976929
+  },
+  {
+    "phase": 22,
+    "seconds": 13.8113,
+    "contrast": 0.10307242721319199
+  },
+  {
+    "phase": 12,
+    "seconds": 8.68,
+    "contrast": 0.10007977485656738
+  },
+  {
+    "phase": 21,
+    "seconds": 13.2945,
+    "contrast": 0.08782687038183212
+  },
+  {
+    "phase": 13,
+    "seconds": 9.1926,
+    "contrast": 0.07453528791666031
+  },
+  {
+    "phase": 20,
+    "seconds": 12.78,
+    "contrast": 0.06983198970556259
+  },
+  {
+    "phase": 19,
+    "seconds": 12.2691,
+    "contrast": 0.05424763634800911
+  },
+  {
+    "phase": 18,
+    "seconds": 11.76,
+    "contrast": 0.038074176758527756
+  },
+  {
+    "phase": 14,
+    "seconds": 9.7087,
+    "contrast": 0.033590156584978104
+  },
+  {
+    "phase": 15,
+    "seconds": 10.2255,
+    "contrast": 0.011245946399867535
+  },
+  {
+    "phase": 17,
+    "seconds": 11.2509,
+    "contrast": 0.006735742092132568
+  },
+  {
+    "phase": 16,
+    "seconds": 10.74,
+    "contrast": -0.03102010488510132
+  }
+]

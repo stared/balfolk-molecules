@@ -2,6 +2,8 @@ import type { Phrase } from './engine/phrase-structure.ts';
 export interface Position { x: number; y: number }
 export interface Dancer extends Position {
   angle: number;
+  /** Head direction relative to the body, in degrees. */
+  gazeAngle?: number;
   slot: number;
   id: string;
   weight?: number;
@@ -48,6 +50,8 @@ export interface Dance {
   /** Movement hierarchy in musical beats; its note is the diagram's tooltip. */
   structure?: { phrase: Phrase; note: string };
   guides: string;
+  /** Fixed camera bounds for a compact formation; defaults to the full floor. */
+  viewBox?: string;
   note: string;
   /** HTML; only its links are rendered, the prose records limits of the drawing. */
   sources: string;

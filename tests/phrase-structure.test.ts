@@ -6,6 +6,7 @@ import { dances } from '../src/dances/catalog.ts';
 import { timelineTicks, musicalBeatsPerPhrase } from '../src/engine/timeline.ts';
 
 const expected = {
+  'congo-de-captieux': {beats:64, starts:[0,16,32,48]},
   bourree: {beats:64, starts:[0,8,16,24,32,40,48,56]},
   chapelloise: {beats:32, starts:[0,8,16,24]},
   cercle: {beats:64, starts:[0,8,16,24,32]},

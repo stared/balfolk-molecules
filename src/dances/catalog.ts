@@ -1,4 +1,5 @@
 import { danceStructures } from './structures.ts';
+import { congoDance } from './congo.ts';
 import { noirmoutierDance } from './noirmoutier.ts';
 import { coupleDances } from './couples.ts';
 import { tzadikFrame, drumulFrame, tzadikPhrases, drumulPhrases } from './folk-circles.ts';
@@ -87,6 +88,7 @@ const catalog: Dance[] = [
     materials:[{name:'Closed-circle formation',url:'https://socalfolkdance.org/dances/D/Drumul_Dracului.pdf'}],
     frame:drumulFrame,
   },
+  congoDance,
 ];
 
 export const dances: Dance[] = catalog.map(dance => {

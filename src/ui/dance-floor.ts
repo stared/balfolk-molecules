@@ -10,6 +10,7 @@ interface DancerElement {
   body: SVGGElement;
   feet: SVGGElement;
   lean: SVGGElement;
+  eyes: SVGGElement;
   left: SVGCircleElement;
   right: SVGCircleElement;
 }
@@ -24,7 +25,8 @@ function syncDancers(poses: Dancer[]): void {
     $('#dancers').append(group);
     const body=group.querySelector<SVGGElement>('.body'),feet=group.querySelector<SVGGElement>('.support'),lean=group.querySelector<SVGGElement>('.lean'),left=group.querySelector<SVGCircleElement>('.left'),right=group.querySelector<SVGCircleElement>('.right');
     if(!body||!feet||!lean||!left||!right)throw new Error('Incomplete dancer');
-    dancers.set(d.id,{group,body,feet,lean,left,right});
+    const eyes=group.querySelector<SVGGElement>('.eyes')!;
+    dancers.set(d.id,{group,body,feet,lean,eyes,left,right});
   }
 }
 export function renderFloor(state: LiveFrame, danceId: string, showContacts = true): void {
@@ -35,6 +37,7 @@ export function renderFloor(state: LiveFrame, danceId: string, showContacts = tr
     element.group.classList.toggle('follower', d.role === 'follower' || d.front === 1);
     element.group.setAttribute('transform', `translate(${d.x} ${d.y})`);
     element.body.setAttribute('transform', `rotate(${d.angle}) scale(${1-0.075*(d.sink??0)})`);
+    element.eyes.setAttribute('transform', `rotate(${d.gazeAngle??0})`);
     const weight = Math.max(-1, Math.min(1, d.weight ?? state.weight));
     // Rock around the lower body: a circle alone cannot show rotation about
     // its centre. Eyes follow the lean; facing, hands and travel stay intact.

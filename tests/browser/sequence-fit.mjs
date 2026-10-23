@@ -12,7 +12,7 @@ const geometry = page => page.locator('#phrase-score button,.floor-area,.player-
 try {
   for (const width of [320,390,768,1440]) {
     const page = await browser.newPage({viewport:{width,height:900}, reducedMotion:'reduce'});
-    for (const dance of ['drumul-dracului','tzadik-katamar','chapelloise','bourree','waltz','cercle','hanter-dro','an-dro','mazurka','schottische','branle-de-noirmoutier']) {
+    for (const dance of ['drumul-dracului','tzadik-katamar','chapelloise','bourree','waltz','cercle','hanter-dro','an-dro','mazurka','schottische','branle-de-noirmoutier','congo-de-captieux']) {
       await page.goto(`${origin}/?dance=${dance}`, {waitUntil:'domcontentloaded'});
       await page.waitForFunction(()=>document.querySelector('#phrase-score .phrase-label'));
       await page.evaluate(()=>new Promise(requestAnimationFrame));
@@ -54,7 +54,7 @@ try {
     }
     await page.close();
   }
-  console.log('PASS complete sequences and contained labels: 11 dances at four widths');
+  console.log('PASS complete sequences and contained labels: 12 dances at four widths');
 
   const page = await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
   page.setDefaultTimeout(5000);

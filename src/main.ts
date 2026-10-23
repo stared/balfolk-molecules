@@ -12,7 +12,7 @@ import { dances } from './dances/catalog.ts';
 import { defaultPairCount, maxPairCount } from './dances/chapelloise.ts';
 import { BourreeChaos } from './dances/bourree-chaos.ts';
 import { CircleLive } from './engine/circle-live.ts';
-import type { LiveFrame } from './model.ts';
+import type { Dance, LiveFrame } from './model.ts';
 import { FormationChange } from './engine/formation-change.ts';
 import { DancerAssignment } from './engine/dancer-assignment.ts';
 const scrub = $<HTMLInputElement>('#scrub');
@@ -123,7 +123,8 @@ const pairParameter = new URLSearchParams(location.search).get('pairs');
 const requestedPairs = pairParameter === null ? NaN : Number(pairParameter);
 const initialPairCount = Number.isInteger(requestedPairs) && requestedPairs > 0 && requestedPairs <= maxPairCount ? requestedPairs : defaultPairCount;
 let dance = dances.find(d => d.id === new URLSearchParams(location.search).get('dance')) ?? itemAt(dances, 1);
-const circles = new Map(dances.filter(d=>d.roles).map(d=>[d.id,new CircleLive(initialPairCount,d.frame,d.progression)]));
+const variablePairs = (dance: Dance) => !!dance.roles && dance.category !== 'set';
+const circles = new Map(dances.filter(variablePairs).map(d=>[d.id,new CircleLive(initialPairCount,d.frame,d.progression)]));
 function activeCircle(): CircleLive {
   const circle=circles.get(dance.id) ?? circles.get('chapelloise');
   if(!circle)throw new Error('Missing circle');
@@ -138,10 +139,11 @@ function setup() {
   navigation.setActive(dance.id);
   structure.setup(dance);
   $('#dance-title').textContent = dance.title;
-  $('#pairs-control').hidden = !dance.roles;
+  $('#pairs-control').hidden = !variablePairs(dance);
   $('#chaos-control').hidden = dance.id !== 'bourree';
   document.title = dance.title;
   $('#dance-floor').setAttribute('aria-label', dance.description);
+  $('#dance-floor').setAttribute('viewBox', dance.viewBox ?? '-210 -200 420 400');
   tempoSlider.value = String(positionAtBpm(tempos.get(dance.id) ?? defaultBpm(dance)));
   showTempo();
   $('#roles').hidden = !dance.roles;
@@ -166,7 +168,7 @@ let displayed: LiveFrame | undefined;
 const identities=new DancerAssignment();
 function rawDanceFrame(): LiveFrame {
   const improvised = dance.id === 'bourree' ? chaos.frame(progress, cycle) : undefined;
-  return improvised ? {...improvised,weight:improvised.rhythm.weight} : dance.roles ? live.frame(progress, cycle) : dance.frame(progress, cycle);
+  return improvised ? {...improvised,weight:improvised.rhythm.weight} : variablePairs(dance) ? live.frame(progress, cycle) : dance.frame(progress, cycle);
 }
 function danceFrame(): LiveFrame {return identities.apply(rawDanceFrame());}
 function render() {
@@ -332,7 +334,7 @@ function animate(time: number) {
     return;
   }
   const elapsed=previousTime===undefined?0:Math.min(time-previousTime,100)*(tempos.get(dance.id) ?? defaultBpm(dance))/defaultBpm(dance);
-  const entering=dance.roles&&live.moving;
+  const entering=variablePairs(dance)&&live.moving;
   if(rearrangement) {
     rearrangement.advance(elapsed);
     if(rearrangement.done)rearrangement=undefined;
@@ -367,11 +369,13 @@ function selectDance(id: string): void {
   rearrangement=new FormationChange(from,target);
   playing=true;
   const url = new URL(location.href); url.searchParams.set('dance', dance.id);
-  if(dance.roles)url.searchParams.set('pairs',String(live.count));
+  if(variablePairs(dance))url.searchParams.set('pairs',String(live.count));
+  else url.searchParams.delete('pairs');
   history.replaceState(null, '', url);
   setup(); render();
 }
 function changePairs(action:'add'|'remove'): void {
+  if(!variablePairs(dance))return;
   const from=displayed ?? danceFrame();
   if(!live.change(action,cycle,progress))return;
   if(rearrangement){live.restart();rearrangement=new FormationChange(from,danceFrame());}

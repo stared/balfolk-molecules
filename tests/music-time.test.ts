@@ -14,6 +14,7 @@ test('new maps preserve the main count through detector subdivision changes',()=
     ['calimero',29,39,14,16],
     ['folk-hanter',56,60,5,6],
     ['mazurska',86,90,7,8],
+    ['congo-brotto-lopez',90,100,20,22],
   ] as const) {
     const beats=repertoireMaps[key].beats;
     const counts=beatAtTime(end,beats)-beatAtTime(start,beats);

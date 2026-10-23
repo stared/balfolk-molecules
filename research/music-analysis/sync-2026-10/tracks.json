@@ -870,5 +870,478 @@
         3.52
       ]
     }
+  },
+  "congo-bargainatt": {
+    "mapping": {
+      "method": "measured",
+      "start": 2.5,
+      "end": 233,
+      "period": 0.515,
+      "cycle": 64,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "congo-de-captieux",
+      "seconds": [
+        4.5,
+        75,
+        130,
+        35
+      ]
+    }
+  },
+  "congo-trencadit-album": {
+    "mapping": {
+      "method": "measured",
+      "start": 19.22,
+      "end": 195,
+      "period": 0.526,
+      "cycle": 64,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "congo-de-captieux",
+      "seconds": [
+        21.22,
+        75,
+        130,
+        35
+      ]
+    },
+    "score": {
+      "subdivisions": 4,
+      "motif": [
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          2
+        ],
+        [
+          0
+        ],
+        [
+          11
+        ],
+        [
+          0
+        ],
+        [
+          2
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          2
+        ],
+        [
+          7
+        ],
+        [
+          5
+        ],
+        [
+          4
+        ],
+        [
+          2
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ]
+      ],
+      "source": "https://fabriqueamusique.fr/le-congo-de-captieux/",
+      "description": "First four bars of Marc Flamion’s traditional melody transcription; compare both 32-count repeats inside the 64-count dance."
+    }
+  },
+  "congo-brotto-lopez": {
+    "mapping": {
+      "method": "measured",
+      "start": 13.88,
+      "end": 159,
+      "period": 0.48,
+      "cycle": 64,
+      "bar": 4
+    },
+    "models": [
+      "final0",
+      "final1"
+    ],
+    "publish": true,
+    "structureReview": true,
+    "browserCheck": {
+      "dance": "congo-de-captieux",
+      "seconds": [
+        15.88,
+        75,
+        130,
+        35
+      ]
+    },
+    "score": {
+      "subdivisions": 4,
+      "motif": [
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          2
+        ],
+        [
+          0
+        ],
+        [
+          11
+        ],
+        [
+          0
+        ],
+        [
+          2
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          7
+        ],
+        [
+          7
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          2
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ],
+        [
+          2
+        ],
+        [
+          7
+        ],
+        [
+          5
+        ],
+        [
+          4
+        ],
+        [
+          2
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ]
+      ],
+      "source": "https://fabriqueamusique.fr/le-congo-de-captieux/",
+      "description": "First four bars of Marc Flamion’s traditional melody transcription; compare both 32-count repeats inside the 64-count dance."
+    }
   }
 }

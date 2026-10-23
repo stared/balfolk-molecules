@@ -59,6 +59,11 @@ export const recordingsByDance: Readonly<Record<string, readonly Recording[]>> =
   'hanter-dro': hanterDroRecordings,
   'an-dro': anDroRecordings,
   'drumul-dracului': drumulRecordings,
+  'congo-de-captieux': [
+    {videoId:'Rhf-BfRGURE',title:'Pris entre Captieux',artist:'Bargainatt',...repertoireMaps['congo-bargainatt']},
+    {videoId:'iROwlBHoAyU',title:'Congò de M. Lagardère',artist:'Trencadit',...repertoireMaps['congo-trencadit-album']},
+    {videoId:'FqqQUn081W0',title:'Congo de Captieux (Eurre 2012)',artist:'Duo Brotto Lopez',...repertoireMaps['congo-brotto-lopez']},
+  ],
   chapelloise: [
     {videoId:'WRsnS1X_giw',title:'Jopelloise',artist:'Accordzéâm',...repertoireMaps.jopelloise},
     {videoId:'NqeNjJuqVLQ',title:'Jsem já synek',artist:'ba.fnu feat. Beat Bouet Trio',...repertoireMaps.synek},

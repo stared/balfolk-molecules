@@ -1,0 +1,329 @@
+[
+  {
+    "key": "congo-bargainatt",
+    "id": "Rhf-BfRGURE",
+    "dance": "congo-de-captieux",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 4.5,
+        "seconds": 4.5,
+        "actual": 0.962,
+        "expected": 0.9615384615384616
+      },
+      {
+        "requested": 75,
+        "seconds": 75,
+        "actual": 3.505,
+        "expected": 3.505476929042267
+      },
+      {
+        "requested": 130,
+        "seconds": 130,
+        "actual": 14.273,
+        "expected": 14.27315087306259
+      },
+      {
+        "requested": 35,
+        "seconds": 35,
+        "actual": 15.884,
+        "expected": 15.88360814742968
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "congo-trencadit-album",
+    "id": "iROwlBHoAyU",
+    "dance": "congo-de-captieux",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 21.22,
+        "seconds": 21.22,
+        "actual": 0.962,
+        "expected": 0.9618101966774864
+      },
+      {
+        "requested": 75,
+        "seconds": 75,
+        "actual": 10.506,
+        "expected": 10.505955784257672
+      },
+      {
+        "requested": 130,
+        "seconds": 130,
+        "actual": 4.623,
+        "expected": 4.622641509433954
+      },
+      {
+        "requested": 35,
+        "seconds": 35,
+        "actual": 7.496,
+        "expected": 7.495857931822512
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  },
+  {
+    "key": "congo-brotto-lopez",
+    "id": "FqqQUn081W0",
+    "dance": "congo-de-captieux",
+    "playing": true,
+    "appPause": true,
+    "restart": true,
+    "noMusic": true,
+    "checks": [
+      {
+        "requested": 15.88,
+        "seconds": 15.88,
+        "actual": 1.041,
+        "expected": 1.0413564929693964
+      },
+      {
+        "requested": 75,
+        "seconds": 75,
+        "actual": 15.643,
+        "expected": 15.642857142857146
+      },
+      {
+        "requested": 130,
+        "seconds": 130,
+        "actual": 12.4,
+        "expected": 12.399999999999999
+      },
+      {
+        "requested": 35,
+        "seconds": 35,
+        "actual": 10.927,
+        "expected": 10.927083333333334
+      }
+    ],
+    "layouts": [
+      {
+        "width": 1440,
+        "overflow": false,
+        "panel": {
+          "x": 336,
+          "y": 565.125,
+          "width": 240,
+          "height": 287.875,
+          "top": 565.125,
+          "right": 576,
+          "bottom": 853,
+          "left": 336
+        },
+        "iframe": {
+          "x": 337,
+          "y": 566.125,
+          "width": 238,
+          "height": 133.875,
+          "top": 566.125,
+          "right": 575,
+          "bottom": 700,
+          "left": 337
+        }
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 576.625,
+          "width": 120,
+          "height": 220.375,
+          "top": 576.625,
+          "right": 132,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 577.625,
+          "width": 118,
+          "height": 66.375,
+          "top": 577.625,
+          "right": 131,
+          "bottom": 644,
+          "left": 13
+        }
+      },
+      {
+        "width": 320,
+        "overflow": false,
+        "panel": {
+          "x": 12,
+          "y": 592.375,
+          "width": 92,
+          "height": 204.625,
+          "top": 592.375,
+          "right": 104,
+          "bottom": 797,
+          "left": 12
+        },
+        "iframe": {
+          "x": 13,
+          "y": 593.375,
+          "width": 90,
+          "height": 50.625,
+          "top": 593.375,
+          "right": 103,
+          "bottom": 644,
+          "left": 13
+        }
+      }
+    ]
+  }
+]
