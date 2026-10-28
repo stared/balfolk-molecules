@@ -18,6 +18,7 @@ The dance catalog, movement descriptions, and music selection draw on these gene
 - Wikipedia ([English](https://en.wikipedia.org/), [French](https://fr.wikipedia.org/)): background on dance origins, names, and history, cross-checked with the other references; uncertainties are recorded in the dance review.
 - [The Balfolk Database](https://balfolk-db.eu/view/): a community database of tracks, bands, and dance types.
 - [Danses trad — Olivier Pécheux](https://www.dansetrad.fr/): dance sheets used for step sequences, counts, and figures.
+- [Tutos danse bretonne — Tamm Kreiz](https://www.youtube.com/playlist?list=PLwATTW_EfiwP5Bw3740ZqNSQRyxKBEuAe): a playlist of Breton dance tutorials.
 - [AccroFolk](https://www.accrofolk.net/): descriptions of balfolk dances, basic steps, and variants.
 - [Folk à Bourk — Apprendre](https://www.folkabourk.fr/apprendre): teaching notes, formation explanations, and group choreographies.
 - [Vitrifolk](https://www.vitrifolk.fr/): a collection of dance descriptions, music, and sheet music; we use its written step descriptions for cross-checking.
