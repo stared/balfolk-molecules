@@ -65,8 +65,8 @@ export const recordingsByDance: Readonly<Record<string, readonly Recording[]>> =
     {videoId:'FqqQUn081W0',title:'Congo de Captieux (Eurre 2012)',artist:'Duo Brotto Lopez',...repertoireMaps['congo-brotto-lopez']},
   ],
   chapelloise: [
-    {videoId:'WRsnS1X_giw',title:'Jopelloise',artist:'Accordzéâm',...repertoireMaps.jopelloise},
     {videoId:'NqeNjJuqVLQ',title:'Jsem já synek',artist:'ba.fnu feat. Beat Bouet Trio',...repertoireMaps.synek},
+    {videoId:'WRsnS1X_giw',title:'Jopelloise',artist:'Accordzéâm',...repertoireMaps.jopelloise},
     {videoId:'G_92bfkQbBQ',title:'Ticket Restaurant',artist:'Lyradanz',...repertoireMaps.ticket},
   ],
   cercle: [

@@ -45,7 +45,7 @@
       </div>
       <div class="player-bottom controls">
         <div class="music-picker">
-          <button id="music-toggle" type="button" aria-expanded="false" aria-controls="music-panel" aria-label="Music: No music" title="Music: No music" aria-haspopup="true"><span class="music-label">No music</span></button>
+          <button id="music-toggle" type="button" aria-expanded="false" aria-controls="music-panel" aria-label="Music" title="Music" aria-haspopup="true"><span class="music-label">Music</span></button>
           <section id="music-panel" aria-label="Music" hidden>
             <div id="music-recordings" role="radiogroup" aria-label="Recording"></div>
             <div id="music-preview" hidden>
@@ -55,7 +55,7 @@
           </section>
         </div>
         <div class="transport">
-          <button id="play" type="button">Pause</button>
+          <button id="play" type="button" class="is-loading" aria-label="Loading music" aria-busy="true" disabled></button>
           <button id="reset" type="button" aria-label="Restart" title="Restart">Restart</button>
         </div>
         <span class="tempo-readout"><output id="tempo-value">90</output><span>BPM</span></span>

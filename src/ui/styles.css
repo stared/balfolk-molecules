@@ -70,6 +70,16 @@ button, select { font: inherit; font-size: 12px; background: transparent; color:
 .controls button:hover:not(:disabled) { background: #e9ede7; }
 #play { min-width: 68px; color: #fff; background: #237c80; }
 #play:hover { background: #1d6b6e; }
+#play.is-loading::after {
+  content: ''; display: inline-block; width: 14px; height: 14px;
+  border: 2px solid currentColor; border-right-color: transparent;
+  border-radius: 50%; vertical-align: middle;
+  animation: music-loading 0.8s linear infinite;
+}
+@keyframes music-loading { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  #play.is-loading::after { animation: none; }
+}
 .letters-toggle { display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; min-height: 34px; }
 #letters { margin: 0; accent-color: #237c80; cursor: pointer; }
 .tempo-control { display: flex; align-items: center; gap: 8px; margin-left: 4px; font-size: 12px; }

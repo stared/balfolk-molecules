@@ -28,7 +28,7 @@ let musicEnded = false;
 let awaitingMusicRestart = false;
 let loadingRecording = false;
 const youtube = createYouTubePlayer($('#youtube-player'), musicChanged, message => { musicError = message; });
-const selectedRecordings = new Map<string, string>();
+let musicEnabled = true;
 let musicDance = '';
 function setMusicLabel(element: HTMLElement, title: string, artist = '') {
   const label = artist ? `${title} (${artist})` : title;
@@ -38,7 +38,7 @@ function setupMusic() {
   if (musicDance === dance.id) return;
   musicDance = dance.id;
   const tracks = recordingsByDance[dance.id] ?? [];
-  selectedRecordingId = selectedRecordings.get(dance.id) ?? '';
+  selectedRecordingId = musicEnabled ? tracks[0]?.videoId ?? '' : '';
   const choices = [{ id: '', label: 'No music', artist: '', description: 'No music' }, ...tracks.map(track => ({ id: track.videoId, label: track.title, artist: track.artist, description: `${track.title} (${track.artist})` }))];
   $('#music-recordings').replaceChildren(...choices.map(choice => {
     const button = document.createElement('button');
@@ -75,7 +75,22 @@ function updateMusicStatus() {
   musicToggle.title = musicLabel;
   updateMusicToggleLabel();
   tempoSlider.disabled = withMusic();
-  $<HTMLButtonElement>('#play').disabled = withMusic() && !rearrangement && !youtube.ready;
+  updatePlayButton();
+}
+function updatePlayButton() {
+  const button = $<HTMLButtonElement>('#play');
+  const music = withMusic() && !rearrangement;
+  const waiting = music && !musicError && (!youtube.ready || youtube.state === 3 || (youtube.playing && youtube.state !== 1));
+  const pauseAction = withMusic() ? youtube.playing || (!!rearrangement && playing) : playing;
+  const label = waiting ? (youtube.ready ? 'Buffering music' : 'Loading music') : pauseAction ? 'Pause' : 'Play';
+  const text = waiting ? '' : pauseAction ? 'Pause' : 'Play';
+  if (button.textContent !== text) button.textContent = text;
+  button.classList.toggle('is-loading', waiting);
+  button.setAttribute('aria-label', label);
+  button.setAttribute('aria-busy', String(waiting));
+  button.title = music && musicError ? musicError : label;
+  button.disabled = music && !youtube.ready;
+  button.dataset.action = pauseAction ? 'pause' : 'play';
 }
 function musicChanged() {
   // A video must not keep playing after its dance has been hidden.
@@ -122,7 +137,7 @@ const chaosControl = $<HTMLInputElement>('#chaos');
 const pairParameter = new URLSearchParams(location.search).get('pairs');
 const requestedPairs = pairParameter === null ? NaN : Number(pairParameter);
 const initialPairCount = Number.isInteger(requestedPairs) && requestedPairs > 0 && requestedPairs <= maxPairCount ? requestedPairs : defaultPairCount;
-let dance = dances.find(d => d.id === new URLSearchParams(location.search).get('dance')) ?? itemAt(dances, 1);
+let dance = dances.find(d => d.id === new URLSearchParams(location.search).get('dance')) ?? dances.find(d => d.id === 'chapelloise')!;
 const variablePairs = (dance: Dance) => !!dance.roles && dance.category !== 'set';
 const circles = new Map(dances.filter(variablePairs).map(d=>[d.id,new CircleLive(initialPairCount,d.frame,d.progression)]));
 function activeCircle(): CircleLive {
@@ -183,9 +198,7 @@ function render() {
   scrub.value = String(progress);
   const position=Math.min(progress,dance.duration-1e-9),section=sectionAt(position);
   scrub.setAttribute('aria-valuetext', `${section.name}, phrase ${Math.floor(position-section.start)+1}, beat ${Math.floor(position*musicalBeatsPerPhrase(dance))+1}`);
-  const pauseAction = withMusic() ? youtube.playing || (!!rearrangement && playing) : playing;
-  $('#play').textContent = pauseAction ? 'Pause' : 'Play';
-  $('#play').dataset.action = pauseAction ? 'pause' : 'play';
+  updatePlayButton();
   $('#pair-count').textContent = String(live.count);
   $<HTMLButtonElement>('#add-pair').disabled = live.count >= maxPairCount;
   $<HTMLButtonElement>('#remove-pair').disabled = live.count === 0;
@@ -295,7 +308,7 @@ async function changeRecording(id: string) {
   selectedRecordingId = id;
   loadingRecording = true; youtube.pause(); playing = false;
   previousTime = undefined; rearrangement = undefined;
-  selectedRecordings.set(dance.id, selectedRecordingId);
+  musicEnabled = id !== '';
   const selected = recordingsByDance[dance.id]?.find(track => track.videoId === selectedRecordingId);
   if (selected) recording = selected;
   musicError = ''; musicEnded = false; awaitingMusicRestart = false; progress = 0; cycle = 0; chaos.reset();
