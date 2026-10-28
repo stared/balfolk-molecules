@@ -32,7 +32,7 @@ export function chainFrame(kind: ChainDance, time: number, cycle = 0) {
   }
   const total=(cycle*chainRepeats+repeat)*18+travel;
   const radius=145;
-  const spacing=kind==='hanter-dro'?0.27:0.36;
+  const spacing=0.27;
   // Index 0 leads at the left end; all travel to their own left (clockwise).
   // A circular track isolates the shared step; free-form leading is not modeled.
   const head=Math.PI*1.15+total/radius;
