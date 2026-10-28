@@ -51,7 +51,6 @@ function support(count: number, contacts: readonly number[], first: number, prev
 const polkaContacts = [0, 0.5, 1, 2, 2.5, 3];
 const exchangeContacts = [0, 1, 2];
 const exchangeStops: readonly Mark[] = [[0,0],[1,0.34],[2,0.72],[3,1],[4,1]];
-const lateralStops: readonly Mark[] = [[0,0],[0.5,0.55],[1,0.7],[1.5,1],[2,1]];
 
 export function chapelloiseFrame(time: number, cycle = 0, pairCount = defaultPairCount) {
   if (!Number.isInteger(pairCount) || pairCount < minPairCount || pairCount > maxPairCount) {
@@ -69,7 +68,9 @@ export function chapelloiseFrame(time: number, cycle = 0, pairCount = defaultPai
   const phrase = Math.min(7, Math.floor(count/4));
   const local = count - phrase*4;
   const polka = phrase === 4 || phrase === 6;
-  const approach = polka ? 10 * (local < 2 ? score(local,lateralStops) : 1-score(local-2,lateralStops)) : 0;
+  // Monika's correction: cover the distance in one spring on ONE and THREE,
+  // with time close and apart, rather than spreading travel across two counts.
+  const approach = polka ? 10 * (blend(local) - blend(local - 2)) : 0;
   const exchange = count < 20 ? 0 : count < 24 ? score(count-20,exchangeStops) : 1;
   const change = count < 28 ? 0 : score(count-28,exchangeStops);
 
