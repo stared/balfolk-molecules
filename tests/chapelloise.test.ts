@@ -36,12 +36,18 @@ test('promenade alternates forward and backward travel, returning to its start',
     const dot=(b.x-a.x)*Math.sin(angle)-(b.y-a.y)*Math.cos(angle);
     assert.ok(dot*sign>0);
   }
-  frame(4).dancers.forEach((d,i)=>assert.ok(distance(d,itemAt(frame(0).dancers,i))<1e-8));
+  // Return to the starting angle while already preparing the inward spring.
+  frame(4).dancers.forEach((d,i)=>{
+    const initial=itemAt(frame(0).dancers,i);
+    assert.ok(Math.abs(Math.atan2(d.y,d.x)-Math.atan2(initial.y,initial.x))<1e-8);
+    assert.ok(Math.abs(distance(d,initial)-5)<1e-8);
+  });
 });
 
 test('partners exchange sides then the traveler joins the couple behind', () => {
-  assert.equal(Math.hypot(itemAt(frame(6).dancers,0).x,itemAt(frame(6).dancers,0).y),162);
-  assert.equal(Math.hypot(itemAt(frame(6).dancers,1).x,itemAt(frame(6).dancers,1).y),108);
+  // Check the completed exchange before preparation for the next spring.
+  assert.equal(Math.hypot(itemAt(frame(5.75).dancers,0).x,itemAt(frame(5.75).dancers,0).y),162);
+  assert.equal(Math.hypot(itemAt(frame(5.75).dancers,1).x,itemAt(frame(5.75).dancers,1).y),108);
   const end=frame(8);
   assert.deepEqual(end.hands.filter(h=>h.reach===1).map(h=>h.dancers),[[2,1],[4,3],[6,5],[0,7]]);
   for(let cycle=0;cycle<coupleCount;cycle++) {
@@ -68,6 +74,20 @@ test('phrases join continuously and paths keep dancers apart', () => {
   }
 });
 
+test('together-apart springs anticipate the beat and peak on ONE and THREE', () => {
+  const radius=(count:number)=>{
+    const d=itemAt(frame(count/4).dancers,0);
+    return Math.hypot(d.x,d.y);
+  };
+  const speed=(count:number)=>Math.abs(radius(count+.001)-radius(count-.001));
+  for(const beat of [16,18,24,26]) {
+    assert.ok(speed(beat)>speed(beat-.25));
+    assert.ok(speed(beat)>speed(beat+.25));
+    assert.ok(speed(beat-.25)>0);
+    assert.ok(Math.abs(radius(beat+.5)-radius(beat+1.4))<1e-8);
+  }
+});
+
 test('walking strides stay even instead of easing across the whole passage', () => {
   for (const dancer of [0, 1]) {
     const strides = Array.from({length: 5}, (_, i) => distance(
@@ -85,7 +105,7 @@ test('polka uses half-count contacts and exchanges settle on the fourth count', 
   assert.equal(leaderWeight(17.9),1);
   for(const start of [20,28]) {
     const settled=frame((start+3)/4);
-    frame((start+3.8)/4).dancers.forEach((d,i)=> {
+    frame((start+(start===20?3.4:3.8))/4).dancers.forEach((d,i)=> {
       const previous=itemAt(settled.dancers,i);
       assert.ok(distance(d,previous)<1e-8);
       assert.equal(d.angle,previous.angle);

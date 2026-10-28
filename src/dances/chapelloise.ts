@@ -67,10 +67,11 @@ export function chapelloiseFrame(time: number, cycle = 0, pairCount = defaultPai
   const halfTurn = blend(count-3)-blend(count-11);
   const phrase = Math.min(7, Math.floor(count/4));
   const local = count - phrase*4;
-  const polka = phrase === 4 || phrase === 6;
-  // Monika's correction: cover the distance in one spring on ONE and THREE,
-  // with time close and apart, rather than spreading travel across two counts.
-  const approach = polka ? 10 * (blend(local) - blend(local - 2)) : 0;
+  // Monika Lipska's feedback: prepare before ONE and THREE so the spring's
+  // strongest motion meets the beat. Absolute counts let preparation cross
+  // the phrase boundary continuously; the second spring reverses sides.
+  const spring = (start: number) => blend(count - start + 0.5) - blend(count - start - 1.5);
+  const approach = 10 * (spring(16) - spring(24));
   const exchange = count < 20 ? 0 : count < 24 ? score(count-20,exchangeStops) : 1;
   const change = count < 28 ? 0 : score(count-28,exchangeStops);
 
@@ -96,7 +97,6 @@ export function chapelloiseFrame(time: number, cycle = 0, pairCount = defaultPai
     let facing = angle*180/Math.PI+(follower ? -180 : 180)*halfTurn;
     if(count >= 16) {
       radius = follower ? outer-(outer-inner)*exchange : inner+(outer-inner)*exchange;
-      radius += (follower ? -1 : 1)*(phrase === 6 ? -approach : approach);
       if(phrase === 5 && follower) {
         // The follower crosses in front while the leader moves sideways.
         angle += crossingWidth * score(local,[[0,0],[1,-0.32],[2,-0.24],[3,0],[4,0]]);
@@ -110,6 +110,7 @@ export function chapelloiseFrame(time: number, cycle = 0, pairCount = defaultPai
         facing = angle*180/Math.PI;
       }
     }
+    radius += (follower ? -1 : 1) * approach;
     dancers.push({ ...polar(radius,angle), angle:facing, slot:pair, id:String.fromCharCode(65+identity), role:follower?'follower':'leader', weight:follower?-leaderWeight:leaderWeight, sink });
   }
   for(let follower=0;follower<coupleCount;follower++) {
