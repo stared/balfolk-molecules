@@ -1,6 +1,6 @@
 import type { Dance, Dancer, HandReach, LiveFrame } from '../model.ts';
 import type { Phrase } from '../engine/phrase-structure.ts';
-import { blend } from '../engine/rhythm.ts';
+import { blend, countedSupport } from '../engine/rhythm.ts';
 
 // Sixteen rondeau steps, four musical beats each. Route/turn references and
 // the choice of finale are documented in docs/congo-de-captieux.md.
@@ -70,8 +70,7 @@ export const congoContacts = [0,2,2.5,3] as const;
 export function congoFrame(time: number): LiveFrame {
   const t=Math.max(0,Math.min(16,time)), count=(t%1)*4;
   const contact=count<2?0:count<2.5?1:count<3?2:3;
-  const target=contact%2===0?-1:1;
-  const weight=-target+2*target*blend((count-congoContacts[contact]!)/0.22);
+  const weight=countedSupport(count,congoContacts,4,0.22,-1);
   const sink=0.45*(1-blend((count-congoContacts[contact]!)/0.65));
   const dancers: Dancer[] = [leader,follower,leader,follower].map((path,i)=>{
     const p=poseAt(path,t), opposite=i>=2;

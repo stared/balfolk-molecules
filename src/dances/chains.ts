@@ -27,9 +27,18 @@ export function chainFrame(kind: ChainDance, time: number, cycle = 0) {
   const beat=(bounded-repeat)*chainBeats(kind);
   let travel=0,weight=1;
   for(const step of steps[kind]) {
-    travel+=step.distance*blend((beat-step.beat)/step.duration);
-    if(beat>=step.beat)weight=-step.foot+2*step.foot*blend((beat-step.beat)/0.18);
+    // Prepare the first left before ONE: peak travel and the midpoint of
+    // weight transfer meet the count, independently of recording tempo.
+    const first = step.beat === 0;
+    travel+=step.distance*blend((beat-step.beat+(first?0.225:0))/step.duration);
+    const contact = step.beat - (first?0.09:0);
+    if(beat>=contact)weight=-step.foot+2*step.foot*blend((beat-contact)/0.18);
   }
+  // Include the next opening's preparation before the repeat boundary.
+  // This also makes the last frame meet the next cycle without a jump.
+  const nextOpening = chainBeats(kind);
+  travel+=8*blend((beat-nextOpening+0.225)/0.45);
+  if(beat>=nextOpening-0.09)weight=1-2*blend((beat-nextOpening+0.09)/0.18);
   const total=(cycle*chainRepeats+repeat)*18+travel;
   const radius=145;
   const spacing=0.27;

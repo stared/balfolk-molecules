@@ -82,18 +82,28 @@ function countedFrame(kind:'tzadik'|'drumul',time:number,cycle:number) {
   const last=itemAt(score,score.length-1);
   const travel=cycle*last.travel+mix(a.travel,b.travel);
   const radius=145-mix(a.depth,b.depth);
-  const weight=a.weight+(b.weight-a.weight)*blend(phase/0.28);
+  // Centre the transfer on the count; prepare the next support before it.
+  // Use the preceding cycle's last support at zero to keep the seam smooth.
+  const supportBeat = (beat % score.length) + 0.14;
+  const supportIndex = Math.floor(supportBeat) % score.length;
+  const supportPhase = supportBeat - Math.floor(supportBeat);
+  const fromSupport = itemAt(score,(supportIndex+score.length-1)%score.length).weight;
+  const toSupport = itemAt(score,supportIndex).weight;
+  const weight=fromSupport+(toSupport-fromSupport)*blend(supportPhase/0.28);
   const facing=mix(a.facing,b.facing);
   const leanPhase=blend(phase);
   const bodyLean={x:(a.leanX??0)+((b.leanX??0)-(a.leanX??0))*leanPhase,
     y:(a.leanY??0)+((b.leanY??0)-(a.leanY??0))*leanPhase};
-  const stamp=b.stamp===undefined?0:blend(phase/0.12)*(1-blend((phase-0.18)/0.25));
+  // The free foot prepares before contact; the stamp is fully visible ON it.
+  const stampPose=phase>=0.88?itemAt(score,(index+1)%score.length):b;
+  const stampPhase=phase>=0.88?phase-1:phase;
+  const stamp=stampPose.stamp===undefined?0:blend((stampPhase+0.12)/0.12)*(1-blend((stampPhase-0.18)/0.25));
   const dancers:Dancer[]=Array.from({length:10},(_,i)=>{
     // Both selected variants form a closed ring with equal neighbour spacing.
     const spacing=2*Math.PI/10;
     const theta=Math.PI*1.15-i*spacing-travel/145;
     return {id:String.fromCharCode(65+i),slot:i,x:radius*Math.cos(theta),y:radius*Math.sin(theta),angle:theta*180/Math.PI-90+facing,weight,bodyLean,hipAngle:kind==='drumul'?facing*1.5:0,
-      stampLeft:b.stamp===-1?stamp:0,stampRight:b.stamp===1?stamp:0};
+      stampLeft:stampPose.stamp===-1?stamp:0,stampRight:stampPose.stamp===1?stamp:0};
   });
   let reach=1;
   if(kind==='tzadik'&&beat>=16) {

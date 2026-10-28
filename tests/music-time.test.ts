@@ -109,8 +109,8 @@ test('each recording maps complete cycles in its own dance meter',()=>{
 
 test('expressive performances follow measured beats instead of drifting with nominal BPM',()=>{
   const piano=recordingsByDance['hanter-dro']![0]!;
-  assert.equal(timeAtBeat(24,piano.beats),9.68);
-  assert.equal(timeAtBeat(192,piano.beats),71.32);
+  assert.equal(timeAtBeat(24,piano.beats),18.66);
+  assert.equal(timeAtBeat(192,piano.beats),139.9);
   assert.ok(Math.abs(timeAtBeat(192,piano.beats)-(piano.beats[0]!+192*60/piano.bpm))>0.1);
   const andro=recordingsByDance['an-dro']![0]!;
   assert.equal(andro.beats[0],101.34);
@@ -119,18 +119,18 @@ test('expressive performances follow measured beats instead of drifting with nom
 });
 
 
-test('Barray uses three fast pulses per step pattern, rather than six',()=>{
+test('Barray half-speed trial preserves measured timing and complete patterns',()=>{
   const piano=recordingsByDance['hanter-dro']![0]!;
-  assert.equal(piano.bpm,167);
+  assert.equal(piano.bpm,83.5);
   assert.equal(piano.beats[0],0.92);
-  assert.equal((piano.beats.length-1)/12,44);
-  // The bass-accent audit includes intervening pulses, not just alternate ones.
-  // Each pair of patterns has two quiet closing beats, at pulse 2 and pulse 5.
-  assert.equal(timeAtBeat(2,piano.beats),1.64);
-  assert.equal(timeAtBeat(5,piano.beats),2.759);
-  for (const beat of [0,12,144,288,432]) {
+  assert.equal((piano.beats.length-1)/12,22);
+  // This checks the requested trial, not proof of the musical count rate.
+  assert.equal(timeAtBeat(2,piano.beats),2.38);
+  assert.equal(timeAtBeat(5,piano.beats),4.58);
+  assert.equal(piano.beats.at(-1),191.22);
+  for (const beat of [0,12,72,144,216]) {
     const seconds=timeAtBeat(beat+3,piano.beats)-timeAtBeat(beat,piano.beats);
-    assert.ok(seconds>1&&seconds<1.2,`One step pattern took ${seconds}s`);
+    assert.ok(seconds>2&&seconds<2.4,`One step pattern took ${seconds}s`);
     const next=musicPosition(timeAtBeat(beat+3,piano.beats),piano.beats,12,3);
     assert.ok(Math.abs(next.progress-1)<1e-9);
   }

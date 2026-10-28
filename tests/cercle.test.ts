@@ -99,11 +99,11 @@ test('promenade drives each walking step and swing pushes every other count',()=
     return Math.abs(b.angle-a.angle)/.001;
   };
   for(const count of [49,52,57,60]) {
-    assert.ok(speed(count+.3)>speed(count+.8)*2.3,'Walking must not use constant angular velocity');
+    assert.ok(speed(count)>speed(count+.5)*2.3,'Walking drive peaks on the count');
     assert.ok(speed(count)>0,'Keep momentum at the contact');
   }
   for(const count of [34,38,42]) {
-    assert.ok(speed(count+.6,true)>speed(count+1.6,true)*1.7,'A swing has one push per two counts');
+    assert.ok(speed(count,true)>speed(count+1,true)*1.7,'A swing pushes on every other count');
     assert.ok(speed(count+1,true)>0);
   }
 });

@@ -1,9 +1,8 @@
 import type { Dance } from '../model.ts';
 import type { Dancer, HandReach } from '../model.ts';
 import { defaultPairCount, maxPairCount } from './chapelloise.ts';
-import { blend } from '../engine/rhythm.ts';
+import { blend, countedSupport } from '../engine/rhythm.ts';
 import { stepFlow, stepTravel } from '../engine/step-travel.ts';
-import { itemAt } from '../utils/indexed.ts';
 
 type Kind = 'waltz' | 'schottische' | 'mazurka';
 const contacts = {
@@ -12,10 +11,10 @@ const contacts = {
   mazurka: [0, 2, 3, 4, 5, 6, 8, 9, 10, 11],
 };
 
-// Integral of a positive, periodic velocity: drive early in beat one, then coast.
+// Integral of a positive, periodic velocity: strongest drive on ONE, then coast.
 // The exact velocity curve is an illustrative accent, not measured technique.
 function waltzFlow(bars: number): number {
-  const phase = bars % 1, tau = Math.PI * 2, peak = 0.22;
+  const phase = bars % 1, tau = Math.PI * 2, peak = 0;
   return bars + 0.35 / tau * (Math.sin(tau * (phase-peak)) - Math.sin(-tau*peak));
 }
 
@@ -24,7 +23,10 @@ function chasse(phase: number): number {
   const u = Math.max(0, Math.min(1, phase));
   const onset = u < 0.25 ? 0 : u < 0.5 ? 0.25 : 0.5;
   const interval = onset < 0.5 ? 0.25 : 0.5;
-  return blend(onset + interval * stepFlow((u-onset)/interval, 1, 0.35));
+  const travel = onset + interval * stepFlow((u-onset)/interval, 1, 0.35, 0);
+  // Only soften the reversal, rather than easing over the entire chasse and
+  // delaying its first step until the following contact.
+  return stepTravel(travel * 2, 2, 1, 0, 0);
 }
 function mazurkaMotion(bars: number) {
   const half = Math.floor(bars/2), phase = bars-half*2;
@@ -33,7 +35,7 @@ function mazurkaMotion(bars: number) {
   // Sinking is a body cue, not forward travel. Transfer to the other leg on 3.
   const sink = phase < 1
     ? blend(phase/0.35)*(1-blend((phase-2/3)/(1/3))) : 0;
-  const walking = stepTravel((phase-1)*3, 3, 1, 0.35);
+  const walking = stepTravel((phase-1)*3, 3, 1, 0.35, 0);
   // Close-embrace interpretation: three small steps with a gentle 30° redirection.
   return {travel: half*0.07 + shift + 0.07*walking, turn: (half+walking)*Math.PI/6, sink};
 }
@@ -48,23 +50,20 @@ export function coupleFrame(kind: Kind, time: number, cycle = 0, pairs = default
   const sequence = contacts[kind];
   // At the endpoint use the next cycle's first contact, including its incoming support.
   const localBeat = beat === duration * counts ? 0 : beat;
-  let contact = 0;
-  while (contact + 1 < sequence.length && itemAt(sequence, contact + 1) <= localBeat) contact++;
-  const target = contact % 2 ? 1 : -1;
   const transferTime = kind === 'mazurka' ? 0.6 : 0.22;
-  const weight = -target + 2 * target * blend((localBeat - itemAt(sequence, contact)) / transferTime);
+  const weight = countedSupport(localBeat, sequence, duration * counts, transferTime, -1);
   const absolute = cycle * duration + t;
   // On an SVG floor decreasing polar angle means anticlockwise travel.
   // Preserve the stronger first beat of the waltz while each of its three
   // supports contributes to body travel and rotation.
-  const waltz = waltzFlow(stepFlow(absolute*3, 1, 0.18)/3);
+  const waltz = waltzFlow(stepFlow(absolute*3, 1, 0.18, 0)/3);
   let travel = waltz * 0.13;
   let turn = waltz * Math.PI;
   let sink = 0;
   if (kind === 'schottische') {
     // Four alternating supports carry one flowing pivot, not four separate turns.
     // At this tempo four main beats equal eight half-beat counts.
-    const pivot = stepTravel(beat-4, 4, 1, 0.4);
+    const pivot = stepTravel(beat-4, 4, 1, 0.4, 0);
     travel = cycle * 0.30 + (t < 1 ? 0.10 * chasse(t) : t < 2 ? 0.10 * (1-chasse(t-1)) : 0.30 * pivot);
     turn = cycle * Math.PI * 2 + Math.PI * 2 * pivot;
   } else if (kind === 'mazurka') {

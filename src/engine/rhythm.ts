@@ -14,6 +14,17 @@ export interface Rhythm {
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const smooth = (value: number) => { const t = clamp(value); return t * t * (3 - 2 * t); };
 export const blend = smooth;
+
+/** Alternating support, with the transfer centred on its musical contact.
+ * Wrapping the anticipation preserves preparation across phrase/cycle seams.
+ */
+export function countedSupport(count: number, contacts: readonly number[], length: number, duration: number, first: number): number {
+  const phase = ((count + duration / 2) % length + length) % length;
+  let index = contacts.length - 1;
+  while (index > 0 && itemAt(contacts,index) > phase) index--;
+  const target = first * (index % 2 ? -1 : 1);
+  return -target + 2 * target * blend((phase-itemAt(contacts,index))/duration);
+}
 export function stepTravel(phase: number): number {
   // The body flows through the contacts; weight support carries their rhythm.
   return smooth(phase);
@@ -25,9 +36,7 @@ export function rhythmAt(t: number): Rhythm {
   const contact = phase < 0.25 ? 0 : phase < 0.5 ? 1 : 2;
   const leftFirst = step % 2 === 0;
   const left = (contact % 2 === 0) === leftFirst;
-  const onset = ([0, 0.25, 0.5] as const)[contact];
-  const target = left ? -1 : 1;
-  const weight = -target + 2 * target * smooth((phase - onset) / 0.12);
+  const weight = countedSupport(position, [0,0.25,0.5,1,1.25,1.5], 2, 0.12, -1);
   return { step, phase, contact, left, weight, held: phase >= 0.75, travel: stepTravel(phase) };
 }
 // Four bourrée steps, each with its own travel distance. Short steps still carry rhythm.

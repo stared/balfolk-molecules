@@ -3,6 +3,13 @@
 Interactive SVG diagrams of balfolk dances, with continuous playback, a beat timeline,
 BPM controls, and adjustable couple counts.
 
+## Credits
+
+**Monika Lipska** contributes dance expertise and collaborative reviews of the
+animations. Her feedback shaped Chapelloise's spring and beat alignment, Branle
+de Noirmoutier's movement and hand reconnection, and Hanter-dro's pace and
+movement timing across recordings.
+
 ## Materials
 
 The dance catalog, movement descriptions, and music selection draw on these general references:

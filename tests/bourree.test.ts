@@ -12,7 +12,8 @@ test('three alternating weight transfers followed by a sustained interval', () =
     const feet = [0.15, 0.4, 0.65].map(phase => rhythmAt((step + phase) / 4).left ? 'L' : 'R').join('');
     assert.equal(feet, step % 2 ? 'RLR' : 'LRL');
   }
-  assert.equal(rhythmAt(0.75 / 4).weight, rhythmAt(0.99 / 4).weight);
+  assert.equal(rhythmAt(0.75 / 4).weight, rhythmAt(0.93 / 4).weight);
+  assert.ok(rhythmAt(0.99 / 4).weight>-1, 'Prepare the next support before its count');
   assert.ok(stepTravel(0.99) > stepTravel(0.75), 'Body keeps flowing while the support is sustained');
 });
 

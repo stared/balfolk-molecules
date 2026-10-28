@@ -1,6 +1,6 @@
-// Successive dance-count pulses, not alternate piano attacks.
-// The faster three-count pattern was checked against all six accent phases.
-// Timing varies through the performance; see docs/music-sync.md.
+// Raw detected pulses; their interpretation as dance counts is disputed.
+// The recording preset selects alternate pulses for the current half-speed trial.
+// Keep the original measurements intact; see docs/music-sync.md for earlier analysis.
 export const hanterPianoBeats: readonly number[] = [
   0.92, 1.282, 1.64, 2.01, 2.38, 2.759, 3.12, 3.497, 3.86, 4.225, 4.58, 4.944,
   5.3, 5.662, 6.04, 6.4, 6.76, 7.149, 7.5, 7.867, 8.22, 8.585, 8.94, 9.314,

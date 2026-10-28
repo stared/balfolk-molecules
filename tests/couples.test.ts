@@ -52,10 +52,11 @@ for (const dance of coupleDances) {
 }
 test('mazurka stays on one support through ONE–TWO, then transfers on three', () => {
   assert.equal(coupleFrame('mazurka',0.8/3).dancers[0]!.weight,-1);
-  assert.equal(coupleFrame('mazurka',1.8/3).dancers[0]!.weight,-1);
-  assert.equal(coupleFrame('mazurka',2.8/3).dancers[0]!.weight,1);
+  assert.equal(coupleFrame('mazurka',1.6/3).dancers[0]!.weight,-1);
+  assert.ok(Math.abs(coupleFrame('mazurka',2/3).dancers[0]!.weight!)<1e-8);
+  assert.equal(coupleFrame('mazurka',2.6/3).dancers[0]!.weight,1);
   assert.equal(coupleFrame('waltz',2.8/3).dancers[0]!.weight,-1);
-  assert.equal(coupleFrame('mazurka',8.8/3).dancers[0]!.weight,-1);
+  assert.equal(coupleFrame('mazurka',8.6/3).dancers[0]!.weight,-1);
 });
 test('Scottish changes support on the offbeat only during side steps', () => {
   assert.equal(coupleFrame('schottische',0.8/2).dancers[0]!.weight,1);
@@ -72,11 +73,11 @@ const distance = (kind: 'waltz'|'schottische'|'mazurka', from: number, to: numbe
 };
 const angle = (kind: 'waltz'|'schottische'|'mazurka', time: number, cycle=0) => coupleFrame(kind,time,cycle).dancers[0]!.angle;
 
-test('waltz visibly drives both travel and rotation on one, then coasts without stopping', () => {
+test('waltz drives on ONE, coasts through TWO and prepares the next ONE without stopping', () => {
   const first=angle('waltz',1/3)-angle('waltz',0);
-  const last=angle('waltz',1)-angle('waltz',2/3);
-  assert.ok(first > last*1.3 && first < last*2, 'a mild first-beat accent');
-  assert.ok(distance('waltz',0,1/3)>distance('waltz',2/3,1)*1.3);
+  const middle=angle('waltz',2/3)-angle('waltz',1/3);
+  assert.ok(first > middle*1.3 && first < middle*2, 'a mild first-beat accent');
+  assert.ok(distance('waltz',0,1/3)>distance('waltz',1/3,2/3)*1.3);
   for(let t=0;t<2;t+=0.01)assert.ok(angle('waltz',t+0.001)>angle('waltz',t));
   const epsilon=1e-5;
   const before=(angle('waltz',2)-angle('waltz',2-epsilon))/epsilon;
@@ -134,7 +135,7 @@ test('schottische turn is driven by four steps, not one whole-turn easing',()=>{
     return (b-a)/.001;
   };
   for(const beat of [5,6]) {
-    assert.ok(speed(beat+.3)>speed(beat+.8)*2,'Each support must drive then coast');
+    assert.ok(speed(beat)>speed(beat+.5)*2,'Each support drives on the count, then coasts');
     assert.ok(speed(beat)>0,'No stop between turning steps');
     assert.ok(Math.abs(speed(beat-.001)-speed(beat+.001))<1,'No velocity jump at the contact');
   }

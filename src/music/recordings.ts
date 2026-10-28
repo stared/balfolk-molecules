@@ -28,11 +28,12 @@ export const bourreeRecordings: readonly Recording[] = [
     ...repertoireMaps['balsam-bourree']},
 ];
 
-// These two maps disagree about the count rate: one step pattern lasts about
-// 1.1 s for Barray and 2.25 s for ba.fnu. Unresolved; see docs/music-sync.md.
+// Trial following dance feedback: Barray's detected pulses are subdivisions.
+// Keep alternate timestamps so a complete step pattern spans six raw pulses.
+// Preserve the measured tempo changes; musical interpretation awaits review.
 export const hanterDroRecordings: readonly Recording[] = [
-  {videoId:'RUpWyj8LFcE',title:'Hanter Dro',artist:'Valentin Barray',bpm:167,variableTempo:true,
-    beats:hanterPianoBeats},
+  {videoId:'RUpWyj8LFcE',title:'Hanter Dro',artist:'Valentin Barray',bpm:83.5,variableTempo:true,
+    beats:hanterPianoBeats.filter((_, index) => index % 2 === 0)},
   {videoId:'iMQLYCar4WI',title:'Hanter dro',artist:'ba.fnu',bpm:80,
     beats:grid(25.28,80,360)},
   {videoId:'t9A3Gqhr7sw',title:'Calimero',artist:'Naragonia',...repertoireMaps.calimero},

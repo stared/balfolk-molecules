@@ -26,10 +26,25 @@ test('travel goes left during 1 & 2 and settles while feet continue on the spot'
     const a=itemAt(chainFrame(kind,0).dancers,0);
     const b=itemAt(chainFrame(kind,2/chainBeats(kind)).dancers,0);
     assert.ok(a.x*b.y-a.y*b.x>0,'Clockwise is left while facing inward');
-    for(const beat of [2.1,2.5,2.9]) {
+    for(const beat of kind==='hanter-dro'?[2.1,2.5,2.75]:[2.1,2.5,2.9]) {
       const d=itemAt(chainFrame(kind,beat/chainBeats(kind)).dancers,0);
       assert.ok(Math.hypot(d.x-b.x,d.y-b.y)<1e-8);
     }
+  }
+});
+
+for(const kind of kinds)test(`${kind} prepares each first left so its strongest motion meets ONE`,()=>{
+  const length=chainBeats(kind);
+  const dancer=(beat:number)=>itemAt(chainFrame(kind,beat/length).dancers,0);
+  const speed=(beat:number)=>{
+    const a=dancer(beat-.001),b=dancer(beat+.001);
+    return Math.hypot(b.x-a.x,b.y-a.y)/.002;
+  };
+  for(const beat of [length,2*length,3*length]) {
+    assert.ok(speed(beat)>speed(beat-.1));
+    assert.ok(speed(beat)>speed(beat+.1));
+    assert.ok(speed(beat-.1)>0);
+    assert.ok(Math.abs(dancer(beat).weight!)<1e-8);
   }
 });
 
