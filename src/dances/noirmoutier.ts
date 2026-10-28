@@ -1,5 +1,6 @@
 import type { Dance, Dancer, HandReach } from '../model.ts';
 import { blend } from '../engine/rhythm.ts';
+import { stepTravel } from '../engine/step-travel.ts';
 
 // Mme Raymond step in the contemporary double-front arrangement. Musical
 // counts are zero-based here. Body travel and the slight hop compression are
@@ -11,11 +12,16 @@ function frontAt(beat: number) {
   const back = motif >= 4;
   const turning = local >= 16 && back;
   const phase = motif - (back ? 4 : 0);
-  // Two pivots bracket the travelling step. Most return travel happens while
-  // facing away, rather than sliding backwards through one continuous spin.
-  // These timing windows are an illustrative interpretation, not measured data.
-  const depth = 48 * (turning ? 1 - blend((phase - 1) / 2)
-    : back ? 1 - blend(phase / 4) : blend(phase / 3));
+  // Advancing supports overlap in body travel: the quick opening steps feed
+  // into the longer last step instead of each restarting from rest.
+  const advance = 0.25 * blend(phase / 1.4)
+    + 0.15 * blend((phase - 0.5) / 1.3)
+    + 0.30 * blend((phase - 1) / 1.7)
+    + 0.30 * blend((phase - 2) / 2);
+  // Two substantial backward strides with modest speed variation. Carry
+  // momentum through the rebound rather than nearly stopping between strides.
+  const retreat = stepTravel(phase, 4, 2, 0.22);
+  const depth = 80 * (back ? 1 - retreat : advance);
   const contacts = [0.12, 0.65, 1.1, 2, 4, 6];
   const supports = [-1, 1, -1, 1, -1, 1];
   let weight = 1;
@@ -25,11 +31,12 @@ function frontAt(beat: number) {
   }
   const completedTurns = local >= 24 ? 1 : 0;
   const angle = -360 * (cycle * 2 + completedTurns + (turning ? (blend(phase) + blend(phase - 3)) / 2 : 0));
-  // Let go before turning; reconnect only after facing the opposite front.
+  // Let go before turning, then reach gradually during the final half-pivot.
+  // Hands meet as dancers finish facing the opposite front.
   const reach = local < 16 ? 1 : motif < 4 ? 1 - blend((motif - 3.6) / 0.4)
-    : blend((phase - 3.85) / 0.15);
+    : blend(phase - 3);
   const hop = back ? Math.sin(Math.PI * (phase % 2) / 2) ** 4 : 0;
-  return { depth, angle, weight, reach, sink: 0.12 * hop };
+  return { depth, angle, weight, reach, sink: 0.18 * hop };
 }
 
 export function noirmoutierFrame(time: number, cycle = 0) {
@@ -42,7 +49,7 @@ export function noirmoutierFrame(time: number, cycle = 0) {
     for (let i = 0; i < 5; i++) {
       const slot = front * 5 + i;
       dancers.push({ id: String.fromCharCode(65 + slot), slot, front: front as 0 | 1,
-        x: (i - 2) * 58, y: direction * (88 - pose.depth),
+        x: (i - 2) * 58, y: direction * (72 - pose.depth),
         angle: front * 180 + pose.angle, weight: pose.weight, sink: pose.sink });
       if (i < 4) hands.push({ dancers: [slot, slot + 1], reach: pose.reach });
     }

@@ -22,7 +22,7 @@ test('Noirmoutier: opposite fronts travel together with a four-count phase offse
 test('Noirmoutier: holds and hops retain support, each released turn is a full left turn', () => {
   for (const [beat, weight] of [[0.4,-1],[0.9,1],[1.4,-1],[2.4,1],[3.8,1],[4.4,-1],[5.8,-1],[6.4,1],[7.8,1]])
     assert.equal(lower(beat!).weight, weight);
-  assert.equal(lower(3).y, lower(4).y);
+  assert.ok(lower(3).y > lower(4).y);
   for (const beat of [20,28]) {
     assert.equal(lower(beat+4).angle-lower(beat).angle,-360);
     assert.ok(frame((beat+2)/4).hands.slice(0,4).every(h=>h.reach===0));
@@ -39,17 +39,34 @@ test('Noirmoutier: positions, facing, support and connections are continuous acr
   });
 });
 
-test('Noirmoutier: travel lies between the two half-pivots, fronts have distinct colors', () => {
+test('Noirmoutier: travel continues through both half-pivots, fronts have distinct colors', () => {
   for (const beat of [20,28]) {
     const start=lower(beat),outward=lower(beat+1),arrived=lower(beat+3),end=lower(beat+4);
     assert.equal(outward.angle-start.angle,-180);
-    assert.equal(outward.y,start.y);
+    assert.ok(outward.y>start.y);
     assert.equal(arrived.angle,outward.angle);
     assert.ok(arrived.y>outward.y);
-    assert.equal(end.y,arrived.y);
+    assert.ok(end.y>arrived.y);
     assert.equal(end.angle-arrived.angle,-180);
   }
   const state=frame(0);
   assert.ok(state.dancers.slice(0,5).every(d=>d.front===0));
   assert.ok(state.dancers.slice(5).every(d=>d.front===1));
+});
+
+test('Noirmoutier: advance and retreat stay connected without mid-phrase pauses', () => {
+  for (let beat=0;beat<32;beat+=0.125) {
+    const state=frame(beat/4);
+    // A close chase with room for the two different step patterns to breathe.
+    const gap=state.dancers[0]!.y-state.dancers[5]!.y;
+    assert.ok(gap>40 && gap<85);
+    const delta=lower(beat+0.0625).y-lower(beat).y;
+    assert.ok(beat%8<4 ? delta<0 : delta>0);
+  }
+});
+
+test('Noirmoutier: backward strides carry momentum through the middle rebound', () => {
+  const speed=(beat:number)=>(lower(beat+.001).y-lower(beat-.001).y)/.002;
+  const speeds=Array.from({length:25},(_,i)=>speed(4.5+i*.125));
+  assert.ok(Math.min(...speeds)>Math.max(...speeds)/3);
 });
